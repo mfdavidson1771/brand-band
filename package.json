@@ -1,0 +1,8 @@
+{
+  "name": "brand-band",
+  "version": "1.0.0",
+  "description": "Brand Band — multi-brand dashboard",
+  "dependencies": {
+    "@notionhq/client": "^2.2.14"
+  }
+}
