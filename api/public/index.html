@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Band</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #EDEBE4;
+  color: #111;
+  padding: 14px 16px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+
+h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display: inline; }
+.tagline { font-size: 13px; color: #666; display: inline; margin-left: 10px; }
+.title-row { margin-bottom: 12px; }
+
+.how-to-use {
+  font-size: 13px; color: #555;
+  background: #fff;
+  border-left: 3px solid #bbb;
+  border-radius: 0 8px 8px 0;
+  padding: 8px 14px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.how-to-use strong { font-weight: 700; }
+
+/* ============================================================
+   DAILY BRANDS PANEL
+   ============================================================ */
+.daily-panel {
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border: 2px solid transparent;
+}
+.daily-panel.all-done {
+  background: #E6F9F0;
+  border-color: #1D9E75;
+}
+.daily-panel.in-progress {
+  background: #FFF8E6;
+  border-color: #D4900A;
+}
+.daily-panel.needs-attention {
+  background: #FFF0EE;
+  border-color: #C04B20;
+}
+.daily-panel.weekend {
+  background: #F5F4F0;
+  border-color: #ccc;
+}
+
+.daily-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px; flex-wrap: wrap; gap: 4px;
+}
+.daily-title {
+  font-size: 12px; font-weight: 800;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.daily-title.all-done  { color: #1D9E75; }
+.daily-title.in-progress { color: #8A6010; }
+.daily-title.needs-attention { color: #C04B20; }
+.daily-title.weekend   { color: #888; }
+.daily-subtitle { font-size: 12px; color: #777; }
+
+.daily-cards-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.daily-card {
+  flex: 1; min-width: 110px;
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex; flex-direction: column; gap: 6px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s;
+  position: relative;
+}
+.daily-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
+
+/* States */
+.daily-card.done     { background: #fff; border-color: #1D9E75; }
+.daily-card.partial  { background: #fff; border-color: #D4900A; }
+.daily-card.undone   { background: #fff; border-color: #E0C8C4; }
+.daily-card.weekend  { background: #F8F7F4; border-color: #ddd; }
+
+.daily-card-top { display: flex; align-items: center; justify-content: space-between; }
+.daily-brand-name { font-size: 14px; font-weight: 800; }
+.daily-card.done    .daily-brand-name { color: #111; }
+.daily-card.partial .daily-brand-name { color: #111; }
+.daily-card.undone  .daily-brand-name { color: #111; }
+
+.daily-status-icon { font-size: 16px; line-height: 1; }
+
+.daily-progress-track {
+  height: 5px; background: #F0EDE6; border-radius: 3px; overflow: hidden;
+}
+.daily-progress-fill {
+  height: 100%; border-radius: 4px;
+  transition: width 0.5s ease;
+}
+.daily-card.done    .daily-progress-fill { background: #1D9E75; }
+.daily-card.partial .daily-progress-fill { background: #D4900A; }
+.daily-card.undone  .daily-progress-fill { background: #E8C4BE; }
+
+.daily-mins-label { font-size: 11px; font-weight: 600; }
+.daily-card.done    .daily-mins-label { color: #1D9E75; }
+.daily-card.partial .daily-mins-label { color: #8A6010; }
+.daily-card.undone  .daily-mins-label { color: #999; }
+.daily-card.weekend .daily-mins-label { color: #aaa; }
+
+/* ============================================================
+   HEALTH STRIP
+   ============================================================ */
+.health-strip {
+  display: inline-block;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 14px 12px;
+  margin-bottom: 10px;
+}
+.health-strip-title {
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #888; margin-bottom: 10px;
+}
+.health-rows { display: flex; flex-direction: column; gap: 6px; }
+.health-row { display: flex; align-items: center; gap: 10px; }
+.health-brand-label { font-size: 13px; font-weight: 700; color: #111; width: 88px; flex-shrink: 0; }
+.health-daily-pip {
+  width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.health-dots { display: flex; gap: 4px; align-items: center; flex: 1; }
+.health-day-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+.health-day-dot[title]:hover::after {
+  content: attr(title);
+  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: #111; color: #fff; font-size: 11px; font-weight: 600;
+  padding: 3px 7px; border-radius: 5px; white-space: nowrap;
+  pointer-events: none; z-index: 10;
+}
+.health-age-label { font-size: 12px; font-weight: 600; width: 72px; flex-shrink: 0; text-align: right; }
+.age-fresh { color: #1D9E75; }
+.age-ok    { color: #8A5E10; }
+.age-stale { color: #C04B20; }
+.age-cold  { color: #aaa; }
+.health-day-label-row {
+  display: flex; gap: 4px; align-items: center;
+  padding-left: calc(88px + 6px + 10px + 10px);
+  margin-top: -2px; margin-bottom: 4px;
+}
+.health-day-label { width: 12px; text-align: center; font-size: 10px; color: #aaa; font-weight: 600; flex-shrink: 0; }
+
+/* ============================================================
+   LOADING BAR
+   ============================================================ */
+.load-bar-wrap { height: 2px; background: #ddd; border-radius: 2px; margin-bottom: 10px; overflow: hidden; }
+.load-bar-fill { height: 100%; background: #444; border-radius: 2px; width: 0; transition: width 0.3s ease, opacity 0.6s; }
+
+/* ============================================================
+   TIMER BANNER
+   ============================================================ */
+.timer-banner {
+  display: none;
+  background: #111; color: #fff;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.timer-banner.visible { display: flex; }
+.timer-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 2px; }
+.timer-card-name { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 1px; }
+.timer-brand-name { font-size: 12px; color: #aaa; }
+.timer-right { display: flex; align-items: center; gap: 14px; }
+.timer-clock { font-size: 36px; font-weight: 800; color: #fff; letter-spacing: -1px; font-variant-numeric: tabular-nums; min-width: 120px; }
+.stop-btn {
+  background: #fff; color: #111;
+  border: none; border-radius: 8px;
+  padding: 9px 20px; font-size: 14px; font-weight: 800;
+  cursor: pointer; flex-shrink: 0;
+  transition: background 0.15s;
+}
+.stop-btn:hover { background: #eee; }
+
+/* ============================================================
+   BRAND SELECTOR
+   ============================================================ */
+.section-label {
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #888; margin-bottom: 8px;
+}
+.brands-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.brand-btn {
+  flex: 1; min-width: 80px;
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  padding: 10px 8px 8px;
+  cursor: pointer; text-align: center;
+  transition: all 0.15s; user-select: none;
+  position: relative;
+}
+.brand-btn:hover { border-color: #888; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.brand-btn.active { border-width: 2px; color: #fff; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+.brand-btn.active .brand-last { color: rgba(255,255,255,0.75); }
+.brand-initials { font-size: 15px; font-weight: 800; margin-bottom: 3px; }
+.brand-short-name { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
+.brand-last { font-size: 10px; color: #777; font-weight: 500; }
+.daily-required-pip {
+  position: absolute; top: 8px; right: 8px;
+  width: 8px; height: 8px; border-radius: 50%;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.cards-header { margin-bottom: 10px; }
+.cards-headline { font-size: 17px; font-weight: 800; color: #111; margin-bottom: 2px; }
+.cards-sub { font-size: 13px; color: #666; }
+
+.cards-empty {
+  text-align: center; padding: 60px 20px;
+  font-size: 18px; color: #888; font-weight: 500;
+}
+.cards-empty span { display: block; font-size: 40px; margin-bottom: 12px; }
+
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+
+.work-card {
+  background: #fff;
+  border: 2px solid #e8e5e0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  transition: border-color 0.15s, transform 0.12s, box-shadow 0.15s;
+}
+.work-card:hover { border-color: #aaa; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.09); }
+.work-card.is-running { border-width: 3px; box-shadow: 0 6px 24px rgba(0,0,0,0.15); }
+
+.card-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 700;
+  margin-bottom: 8px;
+}
+.badge-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+.card-title { font-size: 15px; font-weight: 800; color: #111; line-height: 1.3; margin-bottom: 6px; }
+.card-body  { font-size: 13px; color: #444; line-height: 1.6; margin-bottom: 12px; }
+
+.card-footer {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 10px;
+}
+.card-last { font-size: 12px; color: #888; font-weight: 500; }
+
+.start-btn {
+  background: #111; color: #fff;
+  border: none; border-radius: 8px;
+  padding: 8px 18px; font-size: 13px; font-weight: 800;
+  cursor: pointer; white-space: nowrap;
+  transition: opacity 0.15s;
+}
+.start-btn:hover { opacity: 0.8; }
+.start-btn.active-btn { background: #555; }
+
+/* ============================================================
+   ADD CARD BUTTON + MODAL
+   ============================================================ */
+.add-card-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: transparent;
+  border: 2.5px dashed #ccc;
+  border-radius: 18px;
+  padding: 22px;
+  cursor: pointer;
+  font-size: 16px; font-weight: 700; color: #888;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  width: 100%;
+}
+.add-card-btn:hover { border-color: #888; color: #444; background: rgba(255,255,255,0.6); }
+.add-card-btn-plus { font-size: 24px; line-height: 1; }
+
+/* Modal overlay */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1000;
+  align-items: center; justify-content: center;
+  padding: 24px;
+}
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 28px 24px;
+  width: 100%; max-width: 480px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-title { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 20px; }
+
+.form-field { margin-bottom: 16px; }
+.form-label {
+  display: block;
+  font-size: 13px; font-weight: 700;
+  color: #555; margin-bottom: 6px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.form-input, .form-textarea, .form-select {
+  width: 100%;
+  font-size: 16px; color: #111;
+  background: #F5F4F1;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: inherit;
+  transition: border-color 0.15s;
+  outline: none;
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus { border-color: #888; background: #fff; }
+.form-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+.btn-primary {
+  flex: 1;
+  background: #111; color: #fff;
+  border: none; border-radius: 12px;
+  padding: 14px; font-size: 16px; font-weight: 800;
+  cursor: pointer; transition: opacity 0.15s;
+}
+.btn-primary:hover { opacity: 0.8; }
+.btn-secondary {
+  background: #F0EDE6; color: #333;
+  border: none; border-radius: 12px;
+  padding: 14px 20px; font-size: 16px; font-weight: 700;
+  cursor: pointer; transition: background 0.15s;
+}
+.btn-secondary:hover { background: #E5E2DA; }
+
+/* Delete button on custom cards */
+.card-delete-btn {
+  position: absolute; top: 14px; right: 14px;
+  background: none; border: none;
+  font-size: 16px; color: #ccc; cursor: pointer;
+  line-height: 1; padding: 2px 6px; border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+.card-delete-btn:hover { color: #C04B20; background: #FAECE7; }
+.work-card { position: relative; }
+
+/* ============================================================
+   TIME LOG
+   ============================================================ */
+.time-log-section { margin-top: 32px; }
+.time-log-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
+}
+.time-log-toggle {
+  background: none; border: 2px solid #ccc;
+  border-radius: 10px; padding: 8px 16px;
+  font-size: 14px; font-weight: 700; color: #555;
+  cursor: pointer; transition: all 0.15s;
+}
+.time-log-toggle:hover { border-color: #888; color: #111; }
+.log-manual-btn {
+  background: #111; color: #fff;
+  border: none; border-radius: 10px;
+  padding: 8px 16px; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: opacity 0.15s;
+}
+.log-manual-btn:hover { opacity: 0.75; }
+
+/* Brand totals table */
+.brand-totals {
+  background: #fff; border-radius: 16px;
+  overflow: hidden; margin-bottom: 20px;
+}
+.totals-table { width: 100%; border-collapse: collapse; }
+.totals-table th {
+  font-size: 12px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.08em; color: #777;
+  padding: 12px 16px; text-align: left;
+  border-bottom: 2px solid #F0EDE6;
+  background: #FAFAF8;
+}
+.totals-table th:not(:first-child) { text-align: right; }
+.totals-table td {
+  padding: 12px 16px; font-size: 15px; color: #111;
+  border-bottom: 1px solid #F0EDE6;
+}
+.totals-table tr:last-child td { border-bottom: none; }
+.totals-table td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+.totals-brand-cell { display: flex; align-items: center; gap: 10px; }
+.totals-brand-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.totals-brand-name { font-weight: 700; }
+.totals-zero { color: #bbb; }
+
+/* Session history */
+.session-history { background: #fff; border-radius: 16px; overflow: hidden; }
+.history-entry {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 8px 16px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #F0EDE6;
+  align-items: start;
+}
+.history-entry:last-child { border-bottom: none; }
+.history-date { font-size: 13px; color: #999; font-weight: 600; padding-top: 2px; }
+.history-detail {}
+.history-card-title { font-size: 15px; font-weight: 700; color: #111; }
+.history-brand { font-size: 13px; color: #777; margin-top: 2px; }
+.history-manual-tag {
+  font-size: 11px; font-weight: 700; color: #888;
+  background: #F0EDE6; border-radius: 4px; padding: 1px 6px;
+  display: inline-block; margin-left: 6px; vertical-align: middle;
+}
+.history-mins { font-size: 15px; font-weight: 700; color: #333; white-space: nowrap; padding-top: 2px; }
+.history-delete {
+  background: none; border: none; color: #ddd;
+  cursor: pointer; font-size: 14px; padding: 2px 4px;
+  transition: color 0.15s;
+}
+.history-delete:hover { color: #C04B20; }
+
+.no-sessions { padding: 32px; text-align: center; font-size: 15px; color: #aaa; }
+</style>
+</head>
+<body>
+
+<div class="title-row"><h1>Brand Band</h1><span class="tagline">Pick a brand · pick a card · hit Start</span></div>
+<div class="how-to-use">Whatever you're working on right now is the right thing. Start a card to run a timer; stop it when you're done or switching.</div>
+
+<!-- Daily brands panel -->
+<div class="daily-panel" id="daily-panel">
+  <div class="daily-header">
+    <div class="daily-title" id="daily-title">Daily brands</div>
+    <div class="daily-subtitle" id="daily-subtitle">15 min minimum each, every weekday</div>
+  </div>
+  <div class="daily-cards-row" id="daily-cards-row"></div>
+</div>
+
+<!-- Brand health strip -->
+<div class="health-strip">
+  <div class="health-strip-title">Last time you worked on each brand</div>
+  <div class="health-rows" id="health-rows"></div>
+</div>
+
+<div class="load-bar-wrap"><div class="load-bar-fill" id="load-bar"></div></div>
+
+<!-- Timer banner -->
+<div class="timer-banner" id="timer-banner">
+  <div class="timer-left">
+    <div class="timer-eyebrow">Now working on</div>
+    <div class="timer-card-name" id="timer-card-name">—</div>
+    <div class="timer-brand-name" id="timer-brand-name">—</div>
+  </div>
+  <div class="timer-right">
+    <div class="timer-clock" id="timer-clock">00:00:00</div>
+    <button class="stop-btn" onclick="stopTimer()">Stop</button>
+  </div>
+</div>
+
+<!-- Brand selector -->
+<div class="section-label">Select a brand to see its cards</div>
+<div class="brands-row" id="brands-row"></div>
+
+<!-- Cards -->
+<div class="cards-area" id="cards-area">
+  <div class="cards-empty"><span>↑</span>Pick a brand above to see its work cards</div>
+</div>
+
+<!-- Add card modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title" id="modal-title">Add a card</div>
+    <div class="form-field">
+      <label class="form-label">Title</label>
+      <input class="form-input" id="card-title-input" type="text" placeholder="What needs doing?" maxlength="80">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Note <span style="font-weight:500;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <textarea class="form-textarea" id="card-body-input" placeholder="Context, why it matters, what to do first…"></textarea>
+    </div>
+    <div class="form-field">
+      <label class="form-label">Type</label>
+      <select class="form-select" id="card-type-input">
+        <option value="Opportunity">Opportunity — something to act on</option>
+        <option value="Nudge">Nudge — a gentle reminder</option>
+        <option value="Cross-pollination">Cross-pollination — connects two brands</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" id="modal-brand-btn" onclick="saveCard()">Add card</button>
+    </div>
+  </div>
+</div>
+
+<!-- Manual log modal -->
+<div class="modal-overlay" id="manual-modal-overlay" onclick="closeManualModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Log time manually</div>
+    <div class="form-field">
+      <label class="form-label">Brand</label>
+      <select class="form-select" id="manual-brand-select" onchange="populateManualCards()">
+        <option value="">— pick a brand —</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label class="form-label">Card / task</label>
+      <select class="form-select" id="manual-card-select">
+        <option value="">— pick a card —</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label class="form-label">Minutes</label>
+      <input class="form-input" id="manual-mins-input" type="number" min="1" max="480" placeholder="e.g. 45">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Date</label>
+      <input class="form-input" id="manual-date-input" type="date">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Note <span style="font-weight:500;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input class="form-input" id="manual-note-input" type="text" placeholder="What did you do?">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeManualModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveManualEntry()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Time log section -->
+<div class="time-log-section" id="time-log-section">
+  <div class="time-log-header">
+    <div class="section-label" style="margin-bottom:0">Time log</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="log-manual-btn" onclick="openManualModal()">+ Log time manually</button>
+      <button class="time-log-toggle" id="time-log-toggle" onclick="toggleTimeLog()">Show details ▾</button>
+    </div>
+  </div>
+  <div id="brand-totals-wrap"></div>
+  <div id="session-history-wrap" style="display:none"></div>
+</div>
+
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const DAILY_MIN = 15;
+
+const BRANDS = [
+  {
+    id: 'hh', name: 'Holloway & Hare', short: 'H&H',
+    color: '#185FA5', lightBg: '#E6F1FB',
+    daily: true,
+    notionQuery: 'Holloway Hare editorial blog',
+    cards: [
+      { id: 'hh-ascot', type: 'Opportunity', title: 'Royal Ascot morning dress guide',
+        body: "Ascot is H&H's biggest seasonal moment. It's the #1 SEO opportunity right now — and it'll keep working long after Ascot ends. Window is open." },
+      { id: 'hh-cheltenham', type: 'Nudge', title: 'Cheltenham wrap-up — still has legs',
+        body: "You covered Cheltenham but the reflective piece never ran. A 'what to wear, what worked' post still finds an audience before Goodwood." },
+      { id: 'hh-goodwood', type: 'Opportunity', title: 'Goodwood preview — start seeding now',
+        body: "Goodwood press list opens soon. A preview piece positions H&H early. Start it now, publish when ready." }
+    ]
+  },
+  {
+    id: 'ch', name: 'CareHelm', short: 'CH',
+    color: '#1D9E75', lightBg: '#E1F5EE',
+    daily: false,
+    notionQuery: 'CareHelm family care coordination',
+    cards: [
+      { id: 'ch-email', type: 'Nudge', title: 'Personal email to a recent signup',
+        body: "Not a campaign — one genuine message. 'How's it going? What made you try it?' The signal you get back is worth more than a month of analytics. Ten minutes max." },
+      { id: 'ch-burnout', type: 'Opportunity', title: 'Caregiver burnout content',
+        body: "Real search volume, thin competition. One well-written piece on caregiver decision fatigue positions CareHelm in a genuinely useful way and ranks for years." },
+      { id: 'ch-gm-cross', type: 'Cross-pollination', title: "Your GM thinking → CareHelm's best post",
+        body: "The ratio/intellectus framework from Gadfly maps directly onto caregiver burnout. The bridge is already built in your head." }
+    ]
+  },
+  {
+    id: 'gm', name: 'Gadfly Machines', short: 'GM',
+    color: '#534AB7', lightBg: '#EEEDFE',
+    daily: true,
+    notionQuery: 'Gadfly Machines dialectical community',
+    cards: [
+      { id: 'gm-phronesis', type: 'Opportunity', title: 'Phronesis piece — strike while warm',
+        body: "The Discord thread is active. A short published piece right now crystallises the conversation into something the community can point to." },
+      { id: 'gm-welcome', type: 'Nudge', title: 'Personal welcome to new member',
+        body: "The community is small enough that a message from you is the whole experience. One genuine note sets the tone." },
+      { id: 'gm-ratio', type: 'Opportunity', title: 'Ratio vs. intellectus — write it out',
+        body: "This distinction is the philosophical core of Gadfly. Draft it now — even rough — and you'll have the engine behind everything else GM produces." }
+    ]
+  },
+  {
+    id: 'tp', name: 'TailorPress', short: 'TP',
+    color: '#8A5E10', lightBg: '#FAEEDA',
+    daily: true,
+    notionQuery: 'TailorPress content platform',
+    cards: [
+      { id: 'tp-motion', type: 'Nudge', title: 'Ship something small — anything',
+        body: "TailorPress doesn't need a launch plan. It needs motion. A changelog note, a screenshot, a single sentence update." },
+      { id: 'tp-casestudy', type: 'Opportunity', title: "First case study — it's already done",
+        body: "The H&H Ascot guide is TailorPress's first proof of concept. A short 'here's how we built this' adds 300 words to something you've already written." }
+    ]
+  },
+  {
+    id: 'vo', name: 'Voice Over', short: 'VO',
+    color: '#C04B20', lightBg: '#FAECE7',
+    daily: true,
+    notionQuery: 'voiceover voice acting demo reel',
+    cards: [
+      { id: 'vo-outreach', type: 'Opportunity', title: 'Casting window outreach — 3 emails',
+        body: "Casting directors review in cycles. Three specific, targeted emails during an open window are worth ten times thirty generic ones sent cold." },
+      { id: 'vo-reel', type: 'Nudge', title: 'Demo reel update — overdue',
+        body: "Every pitch you send points to your reel. One focused hour of editing now multiplies the return on every outreach you send this season." },
+      { id: 'vo-ch-cross', type: 'Cross-pollination', title: 'VO craft → CareHelm brand voice',
+        body: "Your warmth, pacing, and presence on mic are directly transferable to CareHelm's audio and video content. These two worlds haven't met yet." }
+    ]
+  },
+  {
+    id: 'di', name: 'Disputatio', short: 'DI',
+    color: '#A0304A', lightBg: '#FAEBEE',
+    daily: false,
+    notionQuery: 'Disputatio debate argumentation',
+    cards: [
+      { id: 'di-define', type: 'Opportunity', title: 'Define what Disputatio is — in one sentence',
+        body: "Before anything else can be built or written for this brand, the one-sentence definition needs to exist. What is it, who is it for, what does it do?" },
+      { id: 'di-gm-cross', type: 'Cross-pollination', title: 'Disputatio and Gadfly — siblings or rivals?',
+        body: "Both live in dialectical territory. Clarifying the relationship unlocks both brands." }
+    ]
+  },
+  {
+    id: 'fd', name: 'Family Desk', short: 'FD',
+    color: '#2E7D94', lightBg: '#E3F4F8',
+    daily: false,
+    notionQuery: 'Family Desk household management',
+    cards: [
+      { id: 'fd-define', type: 'Opportunity', title: 'What problem does Family Desk solve?',
+        body: "Is this a product, a content brand, or a community? Getting this down in a paragraph shapes everything that follows." },
+      { id: 'fd-ch-cross', type: 'Cross-pollination', title: 'Family Desk vs. CareHelm — draw the line',
+        body: "Both touch family coordination. Understanding where one ends and the other begins prevents confusion for users and focus drift for you." }
+    ]
+  },
+  {
+    id: 'sc', name: 'Schola', short: 'SC',
+    color: '#3D6B3A', lightBg: '#E5F2E4',
+    daily: false,
+    notionQuery: 'Schola education learning curriculum',
+    cards: [
+      { id: 'sc-define', type: 'Opportunity', title: 'What is Schola teaching, and to whom?',
+        body: "The name signals classical learning. Pinning down the subject, the audience, and the format is the first real decision." },
+      { id: 'sc-gm-cross', type: 'Cross-pollination', title: 'Gadfly pedagogy → Schola curriculum',
+        body: "Socratic method, ratio and intellectus, deliberative practice — these are already the intellectual core of Gadfly. Schola might be where that thinking becomes structured learning." }
+    ]
+  },
+  {
+    id: 'aa', name: 'AA Operations', short: 'AA',
+    color: '#555', lightBg: '#F0EDE6',
+    ops: true,
+    daily: false,
+    notionQuery: 'AA LLC operations admin',
+    cards: [
+      { id: 'aa-tax', type: 'Admin', title: 'Tax filing',
+        body: "Federal, state, or quarterly — log time here for any tax prep, form filing, or accountant calls. Keep a record even if it feels invisible." },
+      { id: 'aa-books', type: 'Admin', title: 'Bookkeeping & reconciliation',
+        body: "Categorising transactions, reconciling accounts, reviewing P&L. The kind of work that compounds silently when skipped." },
+      { id: 'aa-legal', type: 'Admin', title: 'Legal & compliance',
+        body: "LLC renewals, contracts, registered agent, operating agreements. Flag it here so it doesn't slip through the cracks." },
+      { id: 'aa-admin', type: 'Admin', title: 'General admin',
+        body: "Anything AA-level that doesn't fit elsewhere — insurance, banking, subscriptions, vendor calls. Log it so the invisible work gets counted." }
+    ]
+  }
+];
+
+const BRAND_LABELS = {hh:'H&H',ch:'CareHelm',gm:'Gadfly',tp:'TailorPress',vo:'Voice Over',di:'Disputatio',fd:'Family Desk',sc:'Schola',aa:'AA Ops'};
+const BRAND_SUBS = {
+  hh:'British editorial — social season & countryside',
+  ch:'HIPAA-compliant family care coordination',
+  gm:'Dialectical workshop for solo builders',
+  tp:'Content platform — in build phase',
+  vo:'Voiceover — outreach, performance, reel',
+  di:'Debate & argumentation — early stage',
+  fd:'Family management & household coordination',
+  sc:'Classical learning & curriculum — early stage',
+  aa:'LLC admin, tax, legal, bookkeeping'
+};
+
+const typeStyles = {
+  'Opportunity':       (b) => ({ bg: b.lightBg, color: b.color, dot: b.color }),
+  'Nudge':             ()  => ({ bg: '#F0EDE6', color: '#4A4036', dot: '#8A7A6A' }),
+  'Cross-pollination': ()  => ({ bg: '#EEEDFE', color: '#3D3598', dot: '#534AB7' }),
+  'Admin':             ()  => ({ bg: '#EFEFEF', color: '#555', dot: '#999' }),
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let activeBrandId = null;
+let timerInterval = null;
+let timerStart = null;
+let runningCardId = null;
+let runningBrandId = null;
+let sessionLog = [];
+window._notionDays = {};
+
+/* ============================================================
+   DATE HELPERS
+   ============================================================ */
+function todayKey() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function isWeekday() {
+  const d = new Date().getDay();
+  return d >= 1 && d <= 5;
+}
+
+/* ============================================================
+   LOCALSTORAGE HELPERS
+   ============================================================ */
+function ls(key, val) {
+  try {
+    if (val === undefined) return localStorage.getItem(key);
+    localStorage.setItem(key, val);
+  } catch(e) { return null; }
+}
+
+function getLastWorked(cardId)  { return ls('bw_card_'  + cardId); }
+function setLastWorked(cardId)  { ls('bw_card_' + cardId, new Date().toISOString()); }
+function getBrandLast(brandId)  { return ls('bw_brand_' + brandId); }
+function setBrandLast(brandId)  { ls('bw_brand_' + brandId, new Date().toISOString()); }
+
+function getTodayMins(brandId) {
+  return parseFloat(ls('bw_mins_' + brandId + '_' + todayKey()) || '0');
+}
+function addTodayMins(brandId, mins) {
+  const cur = getTodayMins(brandId);
+  ls('bw_mins_' + brandId + '_' + todayKey(), String(cur + mins));
+}
+
+/* ============================================================
+   LABEL HELPERS
+   ============================================================ */
+function lastWorkedLabel(isoStr) {
+  if (!isoStr) return null;
+  const diff = Math.floor((Date.now() - new Date(isoStr)) / 60000);
+  if (diff < 2)  return 'Just now';
+  if (diff < 60) return diff + ' min ago';
+  const hrs = Math.floor(diff / 60);
+  if (hrs < 24)  return hrs + 'h ago';
+  const days = Math.floor(hrs / 24);
+  return days + ' day' + (days === 1 ? '' : 's') + ' ago';
+}
+
+function ageInDays(isoStr) {
+  if (!isoStr) return null;
+  return Math.floor((Date.now() - new Date(isoStr)) / 86400000);
+}
+
+/* ============================================================
+   DAILY PANEL
+   ============================================================ */
+function dailyState(brand) {
+  if (!isWeekday()) return 'weekend';
+  const mins = getTodayMins(brand.id);
+  if (mins >= DAILY_MIN) return 'done';
+  if (mins > 0) return 'partial';
+  return 'undone';
+}
+
+function renderDailyPanel() {
+  const dailyBrands = BRANDS.filter(b => b.daily);
+  const states = dailyBrands.map(b => dailyState(b));
+
+  let panelClass, titleClass, titleText, subtitleText;
+  if (!isWeekday()) {
+    panelClass = 'weekend'; titleClass = 'weekend';
+    titleText = 'Daily Brands — Weekend';
+    subtitleText = 'Rest up. Back at it Monday.';
+  } else if (states.every(s => s === 'done')) {
+    panelClass = 'all-done'; titleClass = 'all-done';
+    titleText = '✓ Daily brands — all done today';
+    subtitleText = "All four hit 15 min. You're clear.";
+  } else if (states.some(s => s === 'done' || s === 'partial')) {
+    panelClass = 'in-progress'; titleClass = 'in-progress';
+    const remaining = dailyBrands.filter((b,i) => states[i] !== 'done');
+    titleText = 'Daily brands — in progress';
+    subtitleText = remaining.map(b => BRAND_LABELS[b.id]).join(', ') + ' still need attention today';
+  } else {
+    panelClass = 'needs-attention'; titleClass = 'needs-attention';
+    titleText = 'Daily brands — not started today';
+    subtitleText = 'GM, VO, H&H, and TP each need 15 min today';
+  }
+
+  document.getElementById('daily-panel').className = 'daily-panel ' + panelClass;
+  const titleEl = document.getElementById('daily-title');
+  titleEl.className = 'daily-title ' + titleClass;
+  titleEl.textContent = titleText;
+  document.getElementById('daily-subtitle').textContent = subtitleText;
+
+  const row = document.getElementById('daily-cards-row');
+  row.innerHTML = dailyBrands.map((b, i) => {
+    const state = states[i];
+    const mins = getTodayMins(b.id);
+    const pct = Math.min(100, Math.round((mins / DAILY_MIN) * 100));
+    let icon, label;
+    if (state === 'done')    { icon = '✓'; label = mins.toFixed(0) + ' min today'; }
+    else if (state === 'partial') { icon = '…'; label = mins.toFixed(0) + ' / 15 min'; }
+    else if (state === 'undone')  { icon = '○'; label = '0 / 15 min'; }
+    else                          { icon = '—'; label = 'Weekend'; }
+
+    return `
+      <div class="daily-card ${state}" onclick="selectBrand('${b.id}')" title="Click to open ${b.name}">
+        <div class="daily-card-top">
+          <div class="daily-brand-name" style="color:${b.color}">${BRAND_LABELS[b.id]}</div>
+          <div class="daily-status-icon">${icon}</div>
+        </div>
+        <div class="daily-progress-track">
+          <div class="daily-progress-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="daily-mins-label">${label}</div>
+      </div>`;
+  }).join('');
+}
+
+/* ============================================================
+   HEALTH STRIP
+   ============================================================ */
+function healthMeta(brandId) {
+  const iso = getBrandLast(brandId);
+  const notionDays = window._notionDays?.[brandId] ?? null;
+  if (!iso && notionDays === null) return { colorClass: 'age-cold', label: 'Not yet' };
+
+  let days, label;
+  if (iso) {
+    days = ageInDays(iso);
+    label = lastWorkedLabel(iso) || 'Today';
+  } else {
+    days = notionDays;
+    label = days === 0 ? 'Today' : days === 1 ? 'Yesterday' : days + 'd ago';
+  }
+
+  let colorClass;
+  if      (days <= 3)  colorClass = 'age-fresh';
+  else if (days <= 7)  colorClass = 'age-ok';
+  else if (days <= 14) colorClass = 'age-stale';
+  else                 colorClass = 'age-cold';
+
+  return { colorClass, label };
+}
+
+function renderHealthStrip() {
+  const container = document.getElementById('health-rows');
+
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    const dayName = d.toLocaleDateString('en-US', { weekday: 'short' }).slice(0,1);
+    days.push({ key, dayName, isToday: i === 0 });
+  }
+
+  const dayLabelRow = `<div class="health-day-label-row">
+    ${days.map(d => `<div class="health-day-label" style="${d.isToday ? 'color:#444;font-weight:800' : ''}">${d.dayName}</div>`).join('')}
+  </div>`;
+
+  const rows = BRANDS.map(b => {
+    const { colorClass, label } = healthMeta(b.id);
+    const dailyPip = b.daily
+      ? `<div class="health-daily-pip" style="background:${b.color}" title="Daily brand"></div>`
+      : `<div class="health-daily-pip" style="background:transparent"></div>`;
+
+    const dots = days.map(d => {
+      const mins = parseFloat(localStorage.getItem('bw_mins_' + b.id + '_' + d.key) || '0');
+      const worked = mins >= 0.5;
+      let fill, opacity;
+      if (!worked) {
+        fill = '#E8E5DF'; opacity = '1';
+      } else if (mins < 15) {
+        fill = b.color; opacity = '0.35';
+      } else {
+        fill = b.color; opacity = '1';
+      }
+      const tip = worked ? d.key + ': ' + Math.round(mins) + ' min' : d.key + ': not worked';
+      return `<div class="health-day-dot" style="background:${fill};opacity:${opacity}" title="${tip}"></div>`;
+    }).join('');
+
+    return `
+      <div class="health-row">
+        <div class="health-brand-label">${BRAND_LABELS[b.id]}</div>
+        ${dailyPip}
+        <div class="health-dots">${dots}</div>
+        <div class="health-age-label ${colorClass}">${label}</div>
+      </div>`;
+  }).join('');
+
+  container.innerHTML = dayLabelRow + rows;
+}
+
+/* ============================================================
+   BRAND SELECTOR
+   ============================================================ */
+function renderBrands() {
+  const row = document.getElementById('brands-row');
+  let html = '';
+  BRANDS.forEach(b => {
+    const iso = getBrandLast(b.id);
+    const lw = iso ? lastWorkedLabel(iso)
+      : (window._notionDays[b.id] != null ? 'Notion: ' + (window._notionDays[b.id] === 0 ? 'today' : window._notionDays[b.id] + 'd ago') : 'Not started');
+    const isActive = activeBrandId === b.id;
+
+    if (b.ops) {
+      const style = isActive ? 'background:#444; border-color:#444;' : 'background:#F5F4F0; border-color:#ccc;';
+      html += `
+        <div style="width:1px;background:#ddd;border-radius:1px;flex-shrink:0;margin:0 2px"></div>
+        <button class="brand-btn${isActive ? ' active' : ''}" style="${style}; min-width:70px; flex:0 0 auto;" onclick="selectBrand('${b.id}')">
+          <div class="brand-initials" style="color:${isActive ? '#fff' : '#666'}">${b.short}</div>
+          <div class="brand-short-name" style="color:${isActive ? '#fff' : '#666'}">${BRAND_LABELS[b.id]}</div>
+          <div class="brand-last" style="color:${isActive ? 'rgba(255,255,255,0.7)' : '#999'}">${lw}</div>
+        </button>`;
+      return;
+    }
+
+    const style = isActive ? `background:${b.color}; border-color:${b.color};` : '';
+    let pipColor = 'transparent';
+    if (b.daily && isWeekday()) {
+      const st = dailyState(b);
+      pipColor = st === 'done' ? '#1D9E75' : st === 'partial' ? '#D4900A' : '#C04B20';
+    } else if (b.daily) {
+      pipColor = '#ccc';
+    }
+
+    html += `
+      <button class="brand-btn${isActive ? ' active' : ''}" style="${style}" onclick="selectBrand('${b.id}')">
+        ${b.daily ? `<div class="daily-required-pip" style="background:${pipColor}" title="Daily brand"></div>` : ''}
+        <div class="brand-initials" style="color:${isActive ? '#fff' : b.color}">${b.short}</div>
+        <div class="brand-short-name">${BRAND_LABELS[b.id]}</div>
+        <div class="brand-last">${lw}</div>
+      </button>`;
+  });
+  row.innerHTML = html;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+function selectBrand(id) {
+  activeBrandId = id;
+  renderBrands();
+  renderCards(id);
+}
+
+function renderCards(brandId) {
+  const brand = BRANDS.find(b => b.id === brandId);
+  const customCards = getCustomCards(brandId);
+  const allCards = [...brand.cards, ...customCards];
+  const area = document.getElementById('cards-area');
+  const opsTag = brand.ops ? ' <span style="font-size:11px;font-weight:700;background:#E8E5DF;color:#666;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Operations</span>' : '';
+  const dailyTag = brand.daily ? ' <span style="font-size:11px;font-weight:700;background:' + brand.color + ';color:#fff;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Daily</span>' : '';
+  area.innerHTML = `
+    <div class="cards-header">
+      <div class="cards-headline">${brand.name}${opsTag}${dailyTag}</div>
+      <div class="cards-sub">${BRAND_SUBS[brand.id]}</div>
+    </div>
+    <div class="cards-grid">
+      ${allCards.map(card => renderCard(card, brand)).join('')}
+      <button class="add-card-btn" onclick="openAddCardModal('${brandId}')">
+        <span class="add-card-btn-plus">+</span> Add a card
+      </button>
+    </div>`;
+}
+
+function renderCard(card, brand) {
+  const style = (typeStyles[card.type] || typeStyles['Nudge'])(brand);
+  const isRunning = runningCardId === card.id;
+  const lastWorked = getLastWorked(card.id);
+  const deleteBtn = card.custom
+    ? `<button class="card-delete-btn" onclick="deleteCustomCard('${brand.id}','${card.id}')" title="Delete this card">✕</button>`
+    : '';
+  return `
+    <div class="work-card${isRunning ? ' is-running' : ''}" style="${isRunning ? `border-color:${brand.color};` : ''}">
+      ${deleteBtn}
+      <div class="card-badge" style="background:${style.bg}; color:${style.color}">
+        <div class="badge-dot" style="background:${style.dot}"></div>
+        ${card.type}
+      </div>
+      <div class="card-title">${card.title}</div>
+      <div class="card-body">${card.body}</div>
+      <div class="card-footer">
+        <div class="card-last">${lastWorked ? '↩ ' + lastWorkedLabel(lastWorked) : 'Not started yet'}</div>
+        <button class="start-btn${isRunning ? ' active-btn' : ''}"
+          style="${isRunning ? '' : `background:${brand.color};`}"
+          onclick="startCard('${card.id}', '${brand.id}')">
+          ${isRunning ? 'Running…' : 'Start'}
+        </button>
+      </div>
+    </div>`;
+}
+
+/* ============================================================
+   TIMER
+   ============================================================ */
+function startCard(cardId, brandId) {
+  if (runningCardId === cardId) return;
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+
+  const brand = BRANDS.find(b => b.id === brandId);
+  const card  = brand.cards.find(c => c.id === cardId) || getCustomCards(brandId).find(c => c.id === cardId);
+
+  runningCardId  = cardId;
+  runningBrandId = brandId;
+  timerStart     = Date.now();
+
+  setLastWorked(cardId);
+  setBrandLast(brandId);
+
+  document.getElementById('timer-card-name').textContent  = card.title;
+  document.getElementById('timer-brand-name').textContent = brand.name;
+  document.getElementById('timer-banner').classList.add('visible');
+  document.getElementById('timer-clock').textContent = '00:00:00';
+
+  timerInterval = setInterval(updateClock, 1000);
+  sessionLog.push({ time: new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}), text: 'Started: ' + card.title });
+
+  refreshAll();
+}
+
+function stopTimer() {
+  if (!timerInterval) return;
+  clearInterval(timerInterval);
+  timerInterval = null;
+
+  const elapsed = Date.now() - timerStart;
+  const mins    = elapsed / 60000;
+
+  if (runningBrandId) addTodayMins(runningBrandId, mins);
+
+  const brand = BRANDS.find(b => b.id === runningBrandId);
+  const card  = brand?.cards.find(c => c.id === runningCardId) || getCustomCards(runningBrandId).find(c => c.id === runningCardId);
+
+  if (brand && card) {
+    addLogEntry({
+      id: 'entry_' + Date.now(),
+      brandId: brand.id, brandName: brand.name,
+      cardId: card.id, cardTitle: card.title,
+      mins, date: todayKey(),
+      startedAt: new Date(timerStart).toISOString(),
+      manual: false, note: ''
+    });
+  }
+
+  runningCardId  = null;
+  runningBrandId = null;
+  timerStart     = null;
+
+  document.getElementById('timer-banner').classList.remove('visible');
+  document.getElementById('timer-clock').textContent = '00:00:00';
+
+  refreshAll();
+  renderTimeLog();
+}
+
+function updateClock() {
+  if (!timerStart) return;
+  const elapsed = Math.floor((Date.now() - timerStart) / 1000);
+  const h = Math.floor(elapsed / 3600);
+  const m = Math.floor((elapsed % 3600) / 60);
+  const s = elapsed % 60;
+  document.getElementById('timer-clock').textContent =
+    String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+function refreshAll() {
+  renderDailyPanel();
+  renderHealthStrip();
+  renderBrands();
+  if (activeBrandId) renderCards(activeBrandId);
+}
+
+/* ============================================================
+   NOTION PATINA
+   ============================================================ */
+async function notionAPI(body) {
+  const res = await fetch('/api/notion', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) throw new Error('Notion API error: ' + res.status);
+  return res.json();
+}
+
+async function loadNotionPatinas() {
+  const bar = document.getElementById('load-bar');
+  let done = 0;
+  await Promise.all(BRANDS.map(async b => {
+    try {
+      const data = await notionAPI({ action: 'search', query: b.notionQuery });
+      const pages = data.results || [];
+      if (pages.length) {
+        const newest = pages.reduce((a, c) => new Date(a.timestamp) > new Date(c.timestamp) ? a : c);
+        window._notionDays[b.id] = Math.max(0, Math.floor((Date.now() - new Date(newest.timestamp)) / 86400000));
+      }
+    } catch(e) { /* silent */ }
+    done++;
+    if (bar) bar.style.width = Math.round((done / BRANDS.length) * 100) + '%';
+    renderBrands();
+    renderHealthStrip();
+  }));
+  setTimeout(() => { if (bar) { bar.style.transition = 'opacity 0.5s'; bar.style.opacity = '0'; } }, 800);
+}
+
+/* ============================================================
+   PERSISTENT SESSION LOG
+   ============================================================ */
+function getPersistedLog() {
+  try { return JSON.parse(localStorage.getItem('bw_session_log') || '[]'); } catch(e) { return []; }
+}
+function savePersistedLog(entries) {
+  try { localStorage.setItem('bw_session_log', JSON.stringify(entries)); } catch(e) {}
+}
+function addLogEntry(entry) {
+  const log = getPersistedLog();
+  log.unshift(entry);
+  savePersistedLog(log);
+}
+function deleteLogEntry(id) {
+  const log = getPersistedLog().filter(e => e.id !== id);
+  savePersistedLog(log);
+  renderTimeLog();
+  renderDailyPanel();
+}
+
+/* ============================================================
+   TIME LOG RENDERING
+   ============================================================ */
+let timeLogExpanded = false;
+
+function toggleTimeLog() {
+  timeLogExpanded = !timeLogExpanded;
+  document.getElementById('session-history-wrap').style.display = timeLogExpanded ? 'block' : 'none';
+  document.getElementById('time-log-toggle').textContent = timeLogExpanded ? 'Hide details ▴' : 'Show details ▾';
+  if (timeLogExpanded) renderSessionHistory();
+}
+
+function minsLabel(m) {
+  if (m < 1) return '<1 min';
+  const r = Math.round(m);
+  if (r < 60) return r + ' min';
+  const h = Math.floor(r / 60), rem = r % 60;
+  return h + 'h' + (rem ? ' ' + rem + 'm' : '');
+}
+
+function renderTimeLog() {
+  const log = getPersistedLog();
+  const now = new Date();
+  const todayStr = todayKey();
+  const weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+
+  const totals = {};
+  BRANDS.forEach(b => { totals[b.id] = { today: 0, week: 0, all: 0 }; });
+
+  log.forEach(e => {
+    if (!totals[e.brandId]) return;
+    totals[e.brandId].all += e.mins;
+    if (e.date === todayStr) totals[e.brandId].today += e.mins;
+    if (new Date(e.date) >= weekAgo) totals[e.brandId].week += e.mins;
+  });
+
+  const hasAny = Object.values(totals).some(t => t.all > 0);
+
+  const wrap = document.getElementById('brand-totals-wrap');
+  if (!hasAny) {
+    wrap.innerHTML = '<div class="no-sessions">No time logged yet. Start a card or log time manually.</div>';
+  } else {
+    wrap.innerHTML = `
+      <div class="brand-totals">
+        <table class="totals-table">
+          <thead><tr>
+            <th>Brand</th>
+            <th>Today</th>
+            <th>This week</th>
+            <th>All time</th>
+          </tr></thead>
+          <tbody>
+            ${BRANDS.map(b => {
+              const t = totals[b.id];
+              const z = v => v < 0.5 ? '<span class="totals-zero">—</span>' : minsLabel(v);
+              return `<tr>
+                <td><div class="totals-brand-cell">
+                  <div class="totals-brand-dot" style="background:${b.color}"></div>
+                  <div class="totals-brand-name">${BRAND_LABELS[b.id]}</div>
+                </div></td>
+                <td>${z(t.today)}</td>
+                <td>${z(t.week)}</td>
+                <td>${z(t.all)}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  }
+
+  if (timeLogExpanded) renderSessionHistory();
+}
+
+function renderSessionHistory() {
+  const log = getPersistedLog();
+  const wrap = document.getElementById('session-history-wrap');
+  if (!log.length) {
+    wrap.innerHTML = '<div class="no-sessions">No sessions logged yet.</div>';
+    return;
+  }
+  wrap.innerHTML = `
+    <div class="session-history">
+      ${log.map(e => {
+        const d = new Date(e.date + 'T12:00:00');
+        const dateStr = d.toLocaleDateString('en-US', { month:'short', day:'numeric' });
+        return `
+          <div class="history-entry">
+            <div class="history-date">${dateStr}</div>
+            <div class="history-detail">
+              <div class="history-card-title">${e.cardTitle}${e.manual ? '<span class="history-manual-tag">manual</span>' : ''}</div>
+              <div class="history-brand">${e.brandName}${e.note ? ' · ' + e.note : ''}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <div class="history-mins">${minsLabel(e.mins)}</div>
+              <button class="history-delete" onclick="deleteLogEntry('${e.id}')" title="Remove this entry">✕</button>
+            </div>
+          </div>`;
+      }).join('')}
+    </div>`;
+}
+
+/* ============================================================
+   MANUAL LOG MODAL
+   ============================================================ */
+function openManualModal() {
+  const brandSel = document.getElementById('manual-brand-select');
+  brandSel.innerHTML = '<option value="">— pick a brand —</option>' +
+    BRANDS.map(b => `<option value="${b.id}">${BRAND_LABELS[b.id]}</option>`).join('');
+  document.getElementById('manual-card-select').innerHTML = '<option value="">— pick a card —</option>';
+  document.getElementById('manual-mins-input').value = '';
+  document.getElementById('manual-date-input').value = todayKey();
+  document.getElementById('manual-note-input').value = '';
+  document.getElementById('manual-modal-overlay').classList.add('open');
+  setTimeout(() => brandSel.focus(), 50);
+}
+
+function populateManualCards() {
+  const brandId = document.getElementById('manual-brand-select').value;
+  const cardSel = document.getElementById('manual-card-select');
+  if (!brandId) { cardSel.innerHTML = '<option value="">— pick a card —</option>'; return; }
+  const brand = BRANDS.find(b => b.id === brandId);
+  const custom = getCustomCards(brandId);
+  const all = [...brand.cards, ...custom];
+  cardSel.innerHTML = '<option value="">— pick a card —</option>' +
+    all.map(c => `<option value="${c.id}">${c.title}</option>`).join('') +
+    '<option value="__free__">Other / freeform…</option>';
+}
+
+function closeManualModal(e) {
+  if (e && e.target !== document.getElementById('manual-modal-overlay')) return;
+  document.getElementById('manual-modal-overlay').classList.remove('open');
+}
+
+function saveManualEntry() {
+  const brandId  = document.getElementById('manual-brand-select').value;
+  const cardId   = document.getElementById('manual-card-select').value;
+  const mins     = parseFloat(document.getElementById('manual-mins-input').value);
+  const date     = document.getElementById('manual-date-input').value;
+  const note     = document.getElementById('manual-note-input').value.trim();
+
+  if (!brandId) { document.getElementById('manual-brand-select').focus(); return; }
+  if (!mins || mins < 1) { document.getElementById('manual-mins-input').style.borderColor='#C04B20'; document.getElementById('manual-mins-input').focus(); return; }
+  document.getElementById('manual-mins-input').style.borderColor = '';
+
+  const brand = BRANDS.find(b => b.id === brandId);
+  let cardTitle = 'Unspecified work';
+  if (cardId && cardId !== '__free__') {
+    const allCards = [...brand.cards, ...getCustomCards(brandId)];
+    cardTitle = allCards.find(c => c.id === cardId)?.title || cardTitle;
+  } else if (note) {
+    cardTitle = note;
+  }
+
+  addLogEntry({
+    id: 'entry_' + Date.now(),
+    brandId, brandName: brand.name,
+    cardId: cardId || 'manual',
+    cardTitle, mins, date: date || todayKey(),
+    manual: true, note
+  });
+
+  if (date === todayKey()) {
+    addTodayMins(brandId, mins);
+    setBrandLast(brandId);
+  }
+
+  document.getElementById('manual-modal-overlay').classList.remove('open');
+  refreshAll();
+  renderTimeLog();
+}
+
+/* ============================================================
+   CUSTOM CARDS
+   ============================================================ */
+function getCustomCards(brandId) {
+  try {
+    return JSON.parse(localStorage.getItem('bw_custom_' + brandId) || '[]');
+  } catch(e) { return []; }
+}
+function saveCustomCards(brandId, cards) {
+  try { localStorage.setItem('bw_custom_' + brandId, JSON.stringify(cards)); } catch(e) {}
+}
+
+let _modalBrandId = null;
+
+function openAddCardModal(brandId) {
+  _modalBrandId = brandId;
+  const brand = BRANDS.find(b => b.id === brandId);
+  document.getElementById('modal-title').textContent = 'Add a card — ' + brand.name;
+  document.getElementById('modal-brand-btn').style.background = brand.color;
+  document.getElementById('card-title-input').value = '';
+  document.getElementById('card-body-input').value = '';
+  document.getElementById('card-type-input').value = 'Opportunity';
+  document.getElementById('modal-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('card-title-input').focus(), 50);
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modal-overlay')) return;
+  document.getElementById('modal-overlay').classList.remove('open');
+  _modalBrandId = null;
+}
+
+function saveCard() {
+  const title = document.getElementById('card-title-input').value.trim();
+  if (!title) {
+    document.getElementById('card-title-input').focus();
+    document.getElementById('card-title-input').style.borderColor = '#C04B20';
+    return;
+  }
+  document.getElementById('card-title-input').style.borderColor = '';
+
+  const body = document.getElementById('card-body-input').value.trim();
+  const type = document.getElementById('card-type-input').value;
+  const id   = 'custom_' + _modalBrandId + '_' + Date.now();
+
+  const cards = getCustomCards(_modalBrandId);
+  cards.push({ id, title, body: body || 'No note added.', type, custom: true });
+  saveCustomCards(_modalBrandId, cards);
+
+  document.getElementById('modal-overlay').classList.remove('open');
+  renderCards(_modalBrandId);
+}
+
+function deleteCustomCard(brandId, cardId) {
+  const cards = getCustomCards(brandId).filter(c => c.id !== cardId);
+  saveCustomCards(brandId, cards);
+  renderCards(brandId);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('modal-overlay').classList.remove('open');
+  if (e.key === 'Enter' && e.metaKey && document.getElementById('modal-overlay').classList.contains('open')) saveCard();
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+renderDailyPanel();
+renderHealthStrip();
+renderBrands();
+renderTimeLog();
+loadNotionPatinas();
+</script>
+</body>
+</html>
