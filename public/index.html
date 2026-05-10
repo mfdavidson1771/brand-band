@@ -17,9 +17,8 @@ body {
   line-height: 1.4;
 }
 
-
-h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display: inline; }
-.tagline { font-size: 13px; color: #666; display: inline; margin-left: 10px; }
+h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display: inline; letter-spacing: -0.02em; }
+.tagline { font-size: 13px; color: #888; display: inline; margin-left: 10px; }
 .title-row { margin-bottom: 12px; }
 
 .how-to-use {
@@ -45,6 +44,7 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
 .daily-panel.all-done {
   background: #E6F9F0;
   border-color: #1D9E75;
+  animation: allDoneBounce 0.7s ease-out both;
 }
 .daily-panel.in-progress {
   background: #FFF8E6;
@@ -82,10 +82,10 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
   display: flex; flex-direction: column; gap: 6px;
   border: 2px solid transparent;
   cursor: pointer;
-  transition: transform 0.12s, box-shadow 0.12s;
+  transition: transform 0.18s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.15s;
   position: relative;
 }
-.daily-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.10); }
+.daily-card:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 6px 18px rgba(0,0,0,0.11); }
 
 /* States */
 .daily-card.done     { background: #fff; border-color: #1D9E75; }
@@ -95,9 +95,6 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
 
 .daily-card-top { display: flex; align-items: center; justify-content: space-between; }
 .daily-brand-name { font-size: 14px; font-weight: 800; }
-.daily-card.done    .daily-brand-name { color: #111; }
-.daily-card.partial .daily-brand-name { color: #111; }
-.daily-card.undone  .daily-brand-name { color: #111; }
 
 .daily-status-icon { font-size: 16px; line-height: 1; }
 
@@ -106,7 +103,7 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
 }
 .daily-progress-fill {
   height: 100%; border-radius: 4px;
-  transition: width 0.5s ease;
+  transition: width 0.6s cubic-bezier(.17,.67,.35,1.2);
 }
 .daily-card.done    .daily-progress-fill { background: #1D9E75; }
 .daily-card.partial .daily-progress-fill { background: #D4900A; }
@@ -145,7 +142,9 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
   width: 12px; height: 12px; border-radius: 50%;
   flex-shrink: 0;
   position: relative;
+  transition: transform 0.15s;
 }
+.health-day-dot:hover { transform: scale(1.4); }
 .health-day-dot[title]:hover::after {
   content: attr(title);
   position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
@@ -165,6 +164,7 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
 }
 .health-day-label { width: 12px; text-align: center; font-size: 10px; color: #aaa; font-weight: 600; flex-shrink: 0; }
 
+
 /* ============================================================
    LOADING BAR
    ============================================================ */
@@ -176,7 +176,6 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
    ============================================================ */
 .timer-banner {
   display: none;
-  background: #111; color: #fff;
   border-radius: 12px;
   padding: 12px 16px;
   margin-bottom: 10px;
@@ -184,9 +183,35 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
+  background: linear-gradient(135deg, #0f0f18 0%, #1a1040 33%, #0f180f 66%, #1a0f18 100%);
+  background-size: 400% 400%;
 }
-.timer-banner.visible { display: flex; }
-.timer-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 2px; }
+.timer-banner.visible {
+  display: flex;
+  animation: timerGlow 8s ease infinite;
+}
+@keyframes timerGlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.timer-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #888; margin-bottom: 2px;
+  display: flex; align-items: center; gap: 6px;
+}
+.timer-live-dot {
+  display: inline-block;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #4ADE80;
+  animation: liveDotPulse 1.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes liveDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.3; transform: scale(0.6); }
+}
 .timer-card-name { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 1px; }
 .timer-brand-name { font-size: 12px; color: #aaa; }
 .timer-right { display: flex; align-items: center; gap: 14px; }
@@ -196,9 +221,10 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
   border: none; border-radius: 8px;
   padding: 9px 20px; font-size: 14px; font-weight: 800;
   cursor: pointer; flex-shrink: 0;
-  transition: background 0.15s;
+  transition: background 0.15s, transform 0.12s;
 }
-.stop-btn:hover { background: #eee; }
+.stop-btn:hover { background: #eee; transform: scale(1.05); }
+.stop-btn:active { transform: scale(0.96); }
 
 /* ============================================================
    BRAND SELECTOR
@@ -213,14 +239,15 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
   flex: 1; min-width: 80px;
   background: #fff;
   border: 2px solid #ddd;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 10px 8px 8px;
   cursor: pointer; text-align: center;
-  transition: all 0.15s; user-select: none;
+  transition: border-color 0.15s, transform 0.18s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.15s;
+  user-select: none;
   position: relative;
 }
-.brand-btn:hover { border-color: #888; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-.brand-btn.active { border-width: 2px; color: #fff; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+.brand-btn:hover { border-color: #888; transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.10); }
+.brand-btn.active { border-width: 2px; color: #fff; box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
 .brand-btn.active .brand-last { color: rgba(255,255,255,0.75); }
 .brand-initials { font-size: 15px; font-weight: 800; margin-bottom: 3px; }
 .brand-short-name { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
@@ -229,6 +256,15 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
   position: absolute; top: 8px; right: 8px;
   width: 8px; height: 8px; border-radius: 50%;
 }
+
+/* Brand button pop animation */
+@keyframes brandBtnPop {
+  0%   { transform: scale(1) rotate(0deg); }
+  35%  { transform: scale(1.13) rotate(-1.5deg); }
+  65%  { transform: scale(0.96) rotate(1deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.brand-btn.popping { animation: brandBtnPop 0.38s cubic-bezier(.36,.07,.19,.97) both; }
 
 /* ============================================================
    CARDS
@@ -248,12 +284,23 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
 .work-card {
   background: #fff;
   border: 2px solid #e8e5e0;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 14px 16px;
-  transition: border-color 0.15s, transform 0.12s, box-shadow 0.15s;
+  transition: border-color 0.15s, transform 0.22s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.2s;
+  position: relative;
 }
-.work-card:hover { border-color: #aaa; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.09); }
+.work-card:hover { border-color: #aaa; transform: translateY(-4px) rotate(-0.6deg); box-shadow: 0 8px 24px rgba(0,0,0,0.11); }
+.work-card:nth-child(2n):hover { transform: translateY(-4px) rotate(0.6deg); }
 .work-card.is-running { border-width: 3px; box-shadow: 0 6px 24px rgba(0,0,0,0.15); }
+
+/* Card launch animation */
+@keyframes cardLaunch {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.04) rotate(-0.4deg); }
+  65%  { transform: scale(0.98) rotate(0.4deg); }
+  100% { transform: scale(1); }
+}
+.work-card.launching { animation: cardLaunch 0.42s cubic-bezier(.36,.07,.19,.97) both; }
 
 .card-badge {
   display: inline-flex; align-items: center; gap: 5px;
@@ -277,9 +324,10 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
   border: none; border-radius: 8px;
   padding: 8px 18px; font-size: 13px; font-weight: 800;
   cursor: pointer; white-space: nowrap;
-  transition: opacity 0.15s;
+  transition: opacity 0.15s, transform 0.12s;
 }
-.start-btn:hover { opacity: 0.8; }
+.start-btn:hover { opacity: 0.85; transform: scale(1.05); }
+.start-btn:active { transform: scale(0.95); }
 .start-btn.active-btn { background: #555; }
 
 /* ============================================================
@@ -293,10 +341,10 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
   padding: 22px;
   cursor: pointer;
   font-size: 16px; font-weight: 700; color: #888;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  transition: border-color 0.15s, color 0.15s, background 0.15s, transform 0.15s;
   width: 100%;
 }
-.add-card-btn:hover { border-color: #888; color: #444; background: rgba(255,255,255,0.6); }
+.add-card-btn:hover { border-color: #888; color: #444; background: rgba(255,255,255,0.6); transform: scale(1.01); }
 .add-card-btn-plus { font-size: 24px; line-height: 1; }
 
 /* Modal overlay */
@@ -346,9 +394,9 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
   background: #111; color: #fff;
   border: none; border-radius: 12px;
   padding: 14px; font-size: 16px; font-weight: 800;
-  cursor: pointer; transition: opacity 0.15s;
+  cursor: pointer; transition: opacity 0.15s, transform 0.12s;
 }
-.btn-primary:hover { opacity: 0.8; }
+.btn-primary:hover { opacity: 0.8; transform: scale(1.02); }
 .btn-secondary {
   background: #F0EDE6; color: #333;
   border: none; border-radius: 12px;
@@ -366,7 +414,6 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
   transition: color 0.15s, background 0.15s;
 }
 .card-delete-btn:hover { color: #C04B20; background: #FAECE7; }
-.work-card { position: relative; }
 
 /* ============================================================
    TIME LOG
@@ -387,9 +434,9 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
   background: #111; color: #fff;
   border: none; border-radius: 10px;
   padding: 8px 16px; font-size: 14px; font-weight: 700;
-  cursor: pointer; transition: opacity 0.15s;
+  cursor: pointer; transition: opacity 0.15s, transform 0.12s;
 }
-.log-manual-btn:hover { opacity: 0.75; }
+.log-manual-btn:hover { opacity: 0.75; transform: scale(1.03); }
 
 /* Brand totals table */
 .brand-totals {
@@ -445,12 +492,182 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
 .history-delete:hover { color: #C04B20; }
 
 .no-sessions { padding: 32px; text-align: center; font-size: 15px; color: #aaa; }
+
+/* ============================================================
+   DORMANT BRANDS
+   ============================================================ */
+.dormant-toggle-row { margin-bottom: 12px; }
+.dormant-toggle-btn {
+  background: none; border: 2px solid #ddd;
+  border-radius: 10px; padding: 6px 14px;
+  font-size: 12px; font-weight: 700; color: #999;
+  cursor: pointer; transition: all 0.15s;
+  letter-spacing: 0.04em;
+}
+.dormant-toggle-btn:hover { border-color: #aaa; color: #555; }
+.dormant-brands-row {
+  display: none; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.dormant-brands-row.open { display: flex; }
+
+/* ============================================================
+   CARDS TABS (Cards / Backend)
+   ============================================================ */
+.cards-tabs {
+  display: flex; gap: 6px; margin-bottom: 14px;
+}
+.cards-tab {
+  padding: 7px 18px; border-radius: 8px;
+  font-size: 13px; font-weight: 700;
+  border: 2px solid #ddd; background: #fff;
+  cursor: pointer; color: #777;
+  transition: all 0.15s, transform 0.12s;
+}
+.cards-tab.active { background: #111; border-color: #111; color: #fff; }
+.cards-tab:hover:not(.active) { border-color: #aaa; color: #333; transform: translateY(-1px); }
+
+/* ============================================================
+   BACKEND PANEL
+   ============================================================ */
+.backend-panel { display: none; }
+.backend-panel.open { display: block; }
+
+.backend-section { margin-bottom: 20px; }
+.backend-section-title {
+  font-size: 11px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.1em; color: #888; margin-bottom: 10px;
+}
+.backend-field {
+  background: #fff; border-radius: 12px;
+  padding: 14px 16px; margin-bottom: 8px;
+}
+.backend-field-label {
+  font-size: 11px; font-weight: 700; color: #aaa;
+  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;
+}
+.backend-field-value {
+  font-size: 14px; color: #111; font-weight: 500; line-height: 1.5;
+}
+.backend-field-value a { color: #185FA5; text-decoration: none; }
+.backend-field-value a:hover { text-decoration: underline; }
+
+.backend-tool-row {
+  display: flex; gap: 10px; align-items: baseline;
+  padding: 10px 0; border-bottom: 1px solid #F0EDE6;
+}
+.backend-tool-row:last-child { border-bottom: none; }
+.backend-tool-name { font-size: 13px; font-weight: 700; color: #111; min-width: 120px; flex-shrink: 0; }
+.backend-tool-detail { font-size: 13px; color: #555; line-height: 1.5; }
+
+.backend-tools-block {
+  background: #fff; border-radius: 12px; padding: 4px 16px; margin-bottom: 8px;
+}
+.backend-empty { color: #bbb; font-size: 13px; padding: 8px 0; }
+
+.backend-add-btn {
+  background: none; border: 2px dashed #ccc;
+  border-radius: 10px; padding: 10px 16px;
+  font-size: 13px; font-weight: 700; color: #aaa;
+  cursor: pointer; width: 100%; transition: all 0.15s;
+}
+.backend-add-btn:hover { border-color: #888; color: #555; }
+
+.backend-notes-input {
+  width: 100%; background: #fff; border: 2px solid transparent;
+  border-radius: 12px; padding: 14px 16px;
+  font-size: 14px; color: #111; font-family: inherit;
+  resize: vertical; min-height: 80px; line-height: 1.6;
+  outline: none; transition: border-color 0.15s;
+}
+.backend-notes-input:focus { border-color: #888; }
+.backend-notes-input::placeholder { color: #ccc; }
+
+/* ============================================================
+   PASSWORD GATE
+   ============================================================ */
+.gate-overlay {
+  position: fixed; inset: 0;
+  background: #EDEBE4;
+  z-index: 99999;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.gate-box {
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px 32px 28px;
+  width: 100%; max-width: 360px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  text-align: center;
+}
+.gate-title { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 6px; letter-spacing: -0.02em; }
+.gate-sub { font-size: 13px; color: #888; margin-bottom: 24px; }
+.gate-input {
+  width: 100%; font-size: 16px; color: #111;
+  background: #F5F4F1; border: 2px solid transparent;
+  border-radius: 10px; padding: 12px 14px;
+  font-family: inherit; outline: none;
+  transition: border-color 0.15s; margin-bottom: 12px;
+  text-align: center; letter-spacing: 0.04em;
+}
+.gate-input:focus { border-color: #888; background: #fff; }
+.gate-input.error { border-color: #C04B20; animation: gateShake 0.35s ease; }
+.gate-btn {
+  width: 100%; background: #111; color: #fff;
+  border: none; border-radius: 12px;
+  padding: 14px; font-size: 16px; font-weight: 800;
+  cursor: pointer; transition: opacity 0.15s, transform 0.12s;
+}
+.gate-btn:hover { opacity: 0.8; transform: scale(1.02); }
+.gate-error { font-size: 13px; color: #C04B20; margin-top: 10px; min-height: 18px; }
+@keyframes gateShake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-8px); }
+  75%       { transform: translateX(8px); }
+}
+
+/* ============================================================
+   CONFETTI
+   ============================================================ */
+.confetti-piece {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 2px;
+  will-change: transform, opacity;
+}
+@keyframes confettiBurst {
+  0%   { transform: translate(0,0) rotate(0deg) scale(1); opacity: 1; }
+  75%  { opacity: 0.9; }
+  100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0; }
+}
+
+/* All-done bounce */
+@keyframes allDoneBounce {
+  0%   { transform: scale(1); }
+  20%  { transform: scale(1.016); }
+  45%  { transform: scale(0.996); }
+  65%  { transform: scale(1.008); }
+  100% { transform: scale(1); }
+}
 </style>
 </head>
 <body>
 
-<div class="title-row"><h1>Brand Band</h1><span class="tagline">Pick a brand · pick a card · hit Start</span></div>
-<div class="how-to-use">Whatever you're working on right now is the right thing. Start a card to run a timer; stop it when you're done or switching.</div>
+<!-- Password gate -->
+<div class="gate-overlay" id="gate-overlay">
+  <div class="gate-box">
+    <div class="gate-title">Brand Band</div>
+    <div class="gate-sub">Enter password to continue</div>
+    <input class="gate-input" id="gate-input" type="password" placeholder="••••••••••••••"
+      onkeydown="if(event.key==='Enter') gateSubmit()">
+    <button class="gate-btn" onclick="gateSubmit()">Enter</button>
+    <div class="gate-error" id="gate-error"></div>
+  </div>
+</div>
+
+<div class="title-row"><h1>Brand Band</h1><span class="tagline">Eight brands. One brain. Let's go.</span></div>
+<div class="how-to-use">Pick a brand. Pick a card. Hit <strong>Start</strong>. Everything else is noise.</div>
 
 <!-- Daily brands panel -->
 <div class="daily-panel" id="daily-panel">
@@ -472,7 +689,7 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
 <!-- Timer banner -->
 <div class="timer-banner" id="timer-banner">
   <div class="timer-left">
-    <div class="timer-eyebrow">Now working on</div>
+    <div class="timer-eyebrow"><span class="timer-live-dot"></span>Now working on</div>
     <div class="timer-card-name" id="timer-card-name">—</div>
     <div class="timer-brand-name" id="timer-brand-name">—</div>
   </div>
@@ -485,6 +702,12 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
 <!-- Brand selector -->
 <div class="section-label">Select a brand to see its cards</div>
 <div class="brands-row" id="brands-row"></div>
+
+<!-- Dormant brands -->
+<div class="dormant-toggle-row">
+  <button class="dormant-toggle-btn" id="dormant-toggle-btn" onclick="toggleDormant()">⏸ Show dormant brands</button>
+</div>
+<div class="dormant-brands-row" id="dormant-brands-row"></div>
 
 <!-- Cards -->
 <div class="cards-area" id="cards-area">
@@ -568,6 +791,36 @@ h1 { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 2px; display
 
 
 <script>
+/* ============================================================
+   PASSWORD GATE
+   ============================================================ */
+const GATE_KEY = 'bb_auth';
+const GATE_PASS = 'angostura-tack-7';
+
+function gateCheck() {
+  if (localStorage.getItem(GATE_KEY) === '1') {
+    document.getElementById('gate-overlay').style.display = 'none';
+  } else {
+    setTimeout(() => document.getElementById('gate-input').focus(), 100);
+  }
+}
+
+function gateSubmit() {
+  const val = document.getElementById('gate-input').value;
+  if (val === GATE_PASS) {
+    localStorage.setItem(GATE_KEY, '1');
+    document.getElementById('gate-overlay').style.display = 'none';
+  } else {
+    const inp = document.getElementById('gate-input');
+    inp.classList.add('error');
+    document.getElementById('gate-error').textContent = 'Wrong password.';
+    inp.value = '';
+    setTimeout(() => { inp.classList.remove('error'); inp.focus(); }, 400);
+  }
+}
+
+gateCheck();
+
 /* ============================================================
    DATA
    ============================================================ */
@@ -679,6 +932,17 @@ const BRANDS = [
     ]
   },
   {
+    id: 'mm', name: 'Masked Mixer', short: 'MM',
+    color: '#1A1A2E', lightBg: '#EEEEF5',
+    dormant: true,
+    daily: false,
+    notionQuery: 'Masked Mixer',
+    cards: [
+      { id: 'mm-form', type: 'Nudge', title: 'Fix newsletter signup form',
+        body: 'Form currently errors on submit. Investigate Supabase connection or switch to a simpler provider.' }
+    ]
+  },
+  {
     id: 'aa', name: 'AA Operations', short: 'AA',
     color: '#555', lightBg: '#F0EDE6',
     ops: true,
@@ -697,7 +961,7 @@ const BRANDS = [
   }
 ];
 
-const BRAND_LABELS = {hh:'H&H',ch:'CareHelm',gm:'Gadfly',tp:'TailorPress',vo:'Voice Over',di:'Disputatio',fd:'Family Desk',sc:'Schola',aa:'AA Ops'};
+const BRAND_LABELS = {hh:'H&H',ch:'CareHelm',gm:'Gadfly',tp:'TailorPress',vo:'Voice Over',di:'Disputatio',fd:'Family Desk',sc:'Schola',aa:'AA Ops',mm:'Masked Mixer'};
 const BRAND_SUBS = {
   hh:'British editorial — social season & countryside',
   ch:'HIPAA-compliant family care coordination',
@@ -707,7 +971,19 @@ const BRAND_SUBS = {
   di:'Debate & argumentation — early stage',
   fd:'Family management & household coordination',
   sc:'Classical learning & curriculum — early stage',
-  aa:'LLC admin, tax, legal, bookkeeping'
+  aa:'LLC admin, tax, legal, bookkeeping',
+  mm:'Music community — live at maskedmixer.com, on hold'
+};
+
+const DEFAULT_BACKEND = {
+  mm: {
+    hosting: 'maskedmixer.com (built with Bolt, hosted via Vercel)',
+    tools: [
+      { name: 'Newsletter', detail: 'Bolt Database via Supabase (stores subscribers)' },
+      { name: 'Contact form', detail: 'Formspree' }
+    ],
+    notes: 'Site is live but business is on hold. Form is currently broken.'
+  }
 };
 
 const typeStyles = {
@@ -727,6 +1003,7 @@ let runningCardId = null;
 let runningBrandId = null;
 let sessionLog = [];
 window._notionDays = {};
+window._todayCelebrated = {};
 
 /* ============================================================
    DATE HELPERS
@@ -783,8 +1060,89 @@ function ageInDays(isoStr) {
 }
 
 /* ============================================================
+   STREAK
+   ============================================================ */
+function getDailyStreak(brandId) {
+  let streak = 0;
+  const today = new Date();
+  for (let i = 1; i <= 60; i++) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const day = d.getDay();
+    if (day === 0 || day === 6) continue; // skip weekends
+    const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    const mins = parseFloat(localStorage.getItem('bw_mins_' + brandId + '_' + key) || '0');
+    if (mins >= DAILY_MIN) streak++;
+    else break;
+  }
+  return streak;
+}
+
+/* ============================================================
+   SOUND
+   ============================================================ */
+function playTone(frequency, duration, volume) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = frequency;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(volume || 0.25, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + duration);
+  } catch(e) {}
+}
+function playStartTone()   { playTone(392, 0.08, 0.18); }
+function playStopTone()    { playTone(523, 0.12, 0.2); setTimeout(() => playTone(440, 0.15, 0.15), 100); }
+function playSuccessTone() { playTone(523, 0.1, 0.22); setTimeout(() => playTone(784, 0.18, 0.22), 110); }
+function playAllDoneFanfare() {
+  [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => playTone(f, 0.18, 0.2), i * 90));
+}
+
+/* ============================================================
+   CONFETTI
+   ============================================================ */
+function triggerConfetti(x, y, color, count) {
+  const n = count || 35;
+  const palette = [color || '#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#C3B1E1', '#FFD93D'];
+  for (let i = 0; i < n; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 70 + Math.random() * 160;
+    const dx = Math.cos(angle) * speed;
+    const dy = Math.sin(angle) * speed - 80;
+    const rot = ((Math.random() - 0.5) * 900) + 'deg';
+    const size = 6 + Math.random() * 9;
+    const c = i < 3 ? color : palette[Math.floor(Math.random() * palette.length)];
+    const dur = 0.65 + Math.random() * 0.55;
+    el.style.cssText = `left:${x}px;top:${y}px;width:${size}px;height:${size}px;background:${c};--dx:${dx}px;--dy:${dy}px;--rot:${rot};animation:confettiBurst ${dur}s ease-out forwards;border-radius:${Math.random() > 0.4 ? '50%' : '2px'};`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), (dur + 0.1) * 1000);
+  }
+}
+
+function burstFromEl(el, color, count) {
+  if (!el) return;
+  const r = el.getBoundingClientRect();
+  triggerConfetti(r.left + r.width / 2, r.top + r.height / 2, color, count);
+}
+
+/* ============================================================
    DAILY PANEL
    ============================================================ */
+const ALL_DONE_MESSAGES = [
+  'Four for four. Take a bow.',
+  'All daily brands done. Seriously.',
+  'GM ✓ VO ✓ H&H ✓ TP ✓ — Locked in.',
+  'Daily quota: crushed. Go make something.',
+  'Full send. Every brand got 15 min.'
+];
+
 function dailyState(brand) {
   if (!isWeekday()) return 'weekend';
   const mins = getTodayMins(brand.id);
@@ -804,8 +1162,9 @@ function renderDailyPanel() {
     subtitleText = 'Rest up. Back at it Monday.';
   } else if (states.every(s => s === 'done')) {
     panelClass = 'all-done'; titleClass = 'all-done';
-    titleText = '✓ Daily brands — all done today';
-    subtitleText = "All four hit 15 min. You're clear.";
+    titleText = '✦ Daily brands — all done';
+    const msg = ALL_DONE_MESSAGES[new Date().getDate() % ALL_DONE_MESSAGES.length];
+    subtitleText = msg;
   } else if (states.some(s => s === 'done' || s === 'partial')) {
     panelClass = 'in-progress'; titleClass = 'in-progress';
     const remaining = dailyBrands.filter((b,i) => states[i] !== 'done');
@@ -813,11 +1172,12 @@ function renderDailyPanel() {
     subtitleText = remaining.map(b => BRAND_LABELS[b.id]).join(', ') + ' still need attention today';
   } else {
     panelClass = 'needs-attention'; titleClass = 'needs-attention';
-    titleText = 'Daily brands — not started today';
+    titleText = 'Daily brands — not started yet';
     subtitleText = 'GM, VO, H&H, and TP each need 15 min today';
   }
 
-  document.getElementById('daily-panel').className = 'daily-panel ' + panelClass;
+  const panel = document.getElementById('daily-panel');
+  panel.className = 'daily-panel ' + panelClass;
   const titleEl = document.getElementById('daily-title');
   titleEl.className = 'daily-title ' + titleClass;
   titleEl.textContent = titleText;
@@ -829,11 +1189,10 @@ function renderDailyPanel() {
     const mins = getTodayMins(b.id);
     const pct = Math.min(100, Math.round((mins / DAILY_MIN) * 100));
     let icon, label;
-    if (state === 'done')    { icon = '✓'; label = mins.toFixed(0) + ' min today'; }
+    if (state === 'done')         { icon = '✓'; label = mins.toFixed(0) + ' min today'; }
     else if (state === 'partial') { icon = '…'; label = mins.toFixed(0) + ' / 15 min'; }
     else if (state === 'undone')  { icon = '○'; label = '0 / 15 min'; }
     else                          { icon = '—'; label = 'Weekend'; }
-
     return `
       <div class="daily-card ${state}" onclick="selectBrand('${b.id}')" title="Click to open ${b.name}">
         <div class="daily-card-top">
@@ -876,7 +1235,6 @@ function healthMeta(brandId) {
 
 function renderHealthStrip() {
   const container = document.getElementById('health-rows');
-
   const days = [];
   for (let i = 6; i >= 0; i--) {
     const d = new Date();
@@ -900,13 +1258,9 @@ function renderHealthStrip() {
       const mins = parseFloat(localStorage.getItem('bw_mins_' + b.id + '_' + d.key) || '0');
       const worked = mins >= 0.5;
       let fill, opacity;
-      if (!worked) {
-        fill = '#E8E5DF'; opacity = '1';
-      } else if (mins < 15) {
-        fill = b.color; opacity = '0.35';
-      } else {
-        fill = b.color; opacity = '1';
-      }
+      if (!worked)    { fill = '#E8E5DF'; opacity = '1'; }
+      else if (mins < 15) { fill = b.color; opacity = '0.35'; }
+      else            { fill = b.color; opacity = '1'; }
       const tip = worked ? d.key + ': ' + Math.round(mins) + ' min' : d.key + ': not worked';
       return `<div class="health-day-dot" style="background:${fill};opacity:${opacity}" title="${tip}"></div>`;
     }).join('');
@@ -924,12 +1278,129 @@ function renderHealthStrip() {
 }
 
 /* ============================================================
+   DORMANT BRANDS
+   ============================================================ */
+let dormantOpen = false;
+
+function toggleDormant() {
+  dormantOpen = !dormantOpen;
+  document.getElementById('dormant-brands-row').classList.toggle('open', dormantOpen);
+  document.getElementById('dormant-toggle-btn').textContent = dormantOpen ? '⏸ Hide dormant brands' : '⏸ Show dormant brands';
+  if (dormantOpen) renderDormantBrands();
+}
+
+function renderDormantBrands() {
+  const row = document.getElementById('dormant-brands-row');
+  const dormantBrands = BRANDS.filter(b => b.dormant);
+  let html = '';
+  dormantBrands.forEach(b => {
+    const isActive = activeBrandId === b.id;
+    const style = isActive ? `background:${b.color}; border-color:${b.color};` : 'background:#F5F4F0; border-color:#ddd;';
+    html += `
+      <button class="brand-btn${isActive ? ' active' : ''}" style="${style}; opacity:0.75;" onclick="selectBrand('${b.id}')">
+        <div class="brand-initials" style="color:${isActive ? '#fff' : b.color}">${b.short}</div>
+        <div class="brand-short-name" style="color:${isActive ? '#fff' : '#888'}">${BRAND_LABELS[b.id]}</div>
+        <div class="brand-last" style="color:${isActive ? 'rgba(255,255,255,0.7)' : '#aaa'}">Dormant</div>
+      </button>`;
+  });
+  row.innerHTML = html;
+}
+
+/* ============================================================
+   BACKEND VIEW
+   ============================================================ */
+let activeTab = 'cards';
+
+function getBackendData(brandId) {
+  try {
+    const stored = JSON.parse(localStorage.getItem('bw_backend_' + brandId) || 'null');
+    return stored || DEFAULT_BACKEND[brandId] || { hosting: '', tools: [], notes: '' };
+  } catch(e) { return DEFAULT_BACKEND[brandId] || { hosting: '', tools: [], notes: '' }; }
+}
+function saveBackendData(brandId, data) {
+  try { localStorage.setItem('bw_backend_' + brandId, JSON.stringify(data)); } catch(e) {}
+}
+
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.cards-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.cards-tab[data-tab="' + tab + '"]').classList.add('active');
+  document.getElementById('cards-grid-wrap').style.display = tab === 'cards' ? 'block' : 'none';
+  document.getElementById('backend-panel').classList.toggle('open', tab === 'backend');
+  if (tab === 'backend') renderBackend(activeBrandId);
+}
+
+function renderBackend(brandId) {
+  const data = getBackendData(brandId);
+  const panel = document.getElementById('backend-panel');
+  const toolsHtml = data.tools.length
+    ? data.tools.map((t, i) => `
+        <div class="backend-tool-row">
+          <div class="backend-tool-name">${t.name}</div>
+          <div class="backend-tool-detail">${t.detail}</div>
+          <button onclick="removeTool('${brandId}',${i})" style="margin-left:auto;background:none;border:none;color:#ccc;cursor:pointer;font-size:14px;padding:0 4px;" title="Remove">✕</button>
+        </div>`).join('')
+    : '<div class="backend-empty">No tools added yet</div>';
+
+  panel.innerHTML = `
+    <div class="backend-section">
+      <div class="backend-section-title">Hosting</div>
+      <div class="backend-field">
+        <div class="backend-field-label">Where it lives</div>
+        <div class="backend-field-value" onclick="editHosting('${brandId}')" style="cursor:pointer;min-height:20px" title="Click to edit">
+          ${data.hosting || '<span style="color:#ccc">Click to add hosting info</span>'}
+        </div>
+      </div>
+    </div>
+    <div class="backend-section">
+      <div class="backend-section-title">Tools & Integrations</div>
+      <div class="backend-tools-block" id="tools-list">${toolsHtml}</div>
+      <button class="backend-add-btn" onclick="addTool('${brandId}')">+ Add tool or integration</button>
+    </div>
+    <div class="backend-section">
+      <div class="backend-section-title">Notes</div>
+      <textarea class="backend-notes-input" placeholder="Anything else worth remembering about this brand's setup…"
+        onchange="saveNote('${brandId}', this.value)">${data.notes || ''}</textarea>
+    </div>`;
+}
+
+function editHosting(brandId) {
+  const val = prompt('Hosting info:', getBackendData(brandId).hosting || '');
+  if (val === null) return;
+  const data = getBackendData(brandId);
+  data.hosting = val;
+  saveBackendData(brandId, data);
+  renderBackend(brandId);
+}
+function addTool(brandId) {
+  const name = prompt('Tool name (e.g. Newsletter, CRM, Analytics):');
+  if (!name) return;
+  const detail = prompt('Detail (e.g. Mailchimp, connected to Google Sheet):');
+  if (detail === null) return;
+  const data = getBackendData(brandId);
+  data.tools.push({ name: name.trim(), detail: detail.trim() });
+  saveBackendData(brandId, data);
+  renderBackend(brandId);
+}
+function removeTool(brandId, index) {
+  const data = getBackendData(brandId);
+  data.tools.splice(index, 1);
+  saveBackendData(brandId, data);
+  renderBackend(brandId);
+}
+function saveNote(brandId, val) {
+  const data = getBackendData(brandId);
+  data.notes = val;
+  saveBackendData(brandId, data);
+}
+
+/* ============================================================
    BRAND SELECTOR
    ============================================================ */
 function renderBrands() {
   const row = document.getElementById('brands-row');
   let html = '';
-  BRANDS.forEach(b => {
+  BRANDS.filter(b => !b.dormant).forEach(b => {
     const iso = getBrandLast(b.id);
     const lw = iso ? lastWorkedLabel(iso)
       : (window._notionDays[b.id] != null ? 'Notion: ' + (window._notionDays[b.id] === 0 ? 'today' : window._notionDays[b.id] + 'd ago') : 'Not started');
@@ -973,7 +1444,15 @@ function renderBrands() {
 function selectBrand(id) {
   activeBrandId = id;
   renderBrands();
+  if (dormantOpen) renderDormantBrands();
   renderCards(id);
+  // Pop animation on the active button
+  setTimeout(() => {
+    document.querySelectorAll('.brand-btn.active').forEach(btn => {
+      btn.classList.add('popping');
+      setTimeout(() => btn.classList.remove('popping'), 420);
+    });
+  }, 10);
 }
 
 function renderCards(brandId) {
@@ -983,17 +1462,27 @@ function renderCards(brandId) {
   const area = document.getElementById('cards-area');
   const opsTag = brand.ops ? ' <span style="font-size:11px;font-weight:700;background:#E8E5DF;color:#666;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Operations</span>' : '';
   const dailyTag = brand.daily ? ' <span style="font-size:11px;font-weight:700;background:' + brand.color + ';color:#fff;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Daily</span>' : '';
+  const dormantTag = brand.dormant ? ' <span style="font-size:11px;font-weight:700;background:#E8E5DF;color:#888;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Dormant</span>' : '';
+
+  activeTab = 'cards';
   area.innerHTML = `
     <div class="cards-header">
-      <div class="cards-headline">${brand.name}${opsTag}${dailyTag}</div>
+      <div class="cards-headline">${brand.name}${opsTag}${dailyTag}${dormantTag}</div>
       <div class="cards-sub">${BRAND_SUBS[brand.id]}</div>
     </div>
-    <div class="cards-grid">
-      ${allCards.map(card => renderCard(card, brand)).join('')}
-      <button class="add-card-btn" onclick="openAddCardModal('${brandId}')">
-        <span class="add-card-btn-plus">+</span> Add a card
-      </button>
-    </div>`;
+    <div class="cards-tabs">
+      <button class="cards-tab active" data-tab="cards" onclick="switchTab('cards')">Cards</button>
+      <button class="cards-tab" data-tab="backend" onclick="switchTab('backend')">Backend</button>
+    </div>
+    <div id="cards-grid-wrap">
+      <div class="cards-grid">
+        ${allCards.map(card => renderCard(card, brand)).join('')}
+        <button class="add-card-btn" onclick="openAddCardModal('${brandId}')">
+          <span class="add-card-btn-plus">+</span> Add a card
+        </button>
+      </div>
+    </div>
+    <div class="backend-panel" id="backend-panel"></div>`;
 }
 
 function renderCard(card, brand) {
@@ -1046,9 +1535,18 @@ function startCard(cardId, brandId) {
   document.getElementById('timer-clock').textContent = '00:00:00';
 
   timerInterval = setInterval(updateClock, 1000);
-  sessionLog.push({ time: new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}), text: 'Started: ' + card.title });
+  logSession('Started: ' + card.title + ' (' + brand.name + ')');
+  playStartTone();
 
   refreshAll();
+
+  // Launch animation on the running card
+  setTimeout(() => {
+    document.querySelectorAll('.work-card.is-running').forEach(el => {
+      el.classList.add('launching');
+      setTimeout(() => el.classList.remove('launching'), 480);
+    });
+  }, 30);
 }
 
 function stopTimer() {
@@ -1059,10 +1557,43 @@ function stopTimer() {
   const elapsed = Date.now() - timerStart;
   const mins    = elapsed / 60000;
 
+  const prevMins = runningBrandId ? getTodayMins(runningBrandId) : 0;
   if (runningBrandId) addTodayMins(runningBrandId, mins);
+  const newMins = runningBrandId ? getTodayMins(runningBrandId) : 0;
 
   const brand = BRANDS.find(b => b.id === runningBrandId);
   const card  = brand?.cards.find(c => c.id === runningCardId) || getCustomCards(runningBrandId).find(c => c.id === runningCardId);
+  const minRound = Math.round(mins);
+
+  logSession('Stopped: ' + (card?.title || 'card') + ' — ' + (minRound < 1 ? 'less than a minute' : minRound + ' min'));
+
+  // Small confetti burst on stop (5+ min sessions)
+  const stopBtn = document.querySelector('.stop-btn');
+  if (minRound >= 5 && stopBtn) {
+    burstFromEl(stopBtn, brand?.color || '#FFD700', 20);
+    playStopTone();
+  }
+
+  // Check for daily milestone crossing
+  if (brand?.daily && prevMins < DAILY_MIN && newMins >= DAILY_MIN) {
+    const celebKey = brand.id + '_' + todayKey();
+    if (!window._todayCelebrated[celebKey]) {
+      window._todayCelebrated[celebKey] = true;
+      setTimeout(() => {
+        const panel = document.getElementById('daily-panel');
+        burstFromEl(panel, brand.color, 55);
+        playSuccessTone();
+        // Check if ALL daily brands now done
+        const allDone = BRANDS.filter(b => b.daily).every(b => getTodayMins(b.id) >= DAILY_MIN);
+        if (allDone) {
+          setTimeout(() => {
+            burstFromEl(panel, '#FFD700', 70);
+            playAllDoneFanfare();
+          }, 350);
+        }
+      }, 150);
+    }
+  }
 
   if (brand && card) {
     addLogEntry({
@@ -1101,6 +1632,14 @@ function refreshAll() {
   renderHealthStrip();
   renderBrands();
   if (activeBrandId) renderCards(activeBrandId);
+}
+
+/* ============================================================
+   SESSION LOG
+   ============================================================ */
+function logSession(text) {
+  const t = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  sessionLog.push({ time: t, text });
 }
 
 /* ============================================================
@@ -1194,8 +1733,8 @@ function renderTimeLog() {
   });
 
   const hasAny = Object.values(totals).some(t => t.all > 0);
-
   const wrap = document.getElementById('brand-totals-wrap');
+
   if (!hasAny) {
     wrap.innerHTML = '<div class="no-sessions">No time logged yet. Start a card or log time manually.</div>';
   } else {
@@ -1203,10 +1742,7 @@ function renderTimeLog() {
       <div class="brand-totals">
         <table class="totals-table">
           <thead><tr>
-            <th>Brand</th>
-            <th>Today</th>
-            <th>This week</th>
-            <th>All time</th>
+            <th>Brand</th><th>Today</th><th>This week</th><th>All time</th>
           </tr></thead>
           <tbody>
             ${BRANDS.map(b => {
@@ -1298,7 +1834,11 @@ function saveManualEntry() {
   const note     = document.getElementById('manual-note-input').value.trim();
 
   if (!brandId) { document.getElementById('manual-brand-select').focus(); return; }
-  if (!mins || mins < 1) { document.getElementById('manual-mins-input').style.borderColor='#C04B20'; document.getElementById('manual-mins-input').focus(); return; }
+  if (!mins || mins < 1) {
+    document.getElementById('manual-mins-input').style.borderColor = '#C04B20';
+    document.getElementById('manual-mins-input').focus();
+    return;
+  }
   document.getElementById('manual-mins-input').style.borderColor = '';
 
   const brand = BRANDS.find(b => b.id === brandId);
@@ -1332,9 +1872,8 @@ function saveManualEntry() {
    CUSTOM CARDS
    ============================================================ */
 function getCustomCards(brandId) {
-  try {
-    return JSON.parse(localStorage.getItem('bw_custom_' + brandId) || '[]');
-  } catch(e) { return []; }
+  try { return JSON.parse(localStorage.getItem('bw_custom_' + brandId) || '[]'); }
+  catch(e) { return []; }
 }
 function saveCustomCards(brandId, cards) {
   try { localStorage.setItem('bw_custom_' + brandId, JSON.stringify(cards)); } catch(e) {}
@@ -1368,15 +1907,12 @@ function saveCard() {
     return;
   }
   document.getElementById('card-title-input').style.borderColor = '';
-
   const body = document.getElementById('card-body-input').value.trim();
   const type = document.getElementById('card-type-input').value;
   const id   = 'custom_' + _modalBrandId + '_' + Date.now();
-
   const cards = getCustomCards(_modalBrandId);
   cards.push({ id, title, body: body || 'No note added.', type, custom: true });
   saveCustomCards(_modalBrandId, cards);
-
   document.getElementById('modal-overlay').classList.remove('open');
   renderCards(_modalBrandId);
 }
