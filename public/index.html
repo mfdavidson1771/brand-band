@@ -257,6 +257,22 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   width: 8px; height: 8px; border-radius: 50%;
 }
 
+/* Back office row */
+.backoffice-row {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: #F0EDE6;
+  border-radius: 10px;
+  border: 1.5px dashed #ccc;
+}
+.backoffice-label {
+  font-size: 10px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: #aaa; margin-bottom: 8px;
+}
+#ops-row { display: flex; gap: 6px; }
+#ops-row .brand-btn { flex: 0 0 auto; min-width: 90px; opacity: 0.8; }
+
 /* Brand button pop animation */
 @keyframes brandBtnPop {
   0%   { transform: scale(1) rotate(0deg); }
@@ -705,9 +721,15 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 
 <!-- Dormant brands -->
 <div class="dormant-toggle-row">
-  <button class="dormant-toggle-btn" id="dormant-toggle-btn" onclick="toggleDormant()">⏸ Show dormant brands</button>
+  <button class="dormant-toggle-btn" id="dormant-toggle-btn" onclick="toggleDormant()">🥁 Auditions</button>
 </div>
 <div class="dormant-brands-row" id="dormant-brands-row"></div>
+
+<!-- Back office -->
+<div class="backoffice-row">
+  <div class="backoffice-label">⚙ Back office</div>
+  <div id="ops-row"></div>
+</div>
 
 <!-- Cards -->
 <div class="cards-area" id="cards-area">
@@ -972,7 +994,7 @@ const BRAND_SUBS = {
   fd:'Family management & household coordination',
   sc:'Classical learning & curriculum — early stage',
   aa:'LLC admin, tax, legal, bookkeeping',
-  mm:'Music community — live at maskedmixer.com, on hold'
+  mm:'Music community — live at maskedmixer.com, auditioning for a slot'
 };
 
 const DEFAULT_BACKEND = {
@@ -1285,7 +1307,7 @@ let dormantOpen = false;
 function toggleDormant() {
   dormantOpen = !dormantOpen;
   document.getElementById('dormant-brands-row').classList.toggle('open', dormantOpen);
-  document.getElementById('dormant-toggle-btn').textContent = dormantOpen ? '⏸ Hide dormant brands' : '⏸ Show dormant brands';
+  document.getElementById('dormant-toggle-btn').textContent = dormantOpen ? '🥁 Hide auditions' : '🥁 Auditions';
   if (dormantOpen) renderDormantBrands();
 }
 
@@ -1300,7 +1322,7 @@ function renderDormantBrands() {
       <button class="brand-btn${isActive ? ' active' : ''}" style="${style}; opacity:0.75;" onclick="selectBrand('${b.id}')">
         <div class="brand-initials" style="color:${isActive ? '#fff' : b.color}">${b.short}</div>
         <div class="brand-short-name" style="color:${isActive ? '#fff' : '#888'}">${BRAND_LABELS[b.id]}</div>
-        <div class="brand-last" style="color:${isActive ? 'rgba(255,255,255,0.7)' : '#aaa'}">Dormant</div>
+        <div class="brand-last" style="color:${isActive ? 'rgba(255,255,255,0.7)' : '#aaa'}">Auditioning</div>
       </button>`;
   });
   row.innerHTML = html;
@@ -1395,28 +1417,39 @@ function saveNote(brandId, val) {
 }
 
 /* ============================================================
+   BACK OFFICE (OPS) SELECTOR
+   ============================================================ */
+function renderOps() {
+  const row = document.getElementById('ops-row');
+  if (!row) return;
+  let html = '';
+  BRANDS.filter(b => b.ops).forEach(b => {
+    const iso = getBrandLast(b.id);
+    const lw = iso ? lastWorkedLabel(iso)
+      : (window._notionDays[b.id] != null ? 'Notion: ' + (window._notionDays[b.id] === 0 ? 'today' : window._notionDays[b.id] + 'd ago') : 'Not started');
+    const isActive = activeBrandId === b.id;
+    const style = isActive ? 'background:#444; border-color:#444;' : 'background:#fff; border-color:#ccc;';
+    html += `
+      <button class="brand-btn${isActive ? ' active' : ''}" style="${style}" onclick="selectBrand('${b.id}')">
+        <div class="brand-initials" style="color:${isActive ? '#fff' : '#666'}">${b.short}</div>
+        <div class="brand-short-name" style="color:${isActive ? '#fff' : '#666'}">${BRAND_LABELS[b.id]}</div>
+        <div class="brand-last" style="color:${isActive ? 'rgba(255,255,255,0.7)' : '#999'}">${lw}</div>
+      </button>`;
+  });
+  row.innerHTML = html;
+}
+
+/* ============================================================
    BRAND SELECTOR
    ============================================================ */
 function renderBrands() {
   const row = document.getElementById('brands-row');
   let html = '';
-  BRANDS.filter(b => !b.dormant).forEach(b => {
+  BRANDS.filter(b => !b.dormant && !b.ops).forEach(b => {
     const iso = getBrandLast(b.id);
     const lw = iso ? lastWorkedLabel(iso)
       : (window._notionDays[b.id] != null ? 'Notion: ' + (window._notionDays[b.id] === 0 ? 'today' : window._notionDays[b.id] + 'd ago') : 'Not started');
     const isActive = activeBrandId === b.id;
-
-    if (b.ops) {
-      const style = isActive ? 'background:#444; border-color:#444;' : 'background:#F5F4F0; border-color:#ccc;';
-      html += `
-        <div style="width:1px;background:#ddd;border-radius:1px;flex-shrink:0;margin:0 2px"></div>
-        <button class="brand-btn${isActive ? ' active' : ''}" style="${style}; min-width:70px; flex:0 0 auto;" onclick="selectBrand('${b.id}')">
-          <div class="brand-initials" style="color:${isActive ? '#fff' : '#666'}">${b.short}</div>
-          <div class="brand-short-name" style="color:${isActive ? '#fff' : '#666'}">${BRAND_LABELS[b.id]}</div>
-          <div class="brand-last" style="color:${isActive ? 'rgba(255,255,255,0.7)' : '#999'}">${lw}</div>
-        </button>`;
-      return;
-    }
 
     const style = isActive ? `background:${b.color}; border-color:${b.color};` : '';
     let pipColor = 'transparent';
@@ -1444,6 +1477,7 @@ function renderBrands() {
 function selectBrand(id) {
   activeBrandId = id;
   renderBrands();
+  renderOps();
   if (dormantOpen) renderDormantBrands();
   renderCards(id);
   // Pop animation on the active button
@@ -1462,7 +1496,7 @@ function renderCards(brandId) {
   const area = document.getElementById('cards-area');
   const opsTag = brand.ops ? ' <span style="font-size:11px;font-weight:700;background:#E8E5DF;color:#666;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Operations</span>' : '';
   const dailyTag = brand.daily ? ' <span style="font-size:11px;font-weight:700;background:' + brand.color + ';color:#fff;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Daily</span>' : '';
-  const dormantTag = brand.dormant ? ' <span style="font-size:11px;font-weight:700;background:#E8E5DF;color:#888;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Dormant</span>' : '';
+  const dormantTag = brand.dormant ? ' <span style="font-size:11px;font-weight:700;background:#E8E5DF;color:#888;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Auditioning</span>' : '';
 
   activeTab = 'cards';
   area.innerHTML = `
@@ -1631,6 +1665,7 @@ function refreshAll() {
   renderDailyPanel();
   renderHealthStrip();
   renderBrands();
+  renderOps();
   if (activeBrandId) renderCards(activeBrandId);
 }
 
@@ -1670,6 +1705,7 @@ async function loadNotionPatinas() {
     done++;
     if (bar) bar.style.width = Math.round((done / BRANDS.length) * 100) + '%';
     renderBrands();
+    renderOps();
     renderHealthStrip();
   }));
   setTimeout(() => { if (bar) { bar.style.transition = 'opacity 0.5s'; bar.style.opacity = '0'; } }, 800);
@@ -1934,6 +1970,7 @@ document.addEventListener('keydown', e => {
 renderDailyPanel();
 renderHealthStrip();
 renderBrands();
+renderOps();
 renderTimeLog();
 loadNotionPatinas();
 </script>
