@@ -258,20 +258,11 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 }
 
 /* Back office row */
-.backoffice-row {
-  margin-bottom: 12px;
-  padding: 10px 12px;
-  background: #F0EDE6;
-  border-radius: 10px;
-  border: 1.5px dashed #ccc;
+.ops-brands-row {
+  display: none; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;
 }
-.backoffice-label {
-  font-size: 10px; font-weight: 800;
-  text-transform: uppercase; letter-spacing: 0.1em;
-  color: #aaa; margin-bottom: 8px;
-}
-#ops-row { display: flex; gap: 6px; }
-#ops-row .brand-btn { flex: 0 0 auto; min-width: 90px; opacity: 0.8; }
+.ops-brands-row.open { display: flex; }
+.ops-brands-row .brand-btn { flex: 0 0 auto; min-width: 90px; opacity: 0.85; }
 
 /* Brand button pop animation */
 @keyframes brandBtnPop {
@@ -726,10 +717,10 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 <div class="dormant-brands-row" id="dormant-brands-row"></div>
 
 <!-- Back office -->
-<div class="backoffice-row">
-  <div class="backoffice-label">⚙ Back office</div>
-  <div id="ops-row"></div>
+<div class="dormant-toggle-row">
+  <button class="dormant-toggle-btn" id="ops-toggle-btn" onclick="toggleOps()">⚙ Back office</button>
 </div>
+<div class="ops-brands-row" id="ops-row"></div>
 
 <!-- Cards -->
 <div class="cards-area" id="cards-area">
@@ -852,6 +843,7 @@ const BRANDS = [
   {
     id: 'hh', name: 'Holloway & Hare', short: 'H&H',
     color: '#185FA5', lightBg: '#E6F1FB',
+    url: 'https://hollowayandhare.com',
     daily: true,
     notionQuery: 'Holloway Hare editorial blog',
     cards: [
@@ -866,6 +858,7 @@ const BRANDS = [
   {
     id: 'ch', name: 'CareHelm', short: 'CH',
     color: '#1D9E75', lightBg: '#E1F5EE',
+    url: 'https://carehelm.co',
     daily: false,
     notionQuery: 'CareHelm family care coordination',
     cards: [
@@ -880,6 +873,7 @@ const BRANDS = [
   {
     id: 'gm', name: 'Gadfly Machines', short: 'GM',
     color: '#534AB7', lightBg: '#EEEDFE',
+    url: 'https://gadflymachines.com',
     daily: true,
     notionQuery: 'Gadfly Machines dialectical community',
     cards: [
@@ -894,6 +888,7 @@ const BRANDS = [
   {
     id: 'tp', name: 'TailorPress', short: 'TP',
     color: '#8A5E10', lightBg: '#FAEEDA',
+    url: 'https://tailorpress.co',
     daily: true,
     notionQuery: 'TailorPress content platform',
     cards: [
@@ -906,6 +901,7 @@ const BRANDS = [
   {
     id: 'vo', name: 'Voice Over', short: 'VO',
     color: '#C04B20', lightBg: '#FAECE7',
+    url: 'https://markfieldsdavidson.com',
     daily: true,
     notionQuery: 'voiceover voice acting demo reel',
     cards: [
@@ -920,6 +916,7 @@ const BRANDS = [
   {
     id: 'di', name: 'Disputatio', short: 'DI',
     color: '#A0304A', lightBg: '#FAEBEE',
+    url: 'https://disputatio.app',
     daily: false,
     notionQuery: 'Disputatio debate argumentation',
     cards: [
@@ -956,6 +953,7 @@ const BRANDS = [
   {
     id: 'mm', name: 'Masked Mixer', short: 'MM',
     color: '#1A1A2E', lightBg: '#EEEEF5',
+    url: 'https://maskedmixer.com',
     dormant: true,
     daily: false,
     notionQuery: 'Masked Mixer',
@@ -1303,6 +1301,19 @@ function renderHealthStrip() {
    DORMANT BRANDS
    ============================================================ */
 let dormantOpen = false;
+let opsOpen = false;
+
+function toggleOps() {
+  opsOpen = !opsOpen;
+  document.getElementById('ops-row').classList.toggle('open', opsOpen);
+  document.getElementById('ops-toggle-btn').textContent = opsOpen ? '⚙ Hide back office' : '⚙ Back office';
+  if (opsOpen) renderOps();
+}
+
+function openBrandUrl(brandId) {
+  const brand = BRANDS.find(b => b.id === brandId);
+  if (brand && brand.url) window.open(brand.url, '_blank');
+}
 
 function toggleDormant() {
   dormantOpen = !dormantOpen;
@@ -1319,7 +1330,7 @@ function renderDormantBrands() {
     const isActive = activeBrandId === b.id;
     const style = isActive ? `background:${b.color}; border-color:${b.color};` : 'background:#F5F4F0; border-color:#ddd;';
     html += `
-      <button class="brand-btn${isActive ? ' active' : ''}" style="${style}; opacity:0.75;" onclick="selectBrand('${b.id}')">
+      <button class="brand-btn${isActive ? ' active' : ''}" style="${style}; opacity:0.75;" onclick="selectBrand('${b.id}')" ondblclick="openBrandUrl('${b.id}')" title="${b.url ? 'Double-click to open ' + b.url : ''}">
         <div class="brand-initials" style="color:${isActive ? '#fff' : b.color}">${b.short}</div>
         <div class="brand-short-name" style="color:${isActive ? '#fff' : '#888'}">${BRAND_LABELS[b.id]}</div>
         <div class="brand-last" style="color:${isActive ? 'rgba(255,255,255,0.7)' : '#aaa'}">Auditioning</div>
@@ -1430,7 +1441,7 @@ function renderOps() {
     const isActive = activeBrandId === b.id;
     const style = isActive ? 'background:#444; border-color:#444;' : 'background:#fff; border-color:#ccc;';
     html += `
-      <button class="brand-btn${isActive ? ' active' : ''}" style="${style}" onclick="selectBrand('${b.id}')">
+      <button class="brand-btn${isActive ? ' active' : ''}" style="${style}" onclick="selectBrand('${b.id}')" ondblclick="openBrandUrl('${b.id}')">
         <div class="brand-initials" style="color:${isActive ? '#fff' : '#666'}">${b.short}</div>
         <div class="brand-short-name" style="color:${isActive ? '#fff' : '#666'}">${BRAND_LABELS[b.id]}</div>
         <div class="brand-last" style="color:${isActive ? 'rgba(255,255,255,0.7)' : '#999'}">${lw}</div>
@@ -1461,7 +1472,7 @@ function renderBrands() {
     }
 
     html += `
-      <button class="brand-btn${isActive ? ' active' : ''}" style="${style}" onclick="selectBrand('${b.id}')">
+      <button class="brand-btn${isActive ? ' active' : ''}" style="${style}" onclick="selectBrand('${b.id}')" ondblclick="openBrandUrl('${b.id}')" title="${b.url ? 'Double-click to open ' + b.url : ''}">
         ${b.daily ? `<div class="daily-required-pip" style="background:${pipColor}" title="Daily brand"></div>` : ''}
         <div class="brand-initials" style="color:${isActive ? '#fff' : b.color}">${b.short}</div>
         <div class="brand-short-name">${BRAND_LABELS[b.id]}</div>
