@@ -704,7 +704,7 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   <div class="gate-box">
     <div class="gate-title">Brand Band</div>
     <div class="gate-sub">Enter password to continue</div>
-    <input class="gate-input" id="gate-input" type="password" placeholder="â¢â¢â¢â¢â¢â¢â¢â¢â¢â¢â¢â¢â¢â¢"
+    <input class="gate-input" id="gate-input" type="password" placeholder="••••••••••••••"
       onkeydown="if(event.key==='Enter') gateSubmit()">
     <button class="gate-btn" onclick="gateSubmit()">Enter</button>
     <div class="gate-error" id="gate-error"></div>
@@ -735,8 +735,8 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 <div class="timer-banner" id="timer-banner">
   <div class="timer-left">
     <div class="timer-eyebrow"><span class="timer-live-dot"></span>Now working on</div>
-    <div class="timer-card-name" id="timer-card-name">â</div>
-    <div class="timer-brand-name" id="timer-brand-name">â</div>
+    <div class="timer-card-name" id="timer-card-name">—</div>
+    <div class="timer-brand-name" id="timer-brand-name">—</div>
   </div>
   <div class="timer-right">
     <div class="timer-clock" id="timer-clock">00:00:00</div>
@@ -750,25 +750,25 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 
 <!-- Dormant brands -->
 <div class="dormant-toggle-row">
-  <button class="dormant-toggle-btn" id="dormant-toggle-btn" onclick="toggleDormant()">ð¥ Auditions</button>
+  <button class="dormant-toggle-btn" id="dormant-toggle-btn" onclick="toggleDormant()">🥁 Auditions</button>
 </div>
 <div class="dormant-brands-row" id="dormant-brands-row"></div>
 
 <!-- Back office -->
 <div class="dormant-toggle-row">
-  <button class="dormant-toggle-btn" id="ops-toggle-btn" onclick="toggleOps()">â Back office</button>
+  <button class="dormant-toggle-btn" id="ops-toggle-btn" onclick="toggleOps()">⚙ Back office</button>
 </div>
 <div class="ops-brands-row" id="ops-row"></div>
 
 <!-- Brand Funnel -->
 <div class="dormant-toggle-row">
-  <button class="dormant-toggle-btn" id="funnel-toggle-btn" onclick="toggleFunnel()">ð Brand Funnel</button>
+  <button class="dormant-toggle-btn" id="funnel-toggle-btn" onclick="toggleFunnel()">📊 Brand Funnel</button>
 </div>
 <div class="funnel-panel" id="funnel-panel"></div>
 
 <!-- Cards -->
 <div class="cards-area" id="cards-area">
-  <div class="cards-empty"><span>â</span>Pick a brand above to see its work cards</div>
+  <div class="cards-empty"><span>↑</span>Pick a brand above to see its work cards</div>
 </div>
 
 <!-- Add card modal -->
@@ -781,14 +781,14 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
     </div>
     <div class="form-field">
       <label class="form-label">Note <span style="font-weight:500;text-transform:none;letter-spacing:0">(optional)</span></label>
-      <textarea class="form-textarea" id="card-body-input" placeholder="Context, why it matters, what to do firstâ¦"></textarea>
+      <textarea class="form-textarea" id="card-body-input" placeholder="Context, why it matters, what to do first…"></textarea>
     </div>
     <div class="form-field">
       <label class="form-label">Type</label>
       <select class="form-select" id="card-type-input">
-        <option value="Opportunity">Opportunity â something to act on</option>
-        <option value="Nudge">Nudge â a gentle reminder</option>
-        <option value="Cross-pollination">Cross-pollination â connects two brands</option>
+        <option value="Opportunity">Opportunity — something to act on</option>
+        <option value="Nudge">Nudge — a gentle reminder</option>
+        <option value="Cross-pollination">Cross-pollination — connects two brands</option>
       </select>
     </div>
     <div class="modal-actions">
@@ -805,13 +805,13 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
     <div class="form-field">
       <label class="form-label">Brand</label>
       <select class="form-select" id="manual-brand-select" onchange="populateManualCards()">
-        <option value="">â pick a brand â</option>
+        <option value="">— pick a brand —</option>
       </select>
     </div>
     <div class="form-field">
       <label class="form-label">Card / task</label>
       <select class="form-select" id="manual-card-select">
-        <option value="">â pick a card â</option>
+        <option value="">— pick a card —</option>
       </select>
     </div>
     <div class="form-field">
@@ -839,7 +839,7 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
     <div class="section-label" style="margin-bottom:0">Time log</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="log-manual-btn" onclick="openManualModal()">+ Log time manually</button>
-      <button class="time-log-toggle" id="time-log-toggle" onclick="toggleTimeLog()">Show details â¾</button>
+      <button class="time-log-toggle" id="time-log-toggle" onclick="toggleTimeLog()">Show details ▾</button>
     </div>
   </div>
   <div id="brand-totals-wrap"></div>
@@ -892,10 +892,10 @@ const BRANDS = [
     notionQuery: 'Holloway Hare editorial blog',
     cards: [
       { id: 'hh-ascot', type: 'Opportunity', title: 'Royal Ascot morning dress guide',
-        body: "Ascot is H&H's biggest seasonal moment. It's the #1 SEO opportunity right now â and it'll keep working long after Ascot ends. Window is open." },
-      { id: 'hh-cheltenham', type: 'Nudge', title: 'Cheltenham wrap-up â still has legs',
+        body: "Ascot is H&H's biggest seasonal moment. It's the #1 SEO opportunity right now — and it'll keep working long after Ascot ends. Window is open." },
+      { id: 'hh-cheltenham', type: 'Nudge', title: 'Cheltenham wrap-up — still has legs',
         body: "You covered Cheltenham but the reflective piece never ran. A 'what to wear, what worked' post still finds an audience before Goodwood." },
-      { id: 'hh-goodwood', type: 'Opportunity', title: 'Goodwood preview â start seeding now',
+      { id: 'hh-goodwood', type: 'Opportunity', title: 'Goodwood preview — start seeding now',
         body: "Goodwood press list opens soon. A preview piece positions H&H early. Start it now, publish when ready." }
     ]
   },
@@ -907,10 +907,10 @@ const BRANDS = [
     notionQuery: 'CareHelm family care coordination',
     cards: [
       { id: 'ch-email', type: 'Nudge', title: 'Personal email to a recent signup',
-        body: "Not a campaign â one genuine message. 'How's it going? What made you try it?' The signal you get back is worth more than a month of analytics. Ten minutes max." },
+        body: "Not a campaign — one genuine message. 'How's it going? What made you try it?' The signal you get back is worth more than a month of analytics. Ten minutes max." },
       { id: 'ch-burnout', type: 'Opportunity', title: 'Caregiver burnout content',
         body: "Real search volume, thin competition. One well-written piece on caregiver decision fatigue positions CareHelm in a genuinely useful way and ranks for years." },
-      { id: 'ch-gm-cross', type: 'Cross-pollination', title: "Your GM thinking â CareHelm's best post",
+      { id: 'ch-gm-cross', type: 'Cross-pollination', title: "Your GM thinking → CareHelm's best post",
         body: "The ratio/intellectus framework from Gadfly maps directly onto caregiver burnout. The bridge is already built in your head." }
     ]
   },
@@ -921,12 +921,12 @@ const BRANDS = [
     daily: true,
     notionQuery: 'Gadfly Machines dialectical community',
     cards: [
-      { id: 'gm-phronesis', type: 'Opportunity', title: 'Phronesis piece â strike while warm',
+      { id: 'gm-phronesis', type: 'Opportunity', title: 'Phronesis piece — strike while warm',
         body: "The Discord thread is active. A short published piece right now crystallises the conversation into something the community can point to." },
       { id: 'gm-welcome', type: 'Nudge', title: 'Personal welcome to new member',
         body: "The community is small enough that a message from you is the whole experience. One genuine note sets the tone." },
-      { id: 'gm-ratio', type: 'Opportunity', title: 'Ratio vs. intellectus â write it out',
-        body: "This distinction is the philosophical core of Gadfly. Draft it now â even rough â and you'll have the engine behind everything else GM produces." }
+      { id: 'gm-ratio', type: 'Opportunity', title: 'Ratio vs. intellectus — write it out',
+        body: "This distinction is the philosophical core of Gadfly. Draft it now — even rough — and you'll have the engine behind everything else GM produces." }
     ]
   },
   {
@@ -936,9 +936,9 @@ const BRANDS = [
     daily: true,
     notionQuery: 'TailorPress content platform',
     cards: [
-      { id: 'tp-motion', type: 'Nudge', title: 'Ship something small â anything',
+      { id: 'tp-motion', type: 'Nudge', title: 'Ship something small — anything',
         body: "TailorPress doesn't need a launch plan. It needs motion. A changelog note, a screenshot, a single sentence update." },
-      { id: 'tp-casestudy', type: 'Opportunity', title: "First case study â it's already done",
+      { id: 'tp-casestudy', type: 'Opportunity', title: "First case study — it's already done",
         body: "The H&H Ascot guide is TailorPress's first proof of concept. A short 'here's how we built this' adds 300 words to something you've already written." }
     ]
   },
@@ -949,11 +949,11 @@ const BRANDS = [
     daily: true,
     notionQuery: 'voiceover voice acting demo reel',
     cards: [
-      { id: 'vo-outreach', type: 'Opportunity', title: 'Casting window outreach â 3 emails',
+      { id: 'vo-outreach', type: 'Opportunity', title: 'Casting window outreach — 3 emails',
         body: "Casting directors review in cycles. Three specific, targeted emails during an open window are worth ten times thirty generic ones sent cold." },
-      { id: 'vo-reel', type: 'Nudge', title: 'Demo reel update â overdue',
+      { id: 'vo-reel', type: 'Nudge', title: 'Demo reel update — overdue',
         body: "Every pitch you send points to your reel. One focused hour of editing now multiplies the return on every outreach you send this season." },
-      { id: 'vo-ch-cross', type: 'Cross-pollination', title: 'VO craft â CareHelm brand voice',
+      { id: 'vo-ch-cross', type: 'Cross-pollination', title: 'VO craft → CareHelm brand voice',
         body: "Your warmth, pacing, and presence on mic are directly transferable to CareHelm's audio and video content. These two worlds haven't met yet." }
     ]
   },
@@ -964,9 +964,9 @@ const BRANDS = [
     daily: false,
     notionQuery: 'Disputatio debate argumentation',
     cards: [
-      { id: 'di-define', type: 'Opportunity', title: 'Define what Disputatio is â in one sentence',
+      { id: 'di-define', type: 'Opportunity', title: 'Define what Disputatio is — in one sentence',
         body: "Before anything else can be built or written for this brand, the one-sentence definition needs to exist. What is it, who is it for, what does it do?" },
-      { id: 'di-gm-cross', type: 'Cross-pollination', title: 'Disputatio and Gadfly â siblings or rivals?',
+      { id: 'di-gm-cross', type: 'Cross-pollination', title: 'Disputatio and Gadfly — siblings or rivals?',
         body: "Both live in dialectical territory. Clarifying the relationship unlocks both brands." }
     ]
   },
@@ -978,7 +978,7 @@ const BRANDS = [
     cards: [
       { id: 'fd-define', type: 'Opportunity', title: 'What problem does Family Desk solve?',
         body: "Is this a product, a content brand, or a community? Getting this down in a paragraph shapes everything that follows." },
-      { id: 'fd-ch-cross', type: 'Cross-pollination', title: 'Family Desk vs. CareHelm â draw the line',
+      { id: 'fd-ch-cross', type: 'Cross-pollination', title: 'Family Desk vs. CareHelm — draw the line',
         body: "Both touch family coordination. Understanding where one ends and the other begins prevents confusion for users and focus drift for you." }
     ]
   },
@@ -990,8 +990,8 @@ const BRANDS = [
     cards: [
       { id: 'sc-define', type: 'Opportunity', title: 'What is Schola teaching, and to whom?',
         body: "The name signals classical learning. Pinning down the subject, the audience, and the format is the first real decision." },
-      { id: 'sc-gm-cross', type: 'Cross-pollination', title: 'Gadfly pedagogy â Schola curriculum',
-        body: "Socratic method, ratio and intellectus, deliberative practice â these are already the intellectual core of Gadfly. Schola might be where that thinking becomes structured learning." }
+      { id: 'sc-gm-cross', type: 'Cross-pollination', title: 'Gadfly pedagogy → Schola curriculum',
+        body: "Socratic method, ratio and intellectus, deliberative practice — these are already the intellectual core of Gadfly. Schola might be where that thinking becomes structured learning." }
     ]
   },
   {
@@ -1014,29 +1014,29 @@ const BRANDS = [
     notionQuery: 'AA LLC operations admin',
     cards: [
       { id: 'aa-tax', type: 'Admin', title: 'Tax filing',
-        body: "Federal, state, or quarterly â log time here for any tax prep, form filing, or accountant calls. Keep a record even if it feels invisible." },
+        body: "Federal, state, or quarterly — log time here for any tax prep, form filing, or accountant calls. Keep a record even if it feels invisible." },
       { id: 'aa-books', type: 'Admin', title: 'Bookkeeping & reconciliation',
         body: "Categorising transactions, reconciling accounts, reviewing P&L. The kind of work that compounds silently when skipped." },
       { id: 'aa-legal', type: 'Admin', title: 'Legal & compliance',
         body: "LLC renewals, contracts, registered agent, operating agreements. Flag it here so it doesn't slip through the cracks." },
       { id: 'aa-admin', type: 'Admin', title: 'General admin',
-        body: "Anything AA-level that doesn't fit elsewhere â insurance, banking, subscriptions, vendor calls. Log it so the invisible work gets counted." }
+        body: "Anything AA-level that doesn't fit elsewhere — insurance, banking, subscriptions, vendor calls. Log it so the invisible work gets counted." }
     ]
   }
 ];
 
 const BRAND_LABELS = {hh:'H&H',ch:'CareHelm',gm:'Gadfly',tp:'TailorPress',vo:'Voice Over',di:'Disputatio',fd:'Family Desk',sc:'Schola',aa:'AA Ops',mm:'Masked Mixer'};
 const BRAND_SUBS = {
-  hh:'British editorial â social season & countryside',
+  hh:'British editorial — social season & countryside',
   ch:'HIPAA-compliant family care coordination',
   gm:'Dialectical workshop for solo builders',
-  tp:'Content platform â in build phase',
-  vo:'Voiceover â outreach, performance, reel',
-  di:'Debate & argumentation â early stage',
+  tp:'Content platform — in build phase',
+  vo:'Voiceover — outreach, performance, reel',
+  di:'Debate & argumentation — early stage',
   fd:'Family management & household coordination',
-  sc:'Classical learning & curriculum â early stage',
+  sc:'Classical learning & curriculum — early stage',
   aa:'LLC admin, tax, legal, bookkeeping',
-  mm:'Music community â live at maskedmixer.com, auditioning for a slot'
+  mm:'Music community — live at maskedmixer.com, auditioning for a slot'
 };
 
 const STAGES = [
@@ -1238,7 +1238,7 @@ function burstFromEl(el, color, count) {
 const ALL_DONE_MESSAGES = [
   'Four for four. Take a bow.',
   'All daily brands done. Seriously.',
-  'GM â VO â H&H â TP â â Locked in.',
+  'GM ✓ VO ✓ H&H ✓ TP ✓ — Locked in.',
   'Daily quota: crushed. Go make something.',
   'Full send. Every brand got 15 min.'
 ];
@@ -1258,21 +1258,21 @@ function renderDailyPanel() {
   let panelClass, titleClass, titleText, subtitleText;
   if (!isWeekday()) {
     panelClass = 'weekend'; titleClass = 'weekend';
-    titleText = 'Daily Brands â Weekend';
+    titleText = 'Daily Brands — Weekend';
     subtitleText = 'Rest up. Back at it Monday.';
   } else if (states.every(s => s === 'done')) {
     panelClass = 'all-done'; titleClass = 'all-done';
-    titleText = 'â¦ Daily brands â all done';
+    titleText = '✦ Daily brands — all done';
     const msg = ALL_DONE_MESSAGES[new Date().getDate() % ALL_DONE_MESSAGES.length];
     subtitleText = msg;
   } else if (states.some(s => s === 'done' || s === 'partial')) {
     panelClass = 'in-progress'; titleClass = 'in-progress';
     const remaining = dailyBrands.filter((b,i) => states[i] !== 'done');
-    titleText = 'Daily brands â in progress';
+    titleText = 'Daily brands — in progress';
     subtitleText = remaining.map(b => BRAND_LABELS[b.id]).join(', ') + ' still need attention today';
   } else {
     panelClass = 'needs-attention'; titleClass = 'needs-attention';
-    titleText = 'Daily brands â not started yet';
+    titleText = 'Daily brands — not started yet';
     subtitleText = 'GM, VO, H&H, and TP each need 15 min today';
   }
 
@@ -1289,10 +1289,10 @@ function renderDailyPanel() {
     const mins = getTodayMins(b.id);
     const pct = Math.min(100, Math.round((mins / DAILY_MIN) * 100));
     let icon, label;
-    if (state === 'done')         { icon = 'â'; label = mins.toFixed(0) + ' min today'; }
-    else if (state === 'partial') { icon = 'â¦'; label = mins.toFixed(0) + ' / 15 min'; }
-    else if (state === 'undone')  { icon = 'â'; label = '0 / 15 min'; }
-    else                          { icon = 'â'; label = 'Weekend'; }
+    if (state === 'done')         { icon = '✓'; label = mins.toFixed(0) + ' min today'; }
+    else if (state === 'partial') { icon = '…'; label = mins.toFixed(0) + ' / 15 min'; }
+    else if (state === 'undone')  { icon = '○'; label = '0 / 15 min'; }
+    else                          { icon = '—'; label = 'Weekend'; }
     return `
       <div class="daily-card ${state}" onclick="selectBrand('${b.id}')" title="Click to open ${b.name}">
         <div class="daily-card-top">
@@ -1386,7 +1386,7 @@ let opsOpen = false;
 function toggleOps() {
   opsOpen = !opsOpen;
   document.getElementById('ops-row').classList.toggle('open', opsOpen);
-  document.getElementById('ops-toggle-btn').textContent = opsOpen ? 'â Hide back office' : 'â Back office';
+  document.getElementById('ops-toggle-btn').textContent = opsOpen ? '⚙ Hide back office' : '⚙ Back office';
   if (opsOpen) renderOps();
 }
 
@@ -1398,7 +1398,7 @@ function openBrandUrl(brandId) {
 function toggleDormant() {
   dormantOpen = !dormantOpen;
   document.getElementById('dormant-brands-row').classList.toggle('open', dormantOpen);
-  document.getElementById('dormant-toggle-btn').textContent = dormantOpen ? 'ð¥ Hide auditions' : 'ð¥ Auditions';
+  document.getElementById('dormant-toggle-btn').textContent = dormantOpen ? '🥁 Hide auditions' : '🥁 Auditions';
   if (dormantOpen) renderDormantBrands();
 }
 
@@ -1429,7 +1429,7 @@ let funnelOpen = false;
 function toggleFunnel() {
   funnelOpen = !funnelOpen;
   document.getElementById('funnel-panel').classList.toggle('open', funnelOpen);
-  document.getElementById('funnel-toggle-btn').textContent = funnelOpen ? 'ð Hide funnel' : 'ð Brand Funnel';
+  document.getElementById('funnel-toggle-btn').textContent = funnelOpen ? '📊 Hide funnel' : '📊 Brand Funnel';
   if (funnelOpen) renderFunnel();
 }
 
@@ -1441,6 +1441,6 @@ function renderFunnel() {
     const brands = allBrands.filter(b => getStage(b.id) === stage.id);
     const chips = brands.length
       ? brands.map(b => `<div class="funnel-chip" style="background:${stage.bg};color:${stage.color}" onclick="selectBrand('${b.id}')" title="Click to open ${b.name}">${BRAND_LABELS[b.id]}</div>`).join('')
-      : `<div class="funnel-empty">â</div>`;
+      : `<div class="funnel-empty">—</div>`;
     return `
       <
