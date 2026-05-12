@@ -855,11 +855,7 @@ const GATE_KEY = 'bb_auth';
 const GATE_PASS = 'angostura-tack-7';
 
 function gateCheck() {
-  if (localStorage.getItem(GATE_KEY) === '1') {
-    document.getElementById('gate-overlay').style.display = 'none';
-  } else {
-    setTimeout(() => document.getElementById('gate-input').focus(), 100);
-  }
+  document.getElementById('gate-overlay').style.display = 'none';
 }
 
 function gateSubmit() {
