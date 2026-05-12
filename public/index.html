@@ -1,25 +1,1446 @@
 <!DOCTYPE html>
-<html>
-<head><title>Copy Brand Band Code</title>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Band</title>
 <style>
-body { font-family: sans-serif; background: #EDEBE4; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-button { background: #111; color: #fff; border: none; border-radius: 12px; padding: 20px 40px; font-size: 20px; font-weight: 800; cursor: pointer; }
-button:hover { background: #333; }
-p { color: #555; margin-top: 16px; }
+:root { color-scheme: light; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #EDEBE4;
+  color: #111;
+  padding: 14px 16px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display: inline; letter-spacing: -0.02em; }
+.tagline { font-size: 13px; color: #888; display: inline; margin-left: 10px; }
+.title-row { margin-bottom: 12px; }
+
+.how-to-use {
+  font-size: 13px; color: #555;
+  background: #fff;
+  border-left: 3px solid #bbb;
+  border-radius: 0 8px 8px 0;
+  padding: 8px 14px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.how-to-use strong { font-weight: 700; }
+
+/* ============================================================
+   DAILY BRANDS PANEL
+   ============================================================ */
+.daily-panel {
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border: 2px solid transparent;
+}
+.daily-panel.all-done {
+  background: #E6F9F0;
+  border-color: #1D9E75;
+  animation: allDoneBounce 0.7s ease-out both;
+}
+.daily-panel.in-progress {
+  background: #FFF8E6;
+  border-color: #D4900A;
+}
+.daily-panel.needs-attention {
+  background: #FFF0EE;
+  border-color: #C04B20;
+}
+.daily-panel.weekend {
+  background: #F5F4F0;
+  border-color: #ccc;
+}
+
+.daily-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px; flex-wrap: wrap; gap: 4px;
+}
+.daily-title {
+  font-size: 12px; font-weight: 800;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.daily-title.all-done  { color: #1D9E75; }
+.daily-title.in-progress { color: #8A6010; }
+.daily-title.needs-attention { color: #C04B20; }
+.daily-title.weekend   { color: #888; }
+.daily-subtitle { font-size: 12px; color: #777; }
+
+.daily-cards-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.daily-card {
+  flex: 1; min-width: 110px;
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex; flex-direction: column; gap: 6px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.18s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.15s;
+  position: relative;
+}
+.daily-card:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 6px 18px rgba(0,0,0,0.11); }
+
+/* States */
+.daily-card.done     { background: #fff; border-color: #1D9E75; }
+.daily-card.partial  { background: #fff; border-color: #D4900A; }
+.daily-card.undone   { background: #fff; border-color: #E0C8C4; }
+.daily-card.weekend  { background: #F8F7F4; border-color: #ddd; }
+
+.daily-card-top { display: flex; align-items: center; justify-content: space-between; }
+.daily-brand-name { font-size: 14px; font-weight: 800; }
+
+.daily-status-icon { font-size: 16px; line-height: 1; }
+
+.daily-progress-track {
+  height: 5px; background: #F0EDE6; border-radius: 3px; overflow: hidden;
+}
+.daily-progress-fill {
+  height: 100%; border-radius: 4px;
+  transition: width 0.6s cubic-bezier(.17,.67,.35,1.2);
+}
+.daily-card.done    .daily-progress-fill { background: #1D9E75; }
+.daily-card.partial .daily-progress-fill { background: #D4900A; }
+.daily-card.undone  .daily-progress-fill { background: #E8C4BE; }
+
+.daily-mins-label { font-size: 11px; font-weight: 600; }
+.daily-card.done    .daily-mins-label { color: #1D9E75; }
+.daily-card.partial .daily-mins-label { color: #8A6010; }
+.daily-card.undone  .daily-mins-label { color: #999; }
+.daily-card.weekend .daily-mins-label { color: #aaa; }
+
+/* ============================================================
+   HEALTH STRIP
+   ============================================================ */
+.health-strip {
+  display: inline-block;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 14px 12px;
+  margin-bottom: 10px;
+}
+.health-strip-title {
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #888; margin-bottom: 10px;
+}
+.health-rows { display: flex; flex-direction: column; gap: 6px; }
+.health-row { display: flex; align-items: center; gap: 10px; }
+.health-brand-label { font-size: 13px; font-weight: 700; color: #111; width: 88px; flex-shrink: 0; }
+.health-daily-pip {
+  width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.health-dots { display: flex; gap: 4px; align-items: center; flex: 1; }
+.health-day-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+  transition: transform 0.15s;
+}
+.health-day-dot:hover { transform: scale(1.4); }
+.health-day-dot[title]:hover::after {
+  content: attr(title);
+  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: #111; color: #fff; font-size: 11px; font-weight: 600;
+  padding: 3px 7px; border-radius: 5px; white-space: nowrap;
+  pointer-events: none; z-index: 10;
+}
+.health-age-label { font-size: 12px; font-weight: 600; width: 72px; flex-shrink: 0; text-align: right; }
+.age-fresh { color: #1D9E75; }
+.age-ok    { color: #8A5E10; }
+.age-stale { color: #C04B20; }
+.age-cold  { color: #aaa; }
+.health-day-label-row {
+  display: flex; gap: 4px; align-items: center;
+  padding-left: calc(88px + 6px + 10px + 10px);
+  margin-top: -2px; margin-bottom: 4px;
+}
+.health-day-label { width: 12px; text-align: center; font-size: 10px; color: #aaa; font-weight: 600; flex-shrink: 0; }
+
+
+/* ============================================================
+   LOADING BAR
+   ============================================================ */
+.load-bar-wrap { height: 2px; background: #ddd; border-radius: 2px; margin-bottom: 10px; overflow: hidden; }
+.load-bar-fill { height: 100%; background: #444; border-radius: 2px; width: 0; transition: width 0.3s ease, opacity 0.6s; }
+
+/* ============================================================
+   TIMER BANNER
+   ============================================================ */
+.timer-banner {
+  display: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, #0f0f18 0%, #1a1040 33%, #0f180f 66%, #1a0f18 100%);
+  background-size: 400% 400%;
+}
+.timer-banner.visible {
+  display: flex;
+  animation: timerGlow 8s ease infinite;
+}
+@keyframes timerGlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.timer-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #888; margin-bottom: 2px;
+  display: flex; align-items: center; gap: 6px;
+}
+.timer-live-dot {
+  display: inline-block;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #4ADE80;
+  animation: liveDotPulse 1.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes liveDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.3; transform: scale(0.6); }
+}
+.timer-card-name { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 1px; }
+.timer-brand-name { font-size: 12px; color: #aaa; }
+.timer-right { display: flex; align-items: center; gap: 14px; }
+.timer-clock { font-size: 36px; font-weight: 800; color: #fff; letter-spacing: -1px; font-variant-numeric: tabular-nums; min-width: 120px; }
+.stop-btn {
+  background: #fff; color: #111;
+  border: none; border-radius: 8px;
+  padding: 9px 20px; font-size: 14px; font-weight: 800;
+  cursor: pointer; flex-shrink: 0;
+  transition: background 0.15s, transform 0.12s;
+}
+.stop-btn:hover { background: #eee; transform: scale(1.05); }
+.stop-btn:active { transform: scale(0.96); }
+
+/* ============================================================
+   BRAND SELECTOR
+   ============================================================ */
+.section-label {
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #888; margin-bottom: 8px;
+}
+.brands-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.brand-btn {
+  flex: 1; min-width: 80px;
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  padding: 10px 8px 8px;
+  cursor: pointer; text-align: center;
+  transition: border-color 0.15s, transform 0.18s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.15s;
+  user-select: none;
+  position: relative;
+}
+.brand-btn:hover { border-color: #888; transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.10); }
+.brand-btn.active { border-width: 2px; color: #fff; box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
+.brand-btn.active .brand-last { color: rgba(255,255,255,0.75); }
+.brand-initials { font-size: 15px; font-weight: 800; margin-bottom: 3px; }
+.brand-short-name { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
+.brand-last { font-size: 10px; color: #777; font-weight: 500; }
+.daily-required-pip {
+  position: absolute; top: 8px; right: 8px;
+  width: 8px; height: 8px; border-radius: 50%;
+}
+
+/* Back office row */
+.ops-brands-row {
+  display: none; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.ops-brands-row.open { display: flex; }
+.ops-brands-row .brand-btn { flex: 0 0 auto; min-width: 90px; opacity: 0.85; }
+
+/* Stage pip on brand buttons */
+.brand-stage-pip {
+  display: inline-block;
+  font-size: 9px; font-weight: 800;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 20px;
+  margin-top: 5px; cursor: pointer;
+  transition: opacity 0.15s, transform 0.12s;
+  user-select: none;
+}
+.brand-stage-pip:hover { opacity: 0.75; transform: scale(1.08); }
+
+/* Funnel panel */
+.funnel-panel { display: none; margin-bottom: 12px; }
+.funnel-panel.open { display: block; }
+.funnel-grid { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+.funnel-col { flex: 1; min-width: 72px; }
+.funnel-col-header {
+  font-size: 9px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.08em; padding: 5px 8px;
+  border-radius: 7px 7px 0 0; text-align: center;
+  border-bottom: 2px solid rgba(0,0,0,0.07);
+}
+.funnel-col-body {
+  background: #fff; border-radius: 0 0 8px 8px;
+  padding: 6px; min-height: 32px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.funnel-chip {
+  font-size: 11px; font-weight: 700;
+  padding: 4px 6px; border-radius: 6px;
+  text-align: center; cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.funnel-chip:hover { opacity: 0.7; }
+.funnel-empty { font-size: 11px; color: #ccc; text-align: center; padding: 4px 0; }
+
+/* Brand button pop animation */
+@keyframes brandBtnPop {
+  0%   { transform: scale(1) rotate(0deg); }
+  35%  { transform: scale(1.13) rotate(-1.5deg); }
+  65%  { transform: scale(0.96) rotate(1deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.brand-btn.popping { animation: brandBtnPop 0.38s cubic-bezier(.36,.07,.19,.97) both; }
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.cards-header { margin-bottom: 10px; }
+.cards-headline { font-size: 17px; font-weight: 800; color: #111; margin-bottom: 2px; }
+.cards-sub { font-size: 13px; color: #666; }
+
+.cards-empty {
+  text-align: center; padding: 60px 20px;
+  font-size: 18px; color: #888; font-weight: 500;
+}
+.cards-empty span { display: block; font-size: 40px; margin-bottom: 12px; }
+
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+
+.work-card {
+  background: #fff;
+  border: 2px solid #e8e5e0;
+  border-radius: 14px;
+  padding: 14px 16px;
+  transition: border-color 0.15s, transform 0.22s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.2s;
+  position: relative;
+}
+.work-card:hover { border-color: #aaa; transform: translateY(-4px) rotate(-0.6deg); box-shadow: 0 8px 24px rgba(0,0,0,0.11); }
+.work-card:nth-child(2n):hover { transform: translateY(-4px) rotate(0.6deg); }
+.work-card.is-running { border-width: 3px; box-shadow: 0 6px 24px rgba(0,0,0,0.15); }
+
+/* Card launch animation */
+@keyframes cardLaunch {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.04) rotate(-0.4deg); }
+  65%  { transform: scale(0.98) rotate(0.4deg); }
+  100% { transform: scale(1); }
+}
+.work-card.launching { animation: cardLaunch 0.42s cubic-bezier(.36,.07,.19,.97) both; }
+
+.card-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 700;
+  margin-bottom: 8px;
+}
+.badge-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+.card-title { font-size: 15px; font-weight: 800; color: #111; line-height: 1.3; margin-bottom: 6px; }
+.card-body  { font-size: 13px; color: #444; line-height: 1.6; margin-bottom: 12px; }
+
+.card-footer {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 10px;
+}
+.card-last { font-size: 12px; color: #888; font-weight: 500; }
+
+.start-btn {
+  background: #111; color: #fff;
+  border: none; border-radius: 8px;
+  padding: 8px 18px; font-size: 13px; font-weight: 800;
+  cursor: pointer; white-space: nowrap;
+  transition: opacity 0.15s, transform 0.12s;
+}
+.start-btn:hover { opacity: 0.85; transform: scale(1.05); }
+.start-btn:active { transform: scale(0.95); }
+.start-btn.active-btn { background: #555; }
+
+/* ============================================================
+   ADD CARD BUTTON + MODAL
+   ============================================================ */
+.add-card-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: transparent;
+  border: 2.5px dashed #ccc;
+  border-radius: 18px;
+  padding: 22px;
+  cursor: pointer;
+  font-size: 16px; font-weight: 700; color: #888;
+  transition: border-color 0.15s, color 0.15s, background 0.15s, transform 0.15s;
+  width: 100%;
+}
+.add-card-btn:hover { border-color: #888; color: #444; background: rgba(255,255,255,0.6); transform: scale(1.01); }
+.add-card-btn-plus { font-size: 24px; line-height: 1; }
+
+/* Modal overlay */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1000;
+  align-items: center; justify-content: center;
+  padding: 24px;
+}
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 28px 24px;
+  width: 100%; max-width: 480px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-title { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 20px; }
+
+.form-field { margin-bottom: 16px; }
+.form-label {
+  display: block;
+  font-size: 13px; font-weight: 700;
+  color: #555; margin-bottom: 6px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.form-input, .form-textarea, .form-select {
+  width: 100%;
+  font-size: 16px; color: #111;
+  background: #F5F4F1;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: inherit;
+  transition: border-color 0.15s;
+  outline: none;
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus { border-color: #888; background: #fff; }
+.form-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+.btn-primary {
+  flex: 1;
+  background: #111; color: #fff;
+  border: none; border-radius: 12px;
+  padding: 14px; font-size: 16px; font-weight: 800;
+  cursor: pointer; transition: opacity 0.15s, transform 0.12s;
+}
+.btn-primary:hover { opacity: 0.8; transform: scale(1.02); }
+.btn-secondary {
+  background: #F0EDE6; color: #333;
+  border: none; border-radius: 12px;
+  padding: 14px 20px; font-size: 16px; font-weight: 700;
+  cursor: pointer; transition: background 0.15s;
+}
+.btn-secondary:hover { background: #E5E2DA; }
+
+/* Delete button on custom cards */
+.card-delete-btn {
+  position: absolute; top: 14px; right: 14px;
+  background: none; border: none;
+  font-size: 16px; color: #ccc; cursor: pointer;
+  line-height: 1; padding: 2px 6px; border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+.card-delete-btn:hover { color: #C04B20; background: #FAECE7; }
+
+/* ============================================================
+   TIME LOG
+   ============================================================ */
+.time-log-section { margin-top: 32px; }
+.time-log-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
+}
+.time-log-toggle {
+  background: none; border: 2px solid #ccc;
+  border-radius: 10px; padding: 8px 16px;
+  font-size: 14px; font-weight: 700; color: #555;
+  cursor: pointer; transition: all 0.15s;
+}
+.time-log-toggle:hover { border-color: #888; color: #111; }
+.log-manual-btn {
+  background: #111; color: #fff;
+  border: none; border-radius: 10px;
+  padding: 8px 16px; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: opacity 0.15s, transform 0.12s;
+}
+.log-manual-btn:hover { opacity: 0.75; transform: scale(1.03); }
+
+/* Brand totals table */
+.brand-totals {
+  background: #fff; border-radius: 16px;
+  overflow: hidden; margin-bottom: 20px;
+}
+.totals-table { width: 100%; border-collapse: collapse; }
+.totals-table th {
+  font-size: 12px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.08em; color: #777;
+  padding: 12px 16px; text-align: left;
+  border-bottom: 2px solid #F0EDE6;
+  background: #FAFAF8;
+}
+.totals-table th:not(:first-child) { text-align: right; }
+.totals-table td {
+  padding: 12px 16px; font-size: 15px; color: #111;
+  border-bottom: 1px solid #F0EDE6;
+}
+.totals-table tr:last-child td { border-bottom: none; }
+.totals-table td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+.totals-brand-cell { display: flex; align-items: center; gap: 10px; }
+.totals-brand-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.totals-brand-name { font-weight: 700; }
+.totals-zero { color: #bbb; }
+
+/* Session history */
+.session-history { background: #fff; border-radius: 16px; overflow: hidden; }
+.history-entry {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 8px 16px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #F0EDE6;
+  align-items: start;
+}
+.history-entry:last-child { border-bottom: none; }
+.history-date { font-size: 13px; color: #999; font-weight: 600; padding-top: 2px; }
+.history-detail {}
+.history-card-title { font-size: 15px; font-weight: 700; color: #111; }
+.history-brand { font-size: 13px; color: #777; margin-top: 2px; }
+.history-manual-tag {
+  font-size: 11px; font-weight: 700; color: #888;
+  background: #F0EDE6; border-radius: 4px; padding: 1px 6px;
+  display: inline-block; margin-left: 6px; vertical-align: middle;
+}
+.history-mins { font-size: 15px; font-weight: 700; color: #333; white-space: nowrap; padding-top: 2px; }
+.history-delete {
+  background: none; border: none; color: #ddd;
+  cursor: pointer; font-size: 14px; padding: 2px 4px;
+  transition: color 0.15s;
+}
+.history-delete:hover { color: #C04B20; }
+
+.no-sessions { padding: 32px; text-align: center; font-size: 15px; color: #aaa; }
+
+/* ============================================================
+   DORMANT BRANDS
+   ============================================================ */
+.dormant-toggle-row { margin-bottom: 12px; }
+.dormant-toggle-btn {
+  background: none; border: 2px solid #ddd;
+  border-radius: 10px; padding: 6px 14px;
+  font-size: 12px; font-weight: 700; color: #999;
+  cursor: pointer; transition: all 0.15s;
+  letter-spacing: 0.04em;
+}
+.dormant-toggle-btn:hover { border-color: #aaa; color: #555; }
+.dormant-brands-row {
+  display: none; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.dormant-brands-row.open { display: flex; }
+
+/* ============================================================
+   CARDS TABS (Cards / Backend)
+   ============================================================ */
+.cards-tabs {
+  display: flex; gap: 6px; margin-bottom: 14px;
+}
+.cards-tab {
+  padding: 7px 18px; border-radius: 8px;
+  font-size: 13px; font-weight: 700;
+  border: 2px solid #ddd; background: #fff;
+  cursor: pointer; color: #777;
+  transition: all 0.15s, transform 0.12s;
+}
+.cards-tab.active { background: #111; border-color: #111; color: #fff; }
+.cards-tab:hover:not(.active) { border-color: #aaa; color: #333; transform: translateY(-1px); }
+
+/* ============================================================
+   BACKEND PANEL
+   ============================================================ */
+.backend-panel { display: none; }
+.backend-panel.open { display: block; }
+
+.backend-section { margin-bottom: 20px; }
+.backend-section-title {
+  font-size: 11px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.1em; color: #888; margin-bottom: 10px;
+}
+.backend-field {
+  background: #fff; border-radius: 12px;
+  padding: 14px 16px; margin-bottom: 8px;
+}
+.backend-field-label {
+  font-size: 11px; font-weight: 700; color: #aaa;
+  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;
+}
+.backend-field-value {
+  font-size: 14px; color: #111; font-weight: 500; line-height: 1.5;
+}
+.backend-field-value a { color: #185FA5; text-decoration: none; }
+.backend-field-value a:hover { text-decoration: underline; }
+
+.backend-tool-row {
+  display: flex; gap: 10px; align-items: baseline;
+  padding: 10px 0; border-bottom: 1px solid #F0EDE6;
+}
+.backend-tool-row:last-child { border-bottom: none; }
+.backend-tool-name { font-size: 13px; font-weight: 700; color: #111; min-width: 120px; flex-shrink: 0; }
+.backend-tool-detail { font-size: 13px; color: #555; line-height: 1.5; }
+
+.backend-tools-block {
+  background: #fff; border-radius: 12px; padding: 4px 16px; margin-bottom: 8px;
+}
+.backend-empty { color: #bbb; font-size: 13px; padding: 8px 0; }
+
+.backend-add-btn {
+  background: none; border: 2px dashed #ccc;
+  border-radius: 10px; padding: 10px 16px;
+  font-size: 13px; font-weight: 700; color: #aaa;
+  cursor: pointer; width: 100%; transition: all 0.15s;
+}
+.backend-add-btn:hover { border-color: #888; color: #555; }
+
+.backend-notes-input {
+  width: 100%; background: #fff; border: 2px solid transparent;
+  border-radius: 12px; padding: 14px 16px;
+  font-size: 14px; color: #111; font-family: inherit;
+  resize: vertical; min-height: 80px; line-height: 1.6;
+  outline: none; transition: border-color 0.15s;
+}
+.backend-notes-input:focus { border-color: #888; }
+.backend-notes-input::placeholder { color: #ccc; }
+
+/* ============================================================
+   PASSWORD GATE
+   ============================================================ */
+.gate-overlay {
+  position: fixed; inset: 0;
+  background: #EDEBE4;
+  z-index: 99999;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.gate-box {
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px 32px 28px;
+  width: 100%; max-width: 360px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  text-align: center;
+}
+.gate-title { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 6px; letter-spacing: -0.02em; }
+.gate-sub { font-size: 13px; color: #888; margin-bottom: 24px; }
+.gate-input {
+  width: 100%; font-size: 16px; color: #111;
+  background: #F5F4F1; border: 2px solid transparent;
+  border-radius: 10px; padding: 12px 14px;
+  font-family: inherit; outline: none;
+  transition: border-color 0.15s; margin-bottom: 12px;
+  text-align: center; letter-spacing: 0.04em;
+}
+.gate-input:focus { border-color: #888; background: #fff; }
+.gate-input.error { border-color: #C04B20; animation: gateShake 0.35s ease; }
+.gate-btn {
+  width: 100%; background: #111; color: #fff;
+  border: none; border-radius: 12px;
+  padding: 14px; font-size: 16px; font-weight: 800;
+  cursor: pointer; transition: opacity 0.15s, transform 0.12s;
+}
+.gate-btn:hover { opacity: 0.8; transform: scale(1.02); }
+.gate-error { font-size: 13px; color: #C04B20; margin-top: 10px; min-height: 18px; }
+@keyframes gateShake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-8px); }
+  75%       { transform: translateX(8px); }
+}
+
+/* ============================================================
+   CONFETTI
+   ============================================================ */
+.confetti-piece {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 2px;
+  will-change: transform, opacity;
+}
+@keyframes confettiBurst {
+  0%   { transform: translate(0,0) rotate(0deg) scale(1); opacity: 1; }
+  75%  { opacity: 0.9; }
+  100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0; }
+}
+
+/* All-done bounce */
+@keyframes allDoneBounce {
+  0%   { transform: scale(1); }
+  20%  { transform: scale(1.016); }
+  45%  { transform: scale(0.996); }
+  65%  { transform: scale(1.008); }
+  100% { transform: scale(1); }
+}
 </style>
 </head>
 <body>
-<h2>Brand Band Updater</h2>
-<button onclick="copyCode()">📋 Copy code to clipboard</button>
-<p id="msg"></p>
+
+<!-- Password gate -->
+<div class="gate-overlay" id="gate-overlay">
+  <div class="gate-box">
+    <div class="gate-title">Brand Band</div>
+    <div class="gate-sub">Enter password to continue</div>
+    <input class="gate-input" id="gate-input" type="password" placeholder="••••••••••••••"
+      onkeydown="if(event.key==='Enter') gateSubmit()">
+    <button class="gate-btn" onclick="gateSubmit()">Enter</button>
+    <div class="gate-error" id="gate-error"></div>
+  </div>
+</div>
+
+<div class="title-row"><h1>Brand Band</h1><span class="tagline">Eight brands. One brain. Let's go.</span></div>
+<div class="how-to-use">Pick a brand. Pick a card. Hit <strong>Start</strong>. Everything else is noise.</div>
+
+<!-- Daily brands panel -->
+<div class="daily-panel" id="daily-panel">
+  <div class="daily-header">
+    <div class="daily-title" id="daily-title">Daily brands</div>
+    <div class="daily-subtitle" id="daily-subtitle">15 min minimum each, every weekday</div>
+  </div>
+  <div class="daily-cards-row" id="daily-cards-row"></div>
+</div>
+
+<!-- Brand health strip -->
+<div class="health-strip">
+  <div class="health-strip-title">Last time you worked on each brand</div>
+  <div class="health-rows" id="health-rows"></div>
+</div>
+
+<div class="load-bar-wrap"><div class="load-bar-fill" id="load-bar"></div></div>
+
+<!-- Timer banner -->
+<div class="timer-banner" id="timer-banner">
+  <div class="timer-left">
+    <div class="timer-eyebrow"><span class="timer-live-dot"></span>Now working on</div>
+    <div class="timer-card-name" id="timer-card-name">—</div>
+    <div class="timer-brand-name" id="timer-brand-name">—</div>
+  </div>
+  <div class="timer-right">
+    <div class="timer-clock" id="timer-clock">00:00:00</div>
+    <button class="stop-btn" onclick="stopTimer()">Stop</button>
+  </div>
+</div>
+
+<!-- Brand selector -->
+<div class="section-label">Select a brand to see its cards</div>
+<div class="brands-row" id="brands-row"></div>
+
+<!-- Dormant brands -->
+<div class="dormant-toggle-row">
+  <button class="dormant-toggle-btn" id="dormant-toggle-btn" onclick="toggleDormant()">🥁 Auditions</button>
+</div>
+<div class="dormant-brands-row" id="dormant-brands-row"></div>
+
+<!-- Back office -->
+<div class="dormant-toggle-row">
+  <button class="dormant-toggle-btn" id="ops-toggle-btn" onclick="toggleOps()">⚙ Back office</button>
+</div>
+<div class="ops-brands-row" id="ops-row"></div>
+
+<!-- Brand Funnel -->
+<div class="dormant-toggle-row">
+  <button class="dormant-toggle-btn" id="funnel-toggle-btn" onclick="toggleFunnel()">📊 Brand Funnel</button>
+</div>
+<div class="funnel-panel" id="funnel-panel"></div>
+
+<!-- Cards -->
+<div class="cards-area" id="cards-area">
+  <div class="cards-empty"><span>↑</span>Pick a brand above to see its work cards</div>
+</div>
+
+<!-- Add card modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title" id="modal-title">Add a card</div>
+    <div class="form-field">
+      <label class="form-label">Title</label>
+      <input class="form-input" id="card-title-input" type="text" placeholder="What needs doing?" maxlength="80">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Note <span style="font-weight:500;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <textarea class="form-textarea" id="card-body-input" placeholder="Context, why it matters, what to do first…"></textarea>
+    </div>
+    <div class="form-field">
+      <label class="form-label">Type</label>
+      <select class="form-select" id="card-type-input">
+        <option value="Opportunity">Opportunity — something to act on</option>
+        <option value="Nudge">Nudge — a gentle reminder</option>
+        <option value="Cross-pollination">Cross-pollination — connects two brands</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" id="modal-brand-btn" onclick="saveCard()">Add card</button>
+    </div>
+  </div>
+</div>
+
+<!-- Manual log modal -->
+<div class="modal-overlay" id="manual-modal-overlay" onclick="closeManualModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Log time manually</div>
+    <div class="form-field">
+      <label class="form-label">Brand</label>
+      <select class="form-select" id="manual-brand-select" onchange="populateManualCards()">
+        <option value="">— pick a brand —</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label class="form-label">Card / task</label>
+      <select class="form-select" id="manual-card-select">
+        <option value="">— pick a card —</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label class="form-label">Minutes</label>
+      <input class="form-input" id="manual-mins-input" type="number" min="1" max="480" placeholder="e.g. 45">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Date</label>
+      <input class="form-input" id="manual-date-input" type="date">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Note <span style="font-weight:500;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input class="form-input" id="manual-note-input" type="text" placeholder="What did you do?">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeManualModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveManualEntry()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Time log section -->
+<div class="time-log-section" id="time-log-section">
+  <div class="time-log-header">
+    <div class="section-label" style="margin-bottom:0">Time log</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="log-manual-btn" onclick="openManualModal()">+ Log time manually</button>
+      <button class="time-log-toggle" id="time-log-toggle" onclick="toggleTimeLog()">Show details ▾</button>
+    </div>
+  </div>
+  <div id="brand-totals-wrap"></div>
+  <div id="session-history-wrap" style="display:none"></div>
+</div>
+
+
 <script>
-const code = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Brand Band</title>\n<style>\n:root { color-scheme: light; }\n* { box-sizing: border-box; margin: 0; padding: 0; }\n\nbody {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;\n  background: #EDEBE4;\n  color: #111;\n  padding: 14px 16px;\n  font-size: 15px;\n  line-height: 1.4;\n}\n\nh1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display: inline; letter-spacing: -0.02em; }\n.tagline { font-size: 13px; color: #888; display: inline; margin-left: 10px; }\n.title-row { margin-bottom: 12px; }\n\n.how-to-use {\n  font-size: 13px; color: #555;\n  background: #fff;\n  border-left: 3px solid #bbb;\n  border-radius: 0 8px 8px 0;\n  padding: 8px 14px;\n  margin-bottom: 12px;\n  line-height: 1.5;\n}\n.how-to-use strong { font-weight: 700; }\n\n/* ============================================================\n   DAILY BRANDS PANEL\n   ============================================================ */\n.daily-panel {\n  border-radius: 12px;\n  padding: 12px 14px;\n  margin-bottom: 10px;\n  border: 2px solid transparent;\n}\n.daily-panel.all-done {\n  background: #E6F9F0;\n  border-color: #1D9E75;\n  animation: allDoneBounce 0.7s ease-out both;\n}\n.daily-panel.in-progress {\n  background: #FFF8E6;\n  border-color: #D4900A;\n}\n.daily-panel.needs-attention {\n  background: #FFF0EE;\n  border-color: #C04B20;\n}\n.daily-panel.weekend {\n  background: #F5F4F0;\n  border-color: #ccc;\n}\n\n.daily-header {\n  display: flex; align-items: center; justify-content: space-between;\n  margin-bottom: 8px; flex-wrap: wrap; gap: 4px;\n}\n.daily-title {\n  font-size: 12px; font-weight: 800;\n  letter-spacing: 0.08em; text-transform: uppercase;\n}\n.daily-title.all-done  { color: #1D9E75; }\n.daily-title.in-progress { color: #8A6010; }\n.daily-title.needs-attention { color: #C04B20; }\n.daily-title.weekend   { color: #888; }\n.daily-subtitle { font-size: 12px; color: #777; }\n\n.daily-cards-row { display: flex; gap: 8px; flex-wrap: wrap; }\n\n.daily-card {\n  flex: 1; min-width: 110px;\n  border-radius: 10px;\n  padding: 10px 12px;\n  display: flex; flex-direction: column; gap: 6px;\n  border: 2px solid transparent;\n  cursor: pointer;\n  transition: transform 0.18s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.15s;\n  position: relative;\n}\n.daily-card:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 6px 18px rgba(0,0,0,0.11); }\n\n/* States */\n.daily-card.done     { background: #fff; border-color: #1D9E75; }\n.daily-card.partial  { background: #fff; border-color: #D4900A; }\n.daily-card.undone   { background: #fff; border-color: #E0C8C4; }\n.daily-card.weekend  { background: #F8F7F4; border-color: #ddd; }\n\n.daily-card-top { display: flex; align-items: center; justify-content: space-between; }\n.daily-brand-name { font-size: 14px; font-weight: 800; }\n\n.daily-status-icon { font-size: 16px; line-height: 1; }\n\n.daily-progress-track {\n  height: 5px; background: #F0EDE6; border-radius: 3px; overflow: hidden;\n}\n.daily-progress-fill {\n  height: 100%; border-radius: 4px;\n  transition: width 0.6s cubic-bezier(.17,.67,.35,1.2);\n}\n.daily-card.done    .daily-progress-fill { background: #1D9E75; }\n.daily-card.partial .daily-progress-fill { background: #D4900A; }\n.daily-card.undone  .daily-progress-fill { background: #E8C4BE; }\n\n.daily-mins-label { font-size: 11px; font-weight: 600; }\n.daily-card.done    .daily-mins-label { color: #1D9E75; }\n.daily-card.partial .daily-mins-label { color: #8A6010; }\n.daily-card.undone  .daily-mins-label { color: #999; }\n.daily-card.weekend .daily-mins-label { color: #aaa; }\n\n/* ============================================================\n   HEALTH STRIP\n   ============================================================ */\n.health-strip {\n  display: inline-block;\n  background: #fff;\n  border-radius: 12px;\n  padding: 10px 14px 12px;\n  margin-bottom: 10px;\n}\n.health-strip-title {\n  font-size: 11px; font-weight: 800;\n  letter-spacing: 0.1em; text-transform: uppercase;\n  color: #888; margin-bottom: 10px;\n}\n.health-rows { display: flex; flex-direction: column; gap: 6px; }\n.health-row { display: flex; align-items: center; gap: 10px; }\n.health-brand-label { font-size: 13px; font-weight: 700; color: #111; width: 88px; flex-shrink: 0; }\n.health-daily-pip {\n  width: 6px; height: 6px; border-radius: 50%;\n  flex-shrink: 0;\n}\n.health-dots { display: flex; gap: 4px; align-items: center; flex: 1; }\n.health-day-dot {\n  width: 12px; height: 12px; border-radius: 50%;\n  flex-shrink: 0;\n  position: relative;\n  transition: transform 0.15s;\n}\n.health-day-dot:hover { transform: scale(1.4); }\n.health-day-dot[title]:hover::after {\n  content: attr(title);\n  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);\n  background: #111; color: #fff; font-size: 11px; font-weight: 600;\n  padding: 3px 7px; border-radius: 5px; white-space: nowrap;\n  pointer-events: none; z-index: 10;\n}\n.health-age-label { font-size: 12px; font-weight: 600; width: 72px; flex-shrink: 0; text-align: right; }\n.age-fresh { color: #1D9E75; }\n.age-ok    { color: #8A5E10; }\n.age-stale { color: #C04B20; }\n.age-cold  { color: #aaa; }\n.health-day-label-row {\n  display: flex; gap: 4px; align-items: center;\n  padding-left: calc(88px + 6px + 10px + 10px);\n  margin-top: -2px; margin-bottom: 4px;\n}\n.health-day-label { width: 12px; text-align: center; font-size: 10px; color: #aaa; font-weight: 600; flex-shrink: 0; }\n\n\n/* ============================================================\n   LOADING BAR\n   ============================================================ */\n.load-bar-wrap { height: 2px; background: #ddd; border-radius: 2px; margin-bottom: 10px; overflow: hidden; }\n.load-bar-fill { height: 100%; background: #444; border-radius: 2px; width: 0; transition: width 0.3s ease, opacity 0.6s; }\n\n/* ============================================================\n   TIMER BANNER\n   ============================================================ */\n.timer-banner {\n  display: none;\n  border-radius: 12px;\n  padding: 12px 16px;\n  margin-bottom: 10px;\n  align-items: center;\n  justify-content: space-between;\n  gap: 12px;\n  flex-wrap: wrap;\n  background: linear-gradient(135deg, #0f0f18 0%, #1a1040 33%, #0f180f 66%, #1a0f18 100%);\n  background-size: 400% 400%;\n}\n.timer-banner.visible {\n  display: flex;\n  animation: timerGlow 8s ease infinite;\n}\n@keyframes timerGlow {\n  0%   { background-position: 0% 50%; }\n  50%  { background-position: 100% 50%; }\n  100% { background-position: 0% 50%; }\n}\n\n.timer-eyebrow {\n  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;\n  text-transform: uppercase; color: #888; margin-bottom: 2px;\n  display: flex; align-items: center; gap: 6px;\n}\n.timer-live-dot {\n  display: inline-block;\n  width: 7px; height: 7px; border-radius: 50%;\n  background: #4ADE80;\n  animation: liveDotPulse 1.4s ease-in-out infinite;\n  flex-shrink: 0;\n}\n@keyframes liveDotPulse {\n  0%, 100% { opacity: 1; transform: scale(1); }\n  50%       { opacity: 0.3; transform: scale(0.6); }\n}\n.timer-card-name { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 1px; }\n.timer-brand-name { font-size: 12px; color: #aaa; }\n.timer-right { display: flex; align-items: center; gap: 14px; }\n.timer-clock { font-size: 36px; font-weight: 800; color: #fff; letter-spacing: -1px; font-variant-numeric: tabular-nums; min-width: 120px; }\n.stop-btn {\n  background: #fff; color: #111;\n  border: none; border-radius: 8px;\n  padding: 9px 20px; font-size: 14px; font-weight: 800;\n  cursor: pointer; flex-shrink: 0;\n  transition: background 0.15s, transform 0.12s;\n}\n.stop-btn:hover { background: #eee; transform: scale(1.05); }\n.stop-btn:active { transform: scale(0.96); }\n\n/* ============================================================\n   BRAND SELECTOR\n   ============================================================ */\n.section-label {\n  font-size: 11px; font-weight: 800;\n  letter-spacing: 0.1em; text-transform: uppercase;\n  color: #888; margin-bottom: 8px;\n}\n.brands-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }\n.brand-btn {\n  flex: 1; min-width: 80px;\n  background: #fff;\n  border: 2px solid #ddd;\n  border-radius: 12px;\n  padding: 10px 8px 8px;\n  cursor: pointer; text-align: center;\n  transition: border-color 0.15s, transform 0.18s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.15s;\n  user-select: none;\n  position: relative;\n}\n.brand-btn:hover { border-color: #888; transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.10); }\n.brand-btn.active { border-width: 2px; color: #fff; box-shadow: 0 6px 20px rgba(0,0,0,0.18); }\n.brand-btn.active .brand-last { color: rgba(255,255,255,0.75); }\n.brand-initials { font-size: 15px; font-weight: 800; margin-bottom: 3px; }\n.brand-short-name { font-size: 11px; font-weight: 700; margin-bottom: 4px; }\n.brand-last { font-size: 10px; color: #777; font-weight: 500; }\n.daily-required-pip {\n  position: absolute; top: 8px; right: 8px;\n  width: 8px; height: 8px; border-radius: 50%;\n}\n\n/* Back office row */\n.ops-brands-row {\n  display: none; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;\n}\n.ops-brands-row.open { display: flex; }\n.ops-brands-row .brand-btn { flex: 0 0 auto; min-width: 90px; opacity: 0.85; }\n\n/* Stage pip on brand buttons */\n.brand-stage-pip {\n  display: inline-block;\n  font-size: 9px; font-weight: 800;\n  letter-spacing: 0.04em; text-transform: uppercase;\n  padding: 2px 7px; border-radius: 20px;\n  margin-top: 5px; cursor: pointer;\n  transition: opacity 0.15s, transform 0.12s;\n  user-select: none;\n}\n.brand-stage-pip:hover { opacity: 0.75; transform: scale(1.08); }\n\n/* Funnel panel */\n.funnel-panel { display: none; margin-bottom: 12px; }\n.funnel-panel.open { display: block; }\n.funnel-grid { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }\n.funnel-col { flex: 1; min-width: 72px; }\n.funnel-col-header {\n  font-size: 9px; font-weight: 800; text-transform: uppercase;\n  letter-spacing: 0.08em; padding: 5px 8px;\n  border-radius: 7px 7px 0 0; text-align: center;\n  border-bottom: 2px solid rgba(0,0,0,0.07);\n}\n.funnel-col-body {\n  background: #fff; border-radius: 0 0 8px 8px;\n  padding: 6px; min-height: 32px;\n  display: flex; flex-direction: column; gap: 4px;\n}\n.funnel-chip {\n  font-size: 11px; font-weight: 700;\n  padding: 4px 6px; border-radius: 6px;\n  text-align: center; cursor: pointer;\n  transition: opacity 0.15s;\n  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;\n}\n.funnel-chip:hover { opacity: 0.7; }\n.funnel-empty { font-size: 11px; color: #ccc; text-align: center; padding: 4px 0; }\n\n/* Brand button pop animation */\n@keyframes brandBtnPop {\n  0%   { transform: scale(1) rotate(0deg); }\n  35%  { transform: scale(1.13) rotate(-1.5deg); }\n  65%  { transform: scale(0.96) rotate(1deg); }\n  100% { transform: scale(1) rotate(0deg); }\n}\n.brand-btn.popping { animation: brandBtnPop 0.38s cubic-bezier(.36,.07,.19,.97) both; }\n\n/* ============================================================\n   CARDS\n   ============================================================ */\n.cards-header { margin-bottom: 10px; }\n.cards-headline { font-size: 17px; font-weight: 800; color: #111; margin-bottom: 2px; }\n.cards-sub { font-size: 13px; color: #666; }\n\n.cards-empty {\n  text-align: center; padding: 60px 20px;\n  font-size: 18px; color: #888; font-weight: 500;\n}\n.cards-empty span { display: block; font-size: 40px; margin-bottom: 12px; }\n\n.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }\n\n.work-card {\n  background: #fff;\n  border: 2px solid #e8e5e0;\n  border-radius: 14px;\n  padding: 14px 16px;\n  transition: border-color 0.15s, transform 0.22s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.2s;\n  position: relative;\n}\n.work-card:hover { border-color: #aaa; transform: translateY(-4px) rotate(-0.6deg); box-shadow: 0 8px 24px rgba(0,0,0,0.11); }\n.work-card:nth-child(2n):hover { transform: translateY(-4px) rotate(0.6deg); }\n.work-card.is-running { border-width: 3px; box-shadow: 0 6px 24px rgba(0,0,0,0.15); }\n\n/* Card launch animation */\n@keyframes cardLaunch {\n  0%   { transform: scale(1); }\n  30%  { transform: scale(1.04) rotate(-0.4deg); }\n  65%  { transform: scale(0.98) rotate(0.4deg); }\n  100% { transform: scale(1); }\n}\n.work-card.launching { animation: cardLaunch 0.42s cubic-bezier(.36,.07,.19,.97) both; }\n\n.card-badge {\n  display: inline-flex; align-items: center; gap: 5px;\n  padding: 3px 10px; border-radius: 20px;\n  font-size: 11px; font-weight: 700;\n  margin-bottom: 8px;\n}\n.badge-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }\n\n.card-title { font-size: 15px; font-weight: 800; color: #111; line-height: 1.3; margin-bottom: 6px; }\n.card-body  { font-size: 13px; color: #444; line-height: 1.6; margin-bottom: 12px; }\n\n.card-footer {\n  display: flex; align-items: center;\n  justify-content: space-between; gap: 10px;\n}\n.card-last { font-size: 12px; color: #888; font-weight: 500; }\n\n.start-btn {\n  background: #111; color: #fff;\n  border: none; border-radius: 8px;\n  padding: 8px 18px; font-size: 13px; font-weight: 800;\n  cursor: pointer; white-space: nowrap;\n  transition: opacity 0.15s, transform 0.12s;\n}\n.start-btn:hover { opacity: 0.85; transform: scale(1.05); }\n.start-btn:active { transform: scale(0.95); }\n.start-btn.active-btn { background: #555; }\n\n/* ============================================================\n   ADD CARD BUTTON + MODAL\n   ============================================================ */\n.add-card-btn {\n  display: flex; align-items: center; justify-content: center; gap: 10px;\n  background: transparent;\n  border: 2.5px dashed #ccc;\n  border-radius: 18px;\n  padding: 22px;\n  cursor: pointer;\n  font-size: 16px; font-weight: 700; color: #888;\n  transition: border-color 0.15s, color 0.15s, background 0.15s, transform 0.15s;\n  width: 100%;\n}\n.add-card-btn:hover { border-color: #888; color: #444; background: rgba(255,255,255,0.6); transform: scale(1.01); }\n.add-card-btn-plus { font-size: 24px; line-height: 1; }\n\n/* Modal overlay */\n.modal-overlay {\n  display: none;\n  position: fixed; inset: 0;\n  background: rgba(0,0,0,0.45);\n  z-index: 1000;\n  align-items: center; justify-content: center;\n  padding: 24px;\n}\n.modal-overlay.open { display: flex; }\n\n.modal {\n  background: #fff;\n  border-radius: 20px;\n  padding: 28px 28px 24px;\n  width: 100%; max-width: 480px;\n  box-shadow: 0 20px 60px rgba(0,0,0,0.2);\n}\n.modal-title { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 20px; }\n\n.form-field { margin-bottom: 16px; }\n.form-label {\n  display: block;\n  font-size: 13px; font-weight: 700;\n  color: #555; margin-bottom: 6px;\n  text-transform: uppercase; letter-spacing: 0.06em;\n}\n.form-input, .form-textarea, .form-select {\n  width: 100%;\n  font-size: 16px; color: #111;\n  background: #F5F4F1;\n  border: 2px solid transparent;\n  border-radius: 10px;\n  padding: 12px 14px;\n  font-family: inherit;\n  transition: border-color 0.15s;\n  outline: none;\n}\n.form-input:focus, .form-textarea:focus, .form-select:focus { border-color: #888; background: #fff; }\n.form-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }\n\n.modal-actions { display: flex; gap: 10px; margin-top: 20px; }\n.btn-primary {\n  flex: 1;\n  background: #111; color: #fff;\n  border: none; border-radius: 12px;\n  padding: 14px; font-size: 16px; font-weight: 800;\n  cursor: pointer; transition: opacity 0.15s, transform 0.12s;\n}\n.btn-primary:hover { opacity: 0.8; transform: scale(1.02); }\n.btn-secondary {\n  background: #F0EDE6; color: #333;\n  border: none; border-radius: 12px;\n  padding: 14px 20px; font-size: 16px; font-weight: 700;\n  cursor: pointer; transition: background 0.15s;\n}\n.btn-secondary:hover { background: #E5E2DA; }\n\n/* Delete button on custom cards */\n.card-delete-btn {\n  position: absolute; top: 14px; right: 14px;\n  background: none; border: none;\n  font-size: 16px; color: #ccc; cursor: pointer;\n  line-height: 1; padding: 2px 6px; border-radius: 6px;\n  transition: color 0.15s, background 0.15s;\n}\n.card-delete-btn:hover { color: #C04B20; background: #FAECE7; }\n\n/* ============================================================\n   TIME LOG\n   ============================================================ */\n.time-log-section { margin-top: 32px; }\n.time-log-header {\n  display: flex; align-items: center; justify-content: space-between;\n  margin-bottom: 16px; flex-wrap: wrap; gap: 10px;\n}\n.time-log-toggle {\n  background: none; border: 2px solid #ccc;\n  border-radius: 10px; padding: 8px 16px;\n  font-size: 14px; font-weight: 700; color: #555;\n  cursor: pointer; transition: all 0.15s;\n}\n.time-log-toggle:hover { border-color: #888; color: #111; }\n.log-manual-btn {\n  background: #111; color: #fff;\n  border: none; border-radius: 10px;\n  padding: 8px 16px; font-size: 14px; font-weight: 700;\n  cursor: pointer; transition: opacity 0.15s, transform 0.12s;\n}\n.log-manual-btn:hover { opacity: 0.75; transform: scale(1.03); }\n\n/* Brand totals table */\n.brand-totals {\n  background: #fff; border-radius: 16px;\n  overflow: hidden; margin-bottom: 20px;\n}\n.totals-table { width: 100%; border-collapse: collapse; }\n.totals-table th {\n  font-size: 12px; font-weight: 800; text-transform: uppercase;\n  letter-spacing: 0.08em; color: #777;\n  padding: 12px 16px; text-align: left;\n  border-bottom: 2px solid #F0EDE6;\n  background: #FAFAF8;\n}\n.totals-table th:not(:first-child) { text-align: right; }\n.totals-table td {\n  padding: 12px 16px; font-size: 15px; color: #111;\n  border-bottom: 1px solid #F0EDE6;\n}\n.totals-table tr:last-child td { border-bottom: none; }\n.totals-table td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }\n.totals-brand-cell { display: flex; align-items: center; gap: 10px; }\n.totals-brand-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }\n.totals-brand-name { font-weight: 700; }\n.totals-zero { color: #bbb; }\n\n/* Session history */\n.session-history { background: #fff; border-radius: 16px; overflow: hidden; }\n.history-entry {\n  display: grid;\n  grid-template-columns: 90px 1fr auto;\n  gap: 8px 16px;\n  padding: 12px 16px;\n  border-bottom: 1px solid #F0EDE6;\n  align-items: start;\n}\n.history-entry:last-child { border-bottom: none; }\n.history-date { font-size: 13px; color: #999; font-weight: 600; padding-top: 2px; }\n.history-detail {}\n.history-card-title { font-size: 15px; font-weight: 700; color: #111; }\n.history-brand { font-size: 13px; color: #777; margin-top: 2px; }\n.history-manual-tag {\n  font-size: 11px; font-weight: 700; color: #888;\n  background: #F0EDE6; border-radius: 4px; padding: 1px 6px;\n  display: inline-block; margin-left: 6px; vertical-align: middle;\n}\n.history-mins { font-size: 15px; font-weight: 700; color: #333; white-space: nowrap; padding-top: 2px; }\n.history-delete {\n  background: none; border: none; color: #ddd;\n  cursor: pointer; font-size: 14px; padding: 2px 4px;\n  transition: color 0.15s;\n}\n.history-delete:hover { color: #C04B20; }\n\n.no-sessions { padding: 32px; text-align: center; font-size: 15px; color: #aaa; }\n\n/* ============================================================\n   DORMANT BRANDS\n   ============================================================ */\n.dormant-toggle-row { margin-bottom: 12px; }\n.dormant-toggle-btn {\n  background: none; border: 2px solid #ddd;\n  border-radius: 10px; padding: 6px 14px;\n  font-size: 12px; font-weight: 700; color: #999;\n  cursor: pointer; transition: all 0.15s;\n  letter-spacing: 0.04em;\n}\n.dormant-toggle-btn:hover { border-color: #aaa; color: #555; }\n.dormant-brands-row {\n  display: none; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;\n}\n.dormant-brands-row.open { display: flex; }\n\n/* ============================================================\n   CARDS TABS (Cards / Backend)\n   ============================================================ */\n.cards-tabs {\n  display: flex; gap: 6px; margin-bottom: 14px;\n}\n.cards-tab {\n  padding: 7px 18px; border-radius: 8px;\n  font-size: 13px; font-weight: 700;\n  border: 2px solid #ddd; background: #fff;\n  cursor: pointer; color: #777;\n  transition: all 0.15s, transform 0.12s;\n}\n.cards-tab.active { background: #111; border-color: #111; color: #fff; }\n.cards-tab:hover:not(.active) { border-color: #aaa; color: #333; transform: translateY(-1px); }\n\n/* ============================================================\n   BACKEND PANEL\n   ============================================================ */\n.backend-panel { display: none; }\n.backend-panel.open { display: block; }\n\n.backend-section { margin-bottom: 20px; }\n.backend-section-title {\n  font-size: 11px; font-weight: 800; text-transform: uppercase;\n  letter-spacing: 0.1em; color: #888; margin-bottom: 10px;\n}\n.backend-field {\n  background: #fff; border-radius: 12px;\n  padding: 14px 16px; margin-bottom: 8px;\n}\n.backend-field-label {\n  font-size: 11px; font-weight: 700; color: #aaa;\n  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;\n}\n.backend-field-value {\n  font-size: 14px; color: #111; font-weight: 500; line-height: 1.5;\n}\n.backend-field-value a { color: #185FA5; text-decoration: none; }\n.backend-field-value a:hover { text-decoration: underline; }\n\n.backend-tool-row {\n  display: flex; gap: 10px; align-items: baseline;\n  padding: 10px 0; border-bottom: 1px solid #F0EDE6;\n}\n.backend-tool-row:last-child { border-bottom: none; }\n.backend-tool-name { font-size: 13px; font-weight: 700; color: #111; min-width: 120px; flex-shrink: 0; }\n.backend-tool-detail { font-size: 13px; color: #555; line-height: 1.5; }\n\n.backend-tools-block {\n  background: #fff; border-radius: 12px; padding: 4px 16px; margin-bottom: 8px;\n}\n.backend-empty { color: #bbb; font-size: 13px; padding: 8px 0; }\n\n.backend-add-btn {\n  background: none; border: 2px dashed #ccc;\n  border-radius: 10px; padding: 10px 16px;\n  font-size: 13px; font-weight: 700; color: #aaa;\n  cursor: pointer; width: 100%; transition: all 0.15s;\n}\n.backend-add-btn:hover { border-color: #888; color: #555; }\n\n.backend-notes-input {\n  width: 100%; background: #fff; border: 2px solid transparent;\n  border-radius: 12px; padding: 14px 16px;\n  font-size: 14px; color: #111; font-family: inherit;\n  resize: vertical; min-height: 80px; line-height: 1.6;\n  outline: none; transition: border-color 0.15s;\n}\n.backend-notes-input:focus { border-color: #888; }\n.backend-notes-input::placeholder { color: #ccc; }\n\n/* ============================================================\n   PASSWORD GATE\n   ============================================================ */\n.gate-overlay {\n  position: fixed; inset: 0;\n  background: #EDEBE4;\n  z-index: 99999;\n  display: flex; align-items: center; justify-content: center;\n  padding: 24px;\n}\n.gate-box {\n  background: #fff;\n  border-radius: 20px;\n  padding: 36px 32px 28px;\n  width: 100%; max-width: 360px;\n  box-shadow: 0 20px 60px rgba(0,0,0,0.12);\n  text-align: center;\n}\n.gate-title { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 6px; letter-spacing: -0.02em; }\n.gate-sub { font-size: 13px; color: #888; margin-bottom: 24px; }\n.gate-input {\n  width: 100%; font-size: 16px; color: #111;\n  background: #F5F4F1; border: 2px solid transparent;\n  border-radius: 10px; padding: 12px 14px;\n  font-family: inherit; outline: none;\n  transition: border-color 0.15s; margin-bottom: 12px;\n  text-align: center; letter-spacing: 0.04em;\n}\n.gate-input:focus { border-color: #888; background: #fff; }\n.gate-input.error { border-color: #C04B20; animation: gateShake 0.35s ease; }\n.gate-btn {\n  width: 100%; background: #111; color: #fff;\n  border: none; border-radius: 12px;\n  padding: 14px; font-size: 16px; font-weight: 800;\n  cursor: pointer; transition: opacity 0.15s, transform 0.12s;\n}\n.gate-btn:hover { opacity: 0.8; transform: scale(1.02); }\n.gate-error { font-size: 13px; color: #C04B20; margin-top: 10px; min-height: 18px; }\n@keyframes gateShake {\n  0%, 100% { transform: translateX(0); }\n  25%       { transform: translateX(-8px); }\n  75%       { transform: translateX(8px); }\n}\n\n/* ============================================================\n   CONFETTI\n   ============================================================ */\n.confetti-piece {\n  position: fixed;\n  pointer-events: none;\n  z-index: 9999;\n  border-radius: 2px;\n  will-change: transform, opacity;\n}\n@keyframes confettiBurst {\n  0%   { transform: translate(0,0) rotate(0deg) scale(1); opacity: 1; }\n  75%  { opacity: 0.9; }\n  100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0; }\n}\n\n/* All-done bounce */\n@keyframes allDoneBounce {\n  0%   { transform: scale(1); }\n  20%  { transform: scale(1.016); }\n  45%  { transform: scale(0.996); }\n  65%  { transform: scale(1.008); }\n  100% { transform: scale(1); }\n}\n</style>\n</head>\n<body>\n\n<!-- Password gate -->\n<div class=\"gate-overlay\" id=\"gate-overlay\">\n  <div class=\"gate-box\">\n    <div class=\"gate-title\">Brand Band</div>\n    <div class=\"gate-sub\">Enter password to continue</div>\n    <input class=\"gate-input\" id=\"gate-input\" type=\"password\" placeholder=\"\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\"\n      onkeydown=\"if(event.key==='Enter') gateSubmit()\">\n    <button class=\"gate-btn\" onclick=\"gateSubmit()\">Enter</button>\n    <div class=\"gate-error\" id=\"gate-error\"></div>\n  </div>\n</div>\n\n<div class=\"title-row\"><h1>Brand Band</h1><span class=\"tagline\">Eight brands. One brain. Let's go.</span></div>\n<div class=\"how-to-use\">Pick a brand. Pick a card. Hit <strong>Start</strong>. Everything else is noise.</div>\n\n<!-- Daily brands panel -->\n<div class=\"daily-panel\" id=\"daily-panel\">\n  <div class=\"daily-header\">\n    <div class=\"daily-title\" id=\"daily-title\">Daily brands</div>\n    <div class=\"daily-subtitle\" id=\"daily-subtitle\">15 min minimum each, every weekday</div>\n  </div>\n  <div class=\"daily-cards-row\" id=\"daily-cards-row\"></div>\n</div>\n\n<!-- Brand health strip -->\n<div class=\"health-strip\">\n  <div class=\"health-strip-title\">Last time you worked on each brand</div>\n  <div class=\"health-rows\" id=\"health-rows\"></div>\n</div>\n\n<div class=\"load-bar-wrap\"><div class=\"load-bar-fill\" id=\"load-bar\"></div></div>\n\n<!-- Timer banner -->\n<div class=\"timer-banner\" id=\"timer-banner\">\n  <div class=\"timer-left\">\n    <div class=\"timer-eyebrow\"><span class=\"timer-live-dot\"></span>Now working on</div>\n    <div class=\"timer-card-name\" id=\"timer-card-name\">\u2014</div>\n    <div class=\"timer-brand-name\" id=\"timer-brand-name\">\u2014</div>\n  </div>\n  <div class=\"timer-right\">\n    <div class=\"timer-clock\" id=\"timer-clock\">00:00:00</div>\n    <button class=\"stop-btn\" onclick=\"stopTimer()\">Stop</button>\n  </div>\n</div>\n\n<!-- Brand selector -->\n<div class=\"section-label\">Select a brand to see its cards</div>\n<div class=\"brands-row\" id=\"brands-row\"></div>\n\n<!-- Dormant brands -->\n<div class=\"dormant-toggle-row\">\n  <button class=\"dormant-toggle-btn\" id=\"dormant-toggle-btn\" onclick=\"toggleDormant()\">\ud83e\udd41 Auditions</button>\n</div>\n<div class=\"dormant-brands-row\" id=\"dormant-brands-row\"></div>\n\n<!-- Back office -->\n<div class=\"dormant-toggle-row\">\n  <button class=\"dormant-toggle-btn\" id=\"ops-toggle-btn\" onclick=\"toggleOps()\">\u2699 Back office</button>\n</div>\n<div class=\"ops-brands-row\" id=\"ops-row\"></div>\n\n<!-- Brand Funnel -->\n<div class=\"dormant-toggle-row\">\n  <button class=\"dormant-toggle-btn\" id=\"funnel-toggle-btn\" onclick=\"toggleFunnel()\">\ud83d\udcca Brand Funnel</button>\n</div>\n<div class=\"funnel-panel\" id=\"funnel-panel\"></div>\n\n<!-- Cards -->\n<div class=\"cards-area\" id=\"cards-area\">\n  <div class=\"cards-empty\"><span>\u2191</span>Pick a brand above to see its work cards</div>\n</div>\n\n<!-- Add card modal -->\n<div class=\"modal-overlay\" id=\"modal-overlay\" onclick=\"closeModal(event)\">\n  <div class=\"modal\" onclick=\"event.stopPropagation()\">\n    <div class=\"modal-title\" id=\"modal-title\">Add a card</div>\n    <div class=\"form-field\">\n      <label class=\"form-label\">Title</label>\n      <input class=\"form-input\" id=\"card-title-input\" type=\"text\" placeholder=\"What needs doing?\" maxlength=\"80\">\n    </div>\n    <div class=\"form-field\">\n      <label class=\"form-label\">Note <span style=\"font-weight:500;text-transform:none;letter-spacing:0\">(optional)</span></label>\n      <textarea class=\"form-textarea\" id=\"card-body-input\" placeholder=\"Context, why it matters, what to do first\u2026\"></textarea>\n    </div>\n    <div class=\"form-field\">\n      <label class=\"form-label\">Type</label>\n      <select class=\"form-select\" id=\"card-type-input\">\n        <option value=\"Opportunity\">Opportunity \u2014 something to act on</option>\n        <option value=\"Nudge\">Nudge \u2014 a gentle reminder</option>\n        <option value=\"Cross-pollination\">Cross-pollination \u2014 connects two brands</option>\n      </select>\n    </div>\n    <div class=\"modal-actions\">\n      <button class=\"btn-secondary\" onclick=\"closeModal()\">Cancel</button>\n      <button class=\"btn-primary\" id=\"modal-brand-btn\" onclick=\"saveCard()\">Add card</button>\n    </div>\n  </div>\n</div>\n\n<!-- Manual log modal -->\n<div class=\"modal-overlay\" id=\"manual-modal-overlay\" onclick=\"closeManualModal(event)\">\n  <div class=\"modal\" onclick=\"event.stopPropagation()\">\n    <div class=\"modal-title\">Log time manually</div>\n    <div class=\"form-field\">\n      <label class=\"form-label\">Brand</label>\n      <select class=\"form-select\" id=\"manual-brand-select\" onchange=\"populateManualCards()\">\n        <option value=\"\">\u2014 pick a brand \u2014</option>\n      </select>\n    </div>\n    <div class=\"form-field\">\n      <label class=\"form-label\">Card / task</label>\n      <select class=\"form-select\" id=\"manual-card-select\">\n        <option value=\"\">\u2014 pick a card \u2014</option>\n      </select>\n    </div>\n    <div class=\"form-field\">\n      <label class=\"form-label\">Minutes</label>\n      <input class=\"form-input\" id=\"manual-mins-input\" type=\"number\" min=\"1\" max=\"480\" placeholder=\"e.g. 45\">\n    </div>\n    <div class=\"form-field\">\n      <label class=\"form-label\">Date</label>\n      <input class=\"form-input\" id=\"manual-date-input\" type=\"date\">\n    </div>\n    <div class=\"form-field\">\n      <label class=\"form-label\">Note <span style=\"font-weight:500;text-transform:none;letter-spacing:0\">(optional)</span></label>\n      <input class=\"form-input\" id=\"manual-note-input\" type=\"text\" placeholder=\"What did you do?\">\n    </div>\n    <div class=\"modal-actions\">\n      <button class=\"btn-secondary\" onclick=\"closeManualModal()\">Cancel</button>\n      <button class=\"btn-primary\" onclick=\"saveManualEntry()\">Save</button>\n    </div>\n  </div>\n</div>\n\n<!-- Time log section -->\n<div class=\"time-log-section\" id=\"time-log-section\">\n  <div class=\"time-log-header\">\n    <div class=\"section-label\" style=\"margin-bottom:0\">Time log</div>\n    <div style=\"display:flex;gap:8px;flex-wrap:wrap\">\n      <button class=\"log-manual-btn\" onclick=\"openManualModal()\">+ Log time manually</button>\n      <button class=\"time-log-toggle\" id=\"time-log-toggle\" onclick=\"toggleTimeLog()\">Show details \u25be</button>\n    </div>\n  </div>\n  <div id=\"brand-totals-wrap\"></div>\n  <div id=\"session-history-wrap\" style=\"display:none\"></div>\n</div>\n\n\n<script>\n/* ============================================================\n   PASSWORD GATE\n   ============================================================ */\nconst GATE_KEY = 'bb_auth';\nconst GATE_PASS = 'angostura-tack-7';\n\nfunction gateCheck() {\n  if (localStorage.getItem(GATE_KEY) === '1') {\n    document.getElementById('gate-overlay').style.display = 'none';\n  } else {\n    setTimeout(() => document.getElementById('gate-input').focus(), 100);\n  }\n}\n\nfunction gateSubmit() {\n  const val = document.getElementById('gate-input').value;\n  if (val === GATE_PASS) {\n    localStorage.setItem(GATE_KEY, '1');\n    document.getElementById('gate-overlay').style.display = 'none';\n  } else {\n    const inp = document.getElementById('gate-input');\n    inp.classList.add('error');\n    document.getElementById('gate-error').textContent = 'Wrong password.';\n    inp.value = '';\n    setTimeout(() => { inp.classList.remove('error'); inp.focus(); }, 400);\n  }\n}\n\ngateCheck();\n\n/* ============================================================\n   DATA\n   ============================================================ */\nconst DAILY_MIN = 15;\n\nconst BRANDS = [\n  {\n    id: 'hh', name: 'Holloway & Hare', short: 'H&H',\n    color: '#185FA5', lightBg: '#E6F1FB',\n    url: 'https://hollowayandhare.com',\n    daily: true,\n    notionQuery: 'Holloway Hare editorial blog',\n    cards: [\n      { id: 'hh-ascot', type: 'Opportunity', title: 'Royal Ascot morning dress guide',\n        body: \"Ascot is H&H's biggest seasonal moment. It's the #1 SEO opportunity right now \u2014 and it'll keep working long after Ascot ends. Window is open.\" },\n      { id: 'hh-cheltenham', type: 'Nudge', title: 'Cheltenham wrap-up \u2014 still has legs',\n        body: \"You covered Cheltenham but the reflective piece never ran. A 'what to wear, what worked' post still finds an audience before Goodwood.\" },\n      { id: 'hh-goodwood', type: 'Opportunity', title: 'Goodwood preview \u2014 start seeding now',\n        body: \"Goodwood press list opens soon. A preview piece positions H&H early. Start it now, publish when ready.\" }\n    ]\n  },\n  {\n    id: 'ch', name: 'CareHelm', short: 'CH',\n    color: '#1D9E75', lightBg: '#E1F5EE',\n    url: 'https://carehelm.co',\n    daily: false,\n    notionQuery: 'CareHelm family care coordination',\n    cards: [\n      { id: 'ch-email', type: 'Nudge', title: 'Personal email to a recent signup',\n        body: \"Not a campaign \u2014 one genuine message. 'How's it going? What made you try it?' The signal you get back is worth more than a month of analytics. Ten minutes max.\" },\n      { id: 'ch-burnout', type: 'Opportunity', title: 'Caregiver burnout content',\n        body: \"Real search volume, thin competition. One well-written piece on caregiver decision fatigue positions CareHelm in a genuinely useful way and ranks for years.\" },\n      { id: 'ch-gm-cross', type: 'Cross-pollination', title: \"Your GM thinking \u2192 CareHelm's best post\",\n        body: \"The ratio/intellectus framework from Gadfly maps directly onto caregiver burnout. The bridge is already built in your head.\" }\n    ]\n  },\n  {\n    id: 'gm', name: 'Gadfly Machines', short: 'GM',\n    color: '#534AB7', lightBg: '#EEEDFE',\n    url: 'https://gadflymachines.com',\n    daily: true,\n    notionQuery: 'Gadfly Machines dialectical community',\n    cards: [\n      { id: 'gm-phronesis', type: 'Opportunity', title: 'Phronesis piece \u2014 strike while warm',\n        body: \"The Discord thread is active. A short published piece right now crystallises the conversation into something the community can point to.\" },\n      { id: 'gm-welcome', type: 'Nudge', title: 'Personal welcome to new member',\n        body: \"The community is small enough that a message from you is the whole experience. One genuine note sets the tone.\" },\n      { id: 'gm-ratio', type: 'Opportunity', title: 'Ratio vs. intellectus \u2014 write it out',\n        body: \"This distinction is the philosophical core of Gadfly. Draft it now \u2014 even rough \u2014 and you'll have the engine behind everything else GM produces.\" }\n    ]\n  },\n  {\n    id: 'tp', name: 'TailorPress', short: 'TP',\n    color: '#8A5E10', lightBg: '#FAEEDA',\n    url: 'https://tailorpress.co',\n    daily: true,\n    notionQuery: 'TailorPress content platform',\n    cards: [\n      { id: 'tp-motion', type: 'Nudge', title: 'Ship something small \u2014 anything',\n        body: \"TailorPress doesn't need a launch plan. It needs motion. A changelog note, a screenshot, a single sentence update.\" },\n      { id: 'tp-casestudy', type: 'Opportunity', title: \"First case study \u2014 it's already done\",\n        body: \"The H&H Ascot guide is TailorPress's first proof of concept. A short 'here's how we built this' adds 300 words to something you've already written.\" }\n    ]\n  },\n  {\n    id: 'vo', name: 'Voice Over', short: 'VO',\n    color: '#C04B20', lightBg: '#FAECE7',\n    url: 'https://markfieldsdavidson.com',\n    daily: true,\n    notionQuery: 'voiceover voice acting demo reel',\n    cards: [\n      { id: 'vo-outreach', type: 'Opportunity', title: 'Casting window outreach \u2014 3 emails',\n        body: \"Casting directors review in cycles. Three specific, targeted emails during an open window are worth ten times thirty generic ones sent cold.\" },\n      { id: 'vo-reel', type: 'Nudge', title: 'Demo reel update \u2014 overdue',\n        body: \"Every pitch you send points to your reel. One focused hour of editing now multiplies the return on every outreach you send this season.\" },\n      { id: 'vo-ch-cross', type: 'Cross-pollination', title: 'VO craft \u2192 CareHelm brand voice',\n        body: \"Your warmth, pacing, and presence on mic are directly transferable to CareHelm's audio and video content. These two worlds haven't met yet.\" }\n    ]\n  },\n  {\n    id: 'di', name: 'Disputatio', short: 'DI',\n    color: '#A0304A', lightBg: '#FAEBEE',\n    url: 'https://disputatio.app',\n    daily: false,\n    notionQuery: 'Disputatio debate argumentation',\n    cards: [\n      { id: 'di-define', type: 'Opportunity', title: 'Define what Disputatio is \u2014 in one sentence',\n        body: \"Before anything else can be built or written for this brand, the one-sentence definition needs to exist. What is it, who is it for, what does it do?\" },\n      { id: 'di-gm-cross', type: 'Cross-pollination', title: 'Disputatio and Gadfly \u2014 siblings or rivals?',\n        body: \"Both live in dialectical territory. Clarifying the relationship unlocks both brands.\" }\n    ]\n  },\n  {\n    id: 'fd', name: 'Family Desk', short: 'FD',\n    color: '#2E7D94', lightBg: '#E3F4F8',\n    daily: false,\n    notionQuery: 'Family Desk household management',\n    cards: [\n      { id: 'fd-define', type: 'Opportunity', title: 'What problem does Family Desk solve?',\n        body: \"Is this a product, a content brand, or a community? Getting this down in a paragraph shapes everything that follows.\" },\n      { id: 'fd-ch-cross', type: 'Cross-pollination', title: 'Family Desk vs. CareHelm \u2014 draw the line',\n        body: \"Both touch family coordination. Understanding where one ends and the other begins prevents confusion for users and focus drift for you.\" }\n    ]\n  },\n  {\n    id: 'sc', name: 'Schola', short: 'SC',\n    color: '#3D6B3A', lightBg: '#E5F2E4',\n    daily: false,\n    notionQuery: 'Schola education learning curriculum',\n    cards: [\n      { id: 'sc-define', type: 'Opportunity', title: 'What is Schola teaching, and to whom?',\n        body: \"The name signals classical learning. Pinning down the subject, the audience, and the format is the first real decision.\" },\n      { id: 'sc-gm-cross', type: 'Cross-pollination', title: 'Gadfly pedagogy \u2192 Schola curriculum',\n        body: \"Socratic method, ratio and intellectus, deliberative practice \u2014 these are already the intellectual core of Gadfly. Schola might be where that thinking becomes structured learning.\" }\n    ]\n  },\n  {\n    id: 'mm', name: 'Masked Mixer', short: 'MM',\n    color: '#1A1A2E', lightBg: '#EEEEF5',\n    url: 'https://maskedmixer.com',\n    dormant: true,\n    daily: false,\n    notionQuery: 'Masked Mixer',\n    cards: [\n      { id: 'mm-form', type: 'Nudge', title: 'Fix newsletter signup form',\n        body: 'Form currently errors on submit. Investigate Supabase connection or switch to a simpler provider.' }\n    ]\n  },\n  {\n    id: 'aa', name: 'AA Operations', short: 'AA',\n    color: '#555', lightBg: '#F0EDE6',\n    ops: true,\n    daily: false,\n    notionQuery: 'AA LLC operations admin',\n    cards: [\n      { id: 'aa-tax', type: 'Admin', title: 'Tax filing',\n        body: \"Federal, state, or quarterly \u2014 log time here for any tax prep, form filing, or accountant calls. Keep a record even if it feels invisible.\" },\n      { id: 'aa-books', type: 'Admin', title: 'Bookkeeping & reconciliation',\n        body: \"Categorising transactions, reconciling accounts, reviewing P&L. The kind of work that compounds silently when skipped.\" },\n      { id: 'aa-legal', type: 'Admin', title: 'Legal & compliance',\n        body: \"LLC renewals, contracts, registered agent, operating agreements. Flag it here so it doesn't slip through the cracks.\" },\n      { id: 'aa-admin', type: 'Admin', title: 'General admin',\n        body: \"Anything AA-level that doesn't fit elsewhere \u2014 insurance, banking, subscriptions, vendor calls. Log it so the invisible work gets counted.\" }\n    ]\n  }\n];\n\nconst BRAND_LABELS = {hh:'H&H',ch:'CareHelm',gm:'Gadfly',tp:'TailorPress',vo:'Voice Over',di:'Disputatio',fd:'Family Desk',sc:'Schola',aa:'AA Ops',mm:'Masked Mixer'};\nconst BRAND_SUBS = {\n  hh:'British editorial \u2014 social season & countryside',\n  ch:'HIPAA-compliant family care coordination',\n  gm:'Dialectical workshop for solo builders',\n  tp:'Content platform \u2014 in build phase',\n  vo:'Voiceover \u2014 outreach, performance, reel',\n  di:'Debate & argumentation \u2014 early stage',\n  fd:'Family management & household coordination',\n  sc:'Classical learning & curriculum \u2014 early stage',\n  aa:'LLC admin, tax, legal, bookkeeping',\n  mm:'Music community \u2014 live at maskedmixer.com, auditioning for a slot'\n};\n\nconst STAGES = [\n  { id: 'ideation',  label: 'Ideation',  color: '#999',    bg: '#F0EDE6' },\n  { id: 'mvp',       label: 'MVP',        color: '#2E7D94', bg: '#E3F4F8' },\n  { id: 'build',     label: 'Build',      color: '#8A5E10', bg: '#FAEEDA' },\n  { id: 'operating', label: 'Operating',  color: '#534AB7', bg: '#EEEDFE' },\n  { id: 'market',    label: '$ Ready',    color: '#1D9E75', bg: '#E1F5EE' },\n];\nconst DEFAULT_STAGES = {\n  hh: 'operating', ch: 'build', gm: 'operating', tp: 'market',\n  vo: 'market', di: 'operating', fd: 'ideation', sc: 'ideation', mm: 'ideation'\n};\n\nconst DEFAULT_BACKEND = {\n  mm: {\n    hosting: 'maskedmixer.com (built with Bolt, hosted via Vercel)',\n    tools: [\n      { name: 'Newsletter', detail: 'Bolt Database via Supabase (stores subscribers)' },\n      { name: 'Contact form', detail: 'Formspree' }\n    ],\n    notes: 'Site is live but business is on hold. Form is currently broken.'\n  }\n};\n\nconst typeStyles = {\n  'Opportunity':       (b) => ({ bg: b.lightBg, color: b.color, dot: b.color }),\n  'Nudge':             ()  => ({ bg: '#F0EDE6', color: '#4A4036', dot: '#8A7A6A' }),\n  'Cross-pollination': ()  => ({ bg: '#EEEDFE', color: '#3D3598', dot: '#534AB7' }),\n  'Admin':             ()  => ({ bg: '#EFEFEF', color: '#555', dot: '#999' }),\n};\n\n/* ============================================================\n   STATE\n   ============================================================ */\nlet activeBrandId = null;\nlet timerInterval = null;\nlet timerStart = null;\nlet runningCardId = null;\nlet runningBrandId = null;\nlet sessionLog = [];\nwindow._notionDays = {};\nwindow._todayCelebrated = {};\n\n/* ============================================================\n   DATE HELPERS\n   ============================================================ */\nfunction todayKey() {\n  const d = new Date();\n  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');\n}\nfunction isWeekday() {\n  const d = new Date().getDay();\n  return d >= 1 && d <= 5;\n}\n\n/* ============================================================\n   LOCALSTORAGE HELPERS\n   ============================================================ */\nfunction ls(key, val) {\n  try {\n    if (val === undefined) return localStorage.getItem(key);\n    localStorage.setItem(key, val);\n  } catch(e) { return null; }\n}\n\nfunction getLastWorked(cardId)  { return ls('bw_card_'  + cardId); }\nfunction setLastWorked(cardId)  { ls('bw_card_' + cardId, new Date().toISOString()); }\nfunction getBrandLast(brandId)  { return ls('bw_brand_' + brandId); }\nfunction setBrandLast(brandId)  { ls('bw_brand_' + brandId, new Date().toISOString()); }\n\nfunction getTodayMins(brandId) {\n  return parseFloat(ls('bw_mins_' + brandId + '_' + todayKey()) || '0');\n}\nfunction addTodayMins(brandId, mins) {\n  const cur = getTodayMins(brandId);\n  ls('bw_mins_' + brandId + '_' + todayKey(), String(cur + mins));\n}\n\n/* ============================================================\n   STAGE HELPERS\n   ============================================================ */\nfunction getStage(brandId) {\n  return ls('bb_stage_' + brandId) || DEFAULT_STAGES[brandId] || 'ideation';\n}\nfunction setStage(brandId, stageId) {\n  ls('bb_stage_' + brandId, stageId);\n}\nfunction getStageMeta(brandId) {\n  const id = getStage(brandId);\n  return STAGES.find(s => s.id === id) || STAGES[0];\n}\nfunction cycleStage(brandId) {\n  const ids = STAGES.map(s => s.id);\n  const cur = getStage(brandId);\n  const next = ids[(ids.indexOf(cur) + 1) % ids.length];\n  setStage(brandId, next);\n  renderBrands();\n  renderOps();\n  if (dormantOpen) renderDormantBrands();\n  renderFunnel();\n}\n\n/* ============================================================\n   LABEL HELPERS\n   ============================================================ */\nfunction lastWorkedLabel(isoStr) {\n  if (!isoStr) return null;\n  const diff = Math.floor((Date.now() - new Date(isoStr)) / 60000);\n  if (diff < 2)  return 'Just now';\n  if (diff < 60) return diff + ' min ago';\n  const hrs = Math.floor(diff / 60);\n  if (hrs < 24)  return hrs + 'h ago';\n  const days = Math.floor(hrs / 24);\n  return days + ' day' + (days === 1 ? '' : 's') + ' ago';\n}\n\nfunction ageInDays(isoStr) {\n  if (!isoStr) return null;\n  return Math.floor((Date.now() - new Date(isoStr)) / 86400000);\n}\n\n/* ============================================================\n   STREAK\n   ============================================================ */\nfunction getDailyStreak(brandId) {\n  let streak = 0;\n  const today = new Date();\n  for (let i = 1; i <= 60; i++) {\n    const d = new Date(today);\n    d.setDate(d.getDate() - i);\n    const day = d.getDay();\n    if (day === 0 || day === 6) continue; // skip weekends\n    const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');\n    const mins = parseFloat(localStorage.getItem('bw_mins_' + brandId + '_' + key) || '0');\n    if (mins >= DAILY_MIN) streak++;\n    else break;\n  }\n  return streak;\n}\n\n/* ============================================================\n   SOUND\n   ============================================================ */\nfunction playTone(frequency, duration, volume) {\n  try {\n    const ctx = new (window.AudioContext || window.webkitAudioContext)();\n    const osc = ctx.createOscillator();\n    const gain = ctx.createGain();\n    osc.connect(gain);\n    gain.connect(ctx.destination);\n    osc.frequency.value = frequency;\n    osc.type = 'sine';\n    gain.gain.setValueAtTime(volume || 0.25, ctx.currentTime);\n    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);\n    osc.start(ctx.currentTime);\n    osc.stop(ctx.currentTime + duration);\n  } catch(e) {}\n}\nfunction playStartTone()   { playTone(392, 0.08, 0.18); }\nfunction playStopTone()    { playTone(523, 0.12, 0.2); setTimeout(() => playTone(440, 0.15, 0.15), 100); }\nfunction playSuccessTone() { playTone(523, 0.1, 0.22); setTimeout(() => playTone(784, 0.18, 0.22), 110); }\nfunction playAllDoneFanfare() {\n  [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => playTone(f, 0.18, 0.2), i * 90));\n}\n\n/* ============================================================\n   CONFETTI\n   ============================================================ */\nfunction triggerConfetti(x, y, color, count) {\n  const n = count || 35;\n  const palette = [color || '#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#C3B1E1', '#FFD93D'];\n  for (let i = 0; i < n; i++) {\n    const el = document.createElement('div');\n    el.className = 'confetti-piece';\n    const angle = Math.random() * Math.PI * 2;\n    const speed = 70 + Math.random() * 160;\n    const dx = Math.cos(angle) * speed;\n    const dy = Math.sin(angle) * speed - 80;\n    const rot = ((Math.random() - 0.5) * 900) + 'deg';\n    const size = 6 + Math.random() * 9;\n    const c = i < 3 ? color : palette[Math.floor(Math.random() * palette.length)];\n    const dur = 0.65 + Math.random() * 0.55;\n    el.style.cssText = `left:${x}px;top:${y}px;width:${size}px;height:${size}px;background:${c};--dx:${dx}px;--dy:${dy}px;--rot:${rot};animation:confettiBurst ${dur}s ease-out forwards;border-radius:${Math.random() > 0.4 ? '50%' : '2px'};`;\n    document.body.appendChild(el);\n    setTimeout(() => el.remove(), (dur + 0.1) * 1000);\n  }\n}\n\nfunction burstFromEl(el, color, count) {\n  if (!el) return;\n  const r = el.getBoundingClientRect();\n  triggerConfetti(r.left + r.width / 2, r.top + r.height / 2, color, count);\n}\n\n/* ============================================================\n   DAILY PANEL\n   ============================================================ */\nconst ALL_DONE_MESSAGES = [\n  'Four for four. Take a bow.',\n  'All daily brands done. Seriously.',\n  'GM \u2713 VO \u2713 H&H \u2713 TP \u2713 \u2014 Locked in.',\n  'Daily quota: crushed. Go make something.',\n  'Full send. Every brand got 15 min.'\n];\n\nfunction dailyState(brand) {\n  if (!isWeekday()) return 'weekend';\n  const mins = getTodayMins(brand.id);\n  if (mins >= DAILY_MIN) return 'done';\n  if (mins > 0) return 'partial';\n  return 'undone';\n}\n\nfunction renderDailyPanel() {\n  const dailyBrands = BRANDS.filter(b => b.daily);\n  const states = dailyBrands.map(b => dailyState(b));\n\n  let panelClass, titleClass, titleText, subtitleText;\n  if (!isWeekday()) {\n    panelClass = 'weekend'; titleClass = 'weekend';\n    titleText = 'Daily Brands \u2014 Weekend';\n    subtitleText = 'Rest up. Back at it Monday.';\n  } else if (states.every(s => s === 'done')) {\n    panelClass = 'all-done'; titleClass = 'all-done';\n    titleText = '\u2726 Daily brands \u2014 all done';\n    const msg = ALL_DONE_MESSAGES[new Date().getDate() % ALL_DONE_MESSAGES.length];\n    subtitleText = msg;\n  } else if (states.some(s => s === 'done' || s === 'partial')) {\n    panelClass = 'in-progress'; titleClass = 'in-progress';\n    const remaining = dailyBrands.filter((b,i) => states[i] !== 'done');\n    titleText = 'Daily brands \u2014 in progress';\n    subtitleText = remaining.map(b => BRAND_LABELS[b.id]).join(', ') + ' still need attention today';\n  } else {\n    panelClass = 'needs-attention'; titleClass = 'needs-attention';\n    titleText = 'Daily brands \u2014 not started yet';\n    subtitleText = 'GM, VO, H&H, and TP each need 15 min today';\n  }\n\n  const panel = document.getElementById('daily-panel');\n  panel.className = 'daily-panel ' + panelClass;\n  const titleEl = document.getElementById('daily-title');\n  titleEl.className = 'daily-title ' + titleClass;\n  titleEl.textContent = titleText;\n  document.getElementById('daily-subtitle').textContent = subtitleText;\n\n  const row = document.getElementById('daily-cards-row');\n  row.innerHTML = dailyBrands.map((b, i) => {\n    const state = states[i];\n    const mins = getTodayMins(b.id);\n    const pct = Math.min(100, Math.round((mins / DAILY_MIN) * 100));\n    let icon, label;\n    if (state === 'done')         { icon = '\u2713'; label = mins.toFixed(0) + ' min today'; }\n    else if (state === 'partial') { icon = '\u2026'; label = mins.toFixed(0) + ' / 15 min'; }\n    else if (state === 'undone')  { icon = '\u25cb'; label = '0 / 15 min'; }\n    else                          { icon = '\u2014'; label = 'Weekend'; }\n    return `\n      <div class=\"daily-card ${state}\" onclick=\"selectBrand('${b.id}')\" title=\"Click to open ${b.name}\">\n        <div class=\"daily-card-top\">\n          <div class=\"daily-brand-name\" style=\"color:${b.color}\">${BRAND_LABELS[b.id]}</div>\n          <div class=\"daily-status-icon\">${icon}</div>\n        </div>\n        <div class=\"daily-progress-track\">\n          <div class=\"daily-progress-fill\" style=\"width:${pct}%\"></div>\n        </div>\n        <div class=\"daily-mins-label\">${label}</div>\n      </div>`;\n  }).join('');\n}\n\n/* ============================================================\n   HEALTH STRIP\n   ============================================================ */\nfunction healthMeta(brandId) {\n  const iso = getBrandLast(brandId);\n  const notionDays = window._notionDays?.[brandId] ?? null;\n  if (!iso && notionDays === null) return { colorClass: 'age-cold', label: 'Not yet' };\n\n  let days, label;\n  if (iso) {\n    days = ageInDays(iso);\n    label = lastWorkedLabel(iso) || 'Today';\n  } else {\n    days = notionDays;\n    label = days === 0 ? 'Today' : days === 1 ? 'Yesterday' : days + 'd ago';\n  }\n\n  let colorClass;\n  if      (days <= 3)  colorClass = 'age-fresh';\n  else if (days <= 7)  colorClass = 'age-ok';\n  else if (days <= 14) colorClass = 'age-stale';\n  else                 colorClass = 'age-cold';\n\n  return { colorClass, label };\n}\n\nfunction renderHealthStrip() {\n  const container = document.getElementById('health-rows');\n  const days = [];\n  for (let i = 6; i >= 0; i--) {\n    const d = new Date();\n    d.setDate(d.getDate() - i);\n    const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');\n    const dayName = d.toLocaleDateString('en-US', { weekday: 'short' }).slice(0,1);\n    days.push({ key, dayName, isToday: i === 0 });\n  }\n\n  const dayLabelRow = `<div class=\"health-day-label-row\">\n    ${days.map(d => `<div class=\"health-day-label\" style=\"${d.isToday ? 'color:#444;font-weight:800' : ''}\">${d.dayName}</div>`).join('')}\n  </div>`;\n\n  const rows = BRANDS.map(b => {\n    const { colorClass, label } = healthMeta(b.id);\n    const dailyPip = b.daily\n      ? `<div class=\"health-daily-pip\" style=\"background:${b.color}\" title=\"Daily brand\"></div>`\n      : `<div class=\"health-daily-pip\" style=\"background:transparent\"></div>`;\n\n    const dots = days.map(d => {\n      const mins = parseFloat(localStorage.getItem('bw_mins_' + b.id + '_' + d.key) || '0');\n      const worked = mins >= 0.5;\n      let fill, opacity;\n      if (!worked)    { fill = '#E8E5DF'; opacity = '1'; }\n      else if (mins < 15) { fill = b.color; opacity = '0.35'; }\n      else            { fill = b.color; opacity = '1'; }\n      const tip = worked ? d.key + ': ' + Math.round(mins) + ' min' : d.key + ': not worked';\n      return `<div class=\"health-day-dot\" style=\"background:${fill};opacity:${opacity}\" title=\"${tip}\"></div>`;\n    }).join('');\n\n    return `\n      <div class=\"health-row\">\n        <div class=\"health-brand-label\">${BRAND_LABELS[b.id]}</div>\n        ${dailyPip}\n        <div class=\"health-dots\">${dots}</div>\n        <div class=\"health-age-label ${colorClass}\">${label}</div>\n      </div>`;\n  }).join('');\n\n  container.innerHTML = dayLabelRow + rows;\n}\n\n/* ============================================================\n   DORMANT BRANDS\n   ============================================================ */\nlet dormantOpen = false;\nlet opsOpen = false;\n\nfunction toggleOps() {\n  opsOpen = !opsOpen;\n  document.getElementById('ops-row').classList.toggle('open', opsOpen);\n  document.getElementById('ops-toggle-btn').textContent = opsOpen ? '\u2699 Hide back office' : '\u2699 Back office';\n  if (opsOpen) renderOps();\n}\n\nfunction openBrandUrl(brandId) {\n  const brand = BRANDS.find(b => b.id === brandId);\n  if (brand && brand.url) window.open(brand.url, '_blank');\n}\n\nfunction toggleDormant() {\n  dormantOpen = !dormantOpen;\n  document.getElementById('dormant-brands-row').classList.toggle('open', dormantOpen);\n  document.getElementById('dormant-toggle-btn').textContent = dormantOpen ? '\ud83e\udd41 Hide auditions' : '\ud83e\udd41 Auditions';\n  if (dormantOpen) renderDormantBrands();\n}\n\nfunction renderDormantBrands() {\n  const row = document.getElementById('dormant-brands-row');\n  const dormantBrands = BRANDS.filter(b => b.dormant);\n  let html = '';\n  dormantBrands.forEach(b => {\n    const isActive = activeBrandId === b.id;\n    const style = isActive ? `background:${b.color}; border-color:${b.color};` : 'background:#F5F4F0; border-color:#ddd;';\n    const stage = getStageMeta(b.id);\n    html += `\n      <button class=\"brand-btn${isActive ? ' active' : ''}\" style=\"${style}; opacity:0.75;\" onclick=\"selectBrand('${b.id}')\" ondblclick=\"openBrandUrl('${b.id}')\" title=\"${b.url ? 'Double-click to open ' + b.url : ''}\">\n        <div class=\"brand-initials\" style=\"color:${isActive ? '#fff' : b.color}\">${b.short}</div>\n        <div class=\"brand-short-name\" style=\"color:${isActive ? '#fff' : '#888'}\">${BRAND_LABELS[b.id]}</div>\n        <div class=\"brand-last\" style=\"color:${isActive ? 'rgba(255,255,255,0.7)' : '#aaa'}\">Auditioning</div>\n        <div class=\"brand-stage-pip\" style=\"background:${stage.bg};color:${stage.color}\" onclick=\"event.stopPropagation();cycleStage('${b.id}')\" ondblclick=\"event.stopPropagation()\" title=\"Click to advance stage\">${stage.label}</div>\n      </button>`;\n  });\n  row.innerHTML = html;\n}\n\n/* ============================================================\n   BRAND FUNNEL\n   ============================================================ */\nlet funnelOpen = false;\n\nfunction toggleFunnel() {\n  funnelOpen = !funnelOpen;\n  document.getElementById('funnel-panel').classList.toggle('open', funnelOpen);\n  document.getElementById('funnel-toggle-btn').textContent = funnelOpen ? '\ud83d\udcca Hide funnel' : '\ud83d\udcca Brand Funnel';\n  if (funnelOpen) renderFunnel();\n}\n\nfunction renderFunnel() {\n  const panel = document.getElementById('funnel-panel');\n  if (!panel) return;\n  const allBrands = BRANDS.filter(b => !b.ops);\n  const cols = STAGES.map(stage => {\n    const brands = allBrands.filter(b => getStage(b.id) === stage.id);\n    const chips = brands.length\n      ? brands.map(b => `<div class=\"funnel-chip\" style=\"background:${stage.bg};color:${stage.color}\" onclick=\"selectBrand('${b.id}')\" title=\"Click to open ${b.name}\">${BRAND_LABELS[b.id]}</div>`).join('')\n      : `<div class=\"funnel-empty\">\u2014</div>`;\n    return `\n      <";
-function copyCode() {
-  navigator.clipboard.writeText(code).then(() => {
-    document.getElementById('msg').textContent = '✓ Copied! Now paste into GitHub.';
-    document.getElementById('msg').style.color = '#1D9E75';
-  });
+/* ============================================================
+   PASSWORD GATE
+   ============================================================ */
+const GATE_KEY = 'bb_auth';
+const GATE_PASS = 'angostura-tack-7';
+
+function gateCheck() {
+  if (localStorage.getItem(GATE_KEY) === '1') {
+    document.getElementById('gate-overlay').style.display = 'none';
+  } else {
+    setTimeout(() => document.getElementById('gate-input').focus(), 100);
+  }
 }
-</script>
-</body>
-</html>
+
+function gateSubmit() {
+  const val = document.getElementById('gate-input').value;
+  if (val === GATE_PASS) {
+    localStorage.setItem(GATE_KEY, '1');
+    document.getElementById('gate-overlay').style.display = 'none';
+  } else {
+    const inp = document.getElementById('gate-input');
+    inp.classList.add('error');
+    document.getElementById('gate-error').textContent = 'Wrong password.';
+    inp.value = '';
+    setTimeout(() => { inp.classList.remove('error'); inp.focus(); }, 400);
+  }
+}
+
+gateCheck();
+
+/* ============================================================
+   DATA
+   ============================================================ */
+const DAILY_MIN = 15;
+
+const BRANDS = [
+  {
+    id: 'hh', name: 'Holloway & Hare', short: 'H&H',
+    color: '#185FA5', lightBg: '#E6F1FB',
+    url: 'https://hollowayandhare.com',
+    daily: true,
+    notionQuery: 'Holloway Hare editorial blog',
+    cards: [
+      { id: 'hh-ascot', type: 'Opportunity', title: 'Royal Ascot morning dress guide',
+        body: "Ascot is H&H's biggest seasonal moment. It's the #1 SEO opportunity right now — and it'll keep working long after Ascot ends. Window is open." },
+      { id: 'hh-cheltenham', type: 'Nudge', title: 'Cheltenham wrap-up — still has legs',
+        body: "You covered Cheltenham but the reflective piece never ran. A 'what to wear, what worked' post still finds an audience before Goodwood." },
+      { id: 'hh-goodwood', type: 'Opportunity', title: 'Goodwood preview — start seeding now',
+        body: "Goodwood press list opens soon. A preview piece positions H&H early. Start it now, publish when ready." }
+    ]
+  },
+  {
+    id: 'ch', name: 'CareHelm', short: 'CH',
+    color: '#1D9E75', lightBg: '#E1F5EE',
+    url: 'https://carehelm.co',
+    daily: false,
+    notionQuery: 'CareHelm family care coordination',
+    cards: [
+      { id: 'ch-email', type: 'Nudge', title: 'Personal email to a recent signup',
+        body: "Not a campaign — one genuine message. 'How's it going? What made you try it?' The signal you get back is worth more than a month of analytics. Ten minutes max." },
+      { id: 'ch-burnout', type: 'Opportunity', title: 'Caregiver burnout content',
+        body: "Real search volume, thin competition. One well-written piece on caregiver decision fatigue positions CareHelm in a genuinely useful way and ranks for years." },
+      { id: 'ch-gm-cross', type: 'Cross-pollination', title: "Your GM thinking → CareHelm's best post",
+        body: "The ratio/intellectus framework from Gadfly maps directly onto caregiver burnout. The bridge is already built in your head." }
+    ]
+  },
+  {
+    id: 'gm', name: 'Gadfly Machines', short: 'GM',
+    color: '#534AB7', lightBg: '#EEEDFE',
+    url: 'https://gadflymachines.com',
+    daily: true,
+    notionQuery: 'Gadfly Machines dialectical community',
+    cards: [
+      { id: 'gm-phronesis', type: 'Opportunity', title: 'Phronesis piece — strike while warm',
+        body: "The Discord thread is active. A short published piece right now crystallises the conversation into something the community can point to." },
+      { id: 'gm-welcome', type: 'Nudge', title: 'Personal welcome to new member',
+        body: "The community is small enough that a message from you is the whole experience. One genuine note sets the tone." },
+      { id: 'gm-ratio', type: 'Opportunity', title: 'Ratio vs. intellectus — write it out',
+        body: "This distinction is the philosophical core of Gadfly. Draft it now — even rough — and you'll have the engine behind everything else GM produces." }
+    ]
+  },
+  {
+    id: 'tp', name: 'TailorPress', short: 'TP',
+    color: '#8A5E10', lightBg: '#FAEEDA',
+    url: 'https://tailorpress.co',
+    daily: true,
+    notionQuery: 'TailorPress content platform',
+    cards: [
+      { id: 'tp-motion', type: 'Nudge', title: 'Ship something small — anything',
+        body: "TailorPress doesn't need a launch plan. It needs motion. A changelog note, a screenshot, a single sentence update." },
+      { id: 'tp-casestudy', type: 'Opportunity', title: "First case study — it's already done",
+        body: "The H&H Ascot guide is TailorPress's first proof of concept. A short 'here's how we built this' adds 300 words to something you've already written." }
+    ]
+  },
+  {
+    id: 'vo', name: 'Voice Over', short: 'VO',
+    color: '#C04B20', lightBg: '#FAECE7',
+    url: 'https://markfieldsdavidson.com',
+    daily: true,
+    notionQuery: 'voiceover voice acting demo reel',
+    cards: [
+      { id: 'vo-outreach', type: 'Opportunity', title: 'Casting window outreach — 3 emails',
+        body: "Casting directors review in cycles. Three specific, targeted emails during an open window are worth ten times thirty generic ones sent cold." },
+      { id: 'vo-reel', type: 'Nudge', title: 'Demo reel update — overdue',
+        body: "Every pitch you send points to your reel. One focused hour of editing now multiplies the return on every outreach you send this season." },
+      { id: 'vo-ch-cross', type: 'Cross-pollination', title: 'VO craft → CareHelm brand voice',
+        body: "Your warmth, pacing, and presence on mic are directly transferable to CareHelm's audio and video content. These two worlds haven't met yet." }
+    ]
+  },
+  {
+    id: 'di', name: 'Disputatio', short: 'DI',
+    color: '#A0304A', lightBg: '#FAEBEE',
+    url: 'https://disputatio.app',
+    daily: false,
+    notionQuery: 'Disputatio debate argumentation',
+    cards: [
+      { id: 'di-define', type: 'Opportunity', title: 'Define what Disputatio is — in one sentence',
+        body: "Before anything else can be built or written for this brand, the one-sentence definition needs to exist. What is it, who is it for, what does it do?" },
+      { id: 'di-gm-cross', type: 'Cross-pollination', title: 'Disputatio and Gadfly — siblings or rivals?',
+        body: "Both live in dialectical territory. Clarifying the relationship unlocks both brands." }
+    ]
+  },
+  {
+    id: 'fd', name: 'Family Desk', short: 'FD',
+    color: '#2E7D94', lightBg: '#E3F4F8',
+    daily: false,
+    notionQuery: 'Family Desk household management',
+    cards: [
+      { id: 'fd-define', type: 'Opportunity', title: 'What problem does Family Desk solve?',
+        body: "Is this a product, a content brand, or a community? Getting this down in a paragraph shapes everything that follows." },
+      { id: 'fd-ch-cross', type: 'Cross-pollination', title: 'Family Desk vs. CareHelm — draw the line',
+        body: "Both touch family coordination. Understanding where one ends and the other begins prevents confusion for users and focus drift for you." }
+    ]
+  },
+  {
+    id: 'sc', name: 'Schola', short: 'SC',
+    color: '#3D6B3A', lightBg: '#E5F2E4',
+    daily: false,
+    notionQuery: 'Schola education learning curriculum',
+    cards: [
+      { id: 'sc-define', type: 'Opportunity', title: 'What is Schola teaching, and to whom?',
+        body: "The name signals classical learning. Pinning down the subject, the audience, and the format is the first real decision." },
+      { id: 'sc-gm-cross', type: 'Cross-pollination', title: 'Gadfly pedagogy → Schola curriculum',
+        body: "Socratic method, ratio and intellectus, deliberative practice — these are already the intellectual core of Gadfly. Schola might be where that thinking becomes structured learning." }
+    ]
+  },
+  {
+    id: 'mm', name: 'Masked Mixer', short: 'MM',
+    color: '#1A1A2E', lightBg: '#EEEEF5',
+    url: 'https://maskedmixer.com',
+    dormant: true,
+    daily: false,
+    notionQuery: 'Masked Mixer',
+    cards: [
+      { id: 'mm-form', type: 'Nudge', title: 'Fix newsletter signup form',
+        body: 'Form currently errors on submit. Investigate Supabase connection or switch to a simpler provider.' }
+    ]
+  },
+  {
+    id: 'aa', name: 'AA Operations', short: 'AA',
+    color: '#555', lightBg: '#F0EDE6',
+    ops: true,
+    daily: false,
+    notionQuery: 'AA LLC operations admin',
+    cards: [
+      { id: 'aa-tax', type: 'Admin', title: 'Tax filing',
+        body: "Federal, state, or quarterly — log time here for any tax prep, form filing, or accountant calls. Keep a record even if it feels invisible." },
+      { id: 'aa-books', type: 'Admin', title: 'Bookkeeping & reconciliation',
+        body: "Categorising transactions, reconciling accounts, reviewing P&L. The kind of work that compounds silently when skipped." },
+      { id: 'aa-legal', type: 'Admin', title: 'Legal & compliance',
+        body: "LLC renewals, contracts, registered agent, operating agreements. Flag it here so it doesn't slip through the cracks." },
+      { id: 'aa-admin', type: 'Admin', title: 'General admin',
+        body: "Anything AA-level that doesn't fit elsewhere — insurance, banking, subscriptions, vendor calls. Log it so the invisible work gets counted." }
+    ]
+  }
+];
+
+const BRAND_LABELS = {hh:'H&H',ch:'CareHelm',gm:'Gadfly',tp:'TailorPress',vo:'Voice Over',di:'Disputatio',fd:'Family Desk',sc:'Schola',aa:'AA Ops',mm:'Masked Mixer'};
+const BRAND_SUBS = {
+  hh:'British editorial — social season & countryside',
+  ch:'HIPAA-compliant family care coordination',
+  gm:'Dialectical workshop for solo builders',
+  tp:'Content platform — in build phase',
+  vo:'Voiceover — outreach, performance, reel',
+  di:'Debate & argumentation — early stage',
+  fd:'Family management & household coordination',
+  sc:'Classical learning & curriculum — early stage',
+  aa:'LLC admin, tax, legal, bookkeeping',
+  mm:'Music community — live at maskedmixer.com, auditioning for a slot'
+};
+
+const STAGES = [
+  { id: 'ideation',  label: 'Ideation',  color: '#999',    bg: '#F0EDE6' },
+  { id: 'mvp',       label: 'MVP',        color: '#2E7D94', bg: '#E3F4F8' },
+  { id: 'build',     label: 'Build',      color: '#8A5E10', bg: '#FAEEDA' },
+  { id: 'operating', label: 'Operating',  color: '#534AB7', bg: '#EEEDFE' },
+  { id: 'market',    label: '$ Ready',    color: '#1D9E75', bg: '#E1F5EE' },
+];
+const DEFAULT_STAGES = {
+  hh: 'operating', ch: 'build', gm: 'operating', tp: 'market',
+  vo: 'market', di: 'operating', fd: 'ideation', sc: 'ideation', mm: 'ideation'
+};
+
+const DEFAULT_BACKEND = {
+  mm: {
+    hosting: 'maskedmixer.com (built with Bolt, hosted via Vercel)',
+    tools: [
+      { name: 'Newsletter', detail: 'Bolt Database via Supabase (stores subscribers)' },
+      { name: 'Contact form', detail: 'Formspree' }
+    ],
+    notes: 'Site is live but business is on hold. Form is currently broken.'
+  }
+};
+
+const typeStyles = {
+  'Opportunity':       (b) => ({ bg: b.lightBg, color: b.color, dot: b.color }),
+  'Nudge':             ()  => ({ bg: '#F0EDE6', color: '#4A4036', dot: '#8A7A6A' }),
+  'Cross-pollination': ()  => ({ bg: '#EEEDFE', color: '#3D3598', dot: '#534AB7' }),
+  'Admin':             ()  => ({ bg: '#EFEFEF', color: '#555', dot: '#999' }),
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let activeBrandId = null;
+let timerInterval = null;
+let timerStart = null;
+let runningCardId = null;
+let runningBrandId = null;
+let sessionLog = [];
+window._notionDays = {};
+window._todayCelebrated = {};
+
+/* ============================================================
+   DATE HELPERS
+   ============================================================ */
+function todayKey() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function isWeekday() {
+  const d = new Date().getDay();
+  return d >= 1 && d <= 5;
+}
+
+/* ============================================================
+   LOCALSTORAGE HELPERS
+   ============================================================ */
+function ls(key, val) {
+  try {
+    if (val === undefined) return localStorage.getItem(key);
+    localStorage.setItem(key, val);
+  } catch(e) { return null; }
+}
+
+function getLastWorked(cardId)  { return ls('bw_card_'  + cardId); }
+function setLastWorked(cardId)  { ls('bw_card_' + cardId, new Date().toISOString()); }
+function getBrandLast(brandId)  { return ls('bw_brand_' + brandId); }
+function setBrandLast(brandId)  { ls('bw_brand_' + brandId, new Date().toISOString()); }
+
+function getTodayMins(brandId) {
+  return parseFloat(ls('bw_mins_' + brandId + '_' + todayKey()) || '0');
+}
+function addTodayMins(brandId, mins) {
+  const cur = getTodayMins(brandId);
+  ls('bw_mins_' + brandId + '_' + todayKey(), String(cur + mins));
+}
+
+/* ============================================================
+   STAGE HELPERS
+   ============================================================ */
+function getStage(brandId) {
+  return ls('bb_stage_' + brandId) || DEFAULT_STAGES[brandId] || 'ideation';
+}
+function setStage(brandId, stageId) {
+  ls('bb_stage_' + brandId, stageId);
+}
+function getStageMeta(brandId) {
+  const id = getStage(brandId);
+  return STAGES.find(s => s.id === id) || STAGES[0];
+}
+function cycleStage(brandId) {
+  const ids = STAGES.map(s => s.id);
+  const cur = getStage(brandId);
+  const next = ids[(ids.indexOf(cur) + 1) % ids.length];
+  setStage(brandId, next);
+  renderBrands();
+  renderOps();
+  if (dormantOpen) renderDormantBrands();
+  renderFunnel();
+}
+
+/* ============================================================
+   LABEL HELPERS
+   ============================================================ */
+function lastWorkedLabel(isoStr) {
+  if (!isoStr) return null;
+  const diff = Math.floor((Date.now() - new Date(isoStr)) / 60000);
+  if (diff < 2)  return 'Just now';
+  if (diff < 60) return diff + ' min ago';
+  const hrs = Math.floor(diff / 60);
+  if (hrs < 24)  return hrs + 'h ago';
+  const days = Math.floor(hrs / 24);
+  return days + ' day' + (days === 1 ? '' : 's') + ' ago';
+}
+
+function ageInDays(isoStr) {
+  if (!isoStr) return null;
+  return Math.floor((Date.now() - new Date(isoStr)) / 86400000);
+}
+
+/* ============================================================
+   STREAK
+   ============================================================ */
+function getDailyStreak(brandId) {
+  let streak = 0;
+  const today = new Date();
+  for (let i = 1; i <= 60; i++) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const day = d.getDay();
+    if (day === 0 || day === 6) continue; // skip weekends
+    const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    const mins = parseFloat(localStorage.getItem('bw_mins_' + brandId + '_' + key) || '0');
+    if (mins >= DAILY_MIN) streak++;
+    else break;
+  }
+  return streak;
+}
+
+/* ============================================================
+   SOUND
+   ============================================================ */
+function playTone(frequency, duration, volume) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = frequency;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(volume || 0.25, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + duration);
+  } catch(e) {}
+}
+function playStartTone()   { playTone(392, 0.08, 0.18); }
+function playStopTone()    { playTone(523, 0.12, 0.2); setTimeout(() => playTone(440, 0.15, 0.15), 100); }
+function playSuccessTone() { playTone(523, 0.1, 0.22); setTimeout(() => playTone(784, 0.18, 0.22), 110); }
+function playAllDoneFanfare() {
+  [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => playTone(f, 0.18, 0.2), i * 90));
+}
+
+/* ============================================================
+   CONFETTI
+   ============================================================ */
+function triggerConfetti(x, y, color, count) {
+  const n = count || 35;
+  const palette = [color || '#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#C3B1E1', '#FFD93D'];
+  for (let i = 0; i < n; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 70 + Math.random() * 160;
+    const dx = Math.cos(angle) * speed;
+    const dy = Math.sin(angle) * speed - 80;
+    const rot = ((Math.random() - 0.5) * 900) + 'deg';
+    const size = 6 + Math.random() * 9;
+    const c = i < 3 ? color : palette[Math.floor(Math.random() * palette.length)];
+    const dur = 0.65 + Math.random() * 0.55;
+    el.style.cssText = `left:${x}px;top:${y}px;width:${size}px;height:${size}px;background:${c};--dx:${dx}px;--dy:${dy}px;--rot:${rot};animation:confettiBurst ${dur}s ease-out forwards;border-radius:${Math.random() > 0.4 ? '50%' : '2px'};`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), (dur + 0.1) * 1000);
+  }
+}
+
+function burstFromEl(el, color, count) {
+  if (!el) return;
+  const r = el.getBoundingClientRect();
+  triggerConfetti(r.left + r.width / 2, r.top + r.height / 2, color, count);
+}
+
+/* ============================================================
+   DAILY PANEL
+   ============================================================ */
+const ALL_DONE_MESSAGES = [
+  'Four for four. Take a bow.',
+  'All daily brands done. Seriously.',
+  'GM ✓ VO ✓ H&H ✓ TP ✓ — Locked in.',
+  'Daily quota: crushed. Go make something.',
+  'Full send. Every brand got 15 min.'
+];
+
+function dailyState(brand) {
+  if (!isWeekday()) return 'weekend';
+  const mins = getTodayMins(brand.id);
+  if (mins >= DAILY_MIN) return 'done';
+  if (mins > 0) return 'partial';
+  return 'undone';
+}
+
+function renderDailyPanel() {
+  const dailyBrands = BRANDS.filter(b => b.daily);
+  const states = dailyBrands.map(b => dailyState(b));
+
+  let panelClass, titleClass, titleText, subtitleText;
+  if (!isWeekday()) {
+    panelClass = 'weekend'; titleClass = 'weekend';
+    titleText = 'Daily Brands — Weekend';
+    subtitleText = 'Rest up. Back at it Monday.';
+  } else if (states.every(s => s === 'done')) {
+    panelClass = 'all-done'; titleClass = 'all-done';
+    titleText = '✦ Daily brands — all done';
+    const msg = ALL_DONE_MESSAGES[new Date().getDate() % ALL_DONE_MESSAGES.length];
+    subtitleText = msg;
+  } else if (states.some(s => s === 'done' || s === 'partial')) {
+    panelClass = 'in-progress'; titleClass = 'in-progress';
+    const remaining = dailyBrands.filter((b,i) => states[i] !== 'done');
+    titleText = 'Daily brands — in progress';
+    subtitleText = remaining.map(b => BRAND_LABELS[b.id]).join(', ') + ' still need attention today';
+  } else {
+    panelClass = 'needs-attention'; titleClass = 'needs-attention';
+    titleText = 'Daily brands — not started yet';
+    subtitleText = 'GM, VO, H&H, and TP each need 15 min today';
+  }
+
+  const panel = document.getElementById('daily-panel');
+  panel.className = 'daily-panel ' + panelClass;
+  const titleEl = document.getElementById('daily-title');
+  titleEl.className = 'daily-title ' + titleClass;
+  titleEl.textContent = titleText;
+  document.getElementById('daily-subtitle').textContent = subtitleText;
+
+  const row = document.getElementById('daily-cards-row');
+  row.innerHTML = dailyBrands.map((b, i) => {
+    const state = states[i];
+    const mins = getTodayMins(b.id);
+    const pct = Math.min(100, Math.round((mins / DAILY_MIN) * 100));
+    let icon, label;
+    if (state === 'done')         { icon = '✓'; label = mins.toFixed(0) + ' min today'; }
+    else if (state === 'partial') { icon = '…'; label = mins.toFixed(0) + ' / 15 min'; }
+    else if (state === 'undone')  { icon = '○'; label = '0 / 15 min'; }
+    else                          { icon = '—'; label = 'Weekend'; }
+    return `
+      <div class="daily-card ${state}" onclick="selectBrand('${b.id}')" title="Click to open ${b.name}">
+        <div class="daily-card-top">
+          <div class="daily-brand-name" style="color:${b.color}">${BRAND_LABELS[b.id]}</div>
+          <div class="daily-status-icon">${icon}</div>
+        </div>
+        <div class="daily-progress-track">
+          <div class="daily-progress-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="daily-mins-label">${label}</div>
+      </div>`;
+  }).join('');
+}
+
+/* ============================================================
+   HEALTH STRIP
+   ============================================================ */
+function healthMeta(brandId) {
+  const iso = getBrandLast(brandId);
+  const notionDays = window._notionDays?.[brandId] ?? null;
+  if (!iso && notionDays === null) return { colorClass: 'age-cold', label: 'Not yet' };
+
+  let days, label;
+  if (iso) {
+    days = ageInDays(iso);
+    label = lastWorkedLabel(iso) || 'Today';
+  } else {
+    days = notionDays;
+    label = days === 0 ? 'Today' : days === 1 ? 'Yesterday' : days + 'd ago';
+  }
+
+  let colorClass;
+  if      (days <= 3)  colorClass = 'age-fresh';
+  else if (days <= 7)  colorClass = 'age-ok';
+  else if (days <= 14) colorClass = 'age-stale';
+  else                 colorClass = 'age-cold';
+
+  return { colorClass, label };
+}
+
+function renderHealthStrip() {
+  const container = document.getElementById('health-rows');
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    const dayName = d.toLocaleDateString('en-US', { weekday: 'short' }).slice(0,1);
+    days.push({ key, dayName, isToday: i === 0 });
+  }
+
+  const dayLabelRow = `<div class="health-day-label-row">
+    ${days.map(d => `<div class="health-day-label" style="${d.isToday ? 'color:#444;font-weight:800' : ''}">${d.dayName}</div>`).join('')}
+  </div>`;
+
+  const rows = BRANDS.map(b => {
+    const { colorClass, label } = healthMeta(b.id);
+    const dailyPip = b.daily
+      ? `<div class="health-daily-pip" style="background:${b.color}" title="Daily brand"></div>`
+      : `<div class="health-daily-pip" style="background:transparent"></div>`;
+
+    const dots = days.map(d => {
+      const mins = parseFloat(localStorage.getItem('bw_mins_' + b.id + '_' + d.key) || '0');
+      const worked = mins >= 0.5;
+      let fill, opacity;
+      if (!worked)    { fill = '#E8E5DF'; opacity = '1'; }
+      else if (mins < 15) { fill = b.color; opacity = '0.35'; }
+      else            { fill = b.color; opacity = '1'; }
+      const tip = worked ? d.key + ': ' + Math.round(mins) + ' min' : d.key + ': not worked';
+      return `<div class="health-day-dot" style="background:${fill};opacity:${opacity}" title="${tip}"></div>`;
+    }).join('');
+
+    return `
+      <div class="health-row">
+        <div class="health-brand-label">${BRAND_LABELS[b.id]}</div>
+        ${dailyPip}
+        <div class="health-dots">${dots}</div>
+        <div class="health-age-label ${colorClass}">${label}</div>
+      </div>`;
+  }).join('');
+
+  container.innerHTML = dayLabelRow + rows;
+}
+
+/* ============================================================
+   DORMANT BRANDS
+   ============================================================ */
+let dormantOpen = false;
+let opsOpen = false;
+
+function toggleOps() {
+  opsOpen = !opsOpen;
+  document.getElementById('ops-row').classList.toggle('open', opsOpen);
+  document.getElementById('ops-toggle-btn').textContent = opsOpen ? '⚙ Hide back office' : '⚙ Back office';
+  if (opsOpen) renderOps();
+}
+
+function openBrandUrl(brandId) {
+  const brand = BRANDS.find(b => b.id === brandId);
+  if (brand && brand.url) window.open(brand.url, '_blank');
+}
+
+function toggleDormant() {
+  dormantOpen = !dormantOpen;
+  document.getElementById('dormant-brands-row').classList.toggle('open', dormantOpen);
+  document.getElementById('dormant-toggle-btn').textContent = dormantOpen ? '🥁 Hide auditions' : '🥁 Auditions';
+  if (dormantOpen) renderDormantBrands();
+}
+
+function renderDormantBrands() {
+  const row = document.getElementById('dormant-brands-row');
+  const dormantBrands = BRANDS.filter(b => b.dormant);
+  let html = '';
+  dormantBrands.forEach(b => {
+    const isActive = activeBrandId === b.id;
+    const style = isActive ? `background:${b.color}; border-color:${b.color};` : 'background:#F5F4F0; border-color:#ddd;';
+    const stage = getStageMeta(b.id);
+    html += `
+      <button class="brand-btn${isActive ? ' active' : ''}" style="${style}; opacity:0.75;" onclick="selectBrand('${b.id}')" ondblclick="openBrandUrl('${b.id}')" title="${b.url ? 'Double-click to open ' + b.url : ''}">
+        <div class="brand-initials" style="color:${isActive ? '#fff' : b.color}">${b.short}</div>
+        <div class="brand-short-name" style="color:${isActive ? '#fff' : '#888'}">${BRAND_LABELS[b.id]}</div>
+        <div class="brand-last" style="color:${isActive ? 'rgba(255,255,255,0.7)' : '#aaa'}">Auditioning</div>
+        <div class="brand-stage-pip" style="background:${stage.bg};color:${stage.color}" onclick="event.stopPropagation();cycleStage('${b.id}')" ondblclick="event.stopPropagation()" title="Click to advance stage">${stage.label}</div>
+      </button>`;
+  });
+  row.innerHTML = html;
+}
+
+/* ============================================================
+   BRAND FUNNEL
+   ============================================================ */
+let funnelOpen = false;
+
+function toggleFunnel() {
+  funnelOpen = !funnelOpen;
+  document.getElementById('funnel-panel').classList.toggle('open', funnelOpen);
+  document.getElementById('funnel-toggle-btn').textContent = funnelOpen ? '📊 Hide funnel' : '📊 Brand Funnel';
+  if (funnelOpen) renderFunnel();
+}
+
+function renderFunnel() {
+  const panel = document.getElementById('funnel-panel');
+  if (!panel) return;
+  const allBrands = BRANDS.filter(b => !b.ops);
+  const cols = STAGES.map(stage => {
+    const brands = allBrands.filter(b => getStage(b.id) === stage.id);
+    const chips = brands.length
+      ? brands.map(b => `<div class="funnel-chip" style="background:${stage.bg};color:${stage.color}" onclick="selectBrand('${b.id}')" title="Click to open ${b.name}">${BRAND_LABELS[b.id]}</div>`).join('')
+      : `<div class="funnel-empty">—</div>`;
+    return `
+      <
