@@ -1,0 +1,2404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Band</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #EDEBE4;
+  color: #111;
+  padding: 14px 16px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display: inline; letter-spacing: -0.02em; }
+.tagline { font-size: 13px; color: #888; display: inline; margin-left: 10px; }
+.title-row { margin-bottom: 12px; }
+
+.how-to-use {
+  font-size: 13px; color: #555;
+  background: #fff;
+  border-left: 3px solid #bbb;
+  border-radius: 0 8px 8px 0;
+  padding: 8px 14px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.how-to-use strong { font-weight: 700; }
+
+/* ============================================================
+   DAILY BRANDS PANEL
+   ============================================================ */
+.daily-panel {
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border: 2px solid transparent;
+}
+.daily-panel.all-done {
+  background: #E6F9F0;
+  border-color: #1D9E75;
+  animation: allDoneBounce 0.7s ease-out both;
+}
+.daily-panel.in-progress {
+  background: #FFF8E6;
+  border-color: #D4900A;
+}
+.daily-panel.needs-attention {
+  background: #FFF0EE;
+  border-color: #C04B20;
+}
+.daily-panel.weekend {
+  background: #F5F4F0;
+  border-color: #ccc;
+}
+
+.daily-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px; flex-wrap: wrap; gap: 4px;
+}
+.daily-title {
+  font-size: 12px; font-weight: 800;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.daily-title.all-done  { color: #1D9E75; }
+.daily-title.in-progress { color: #8A6010; }
+.daily-title.needs-attention { color: #C04B20; }
+.daily-title.weekend   { color: #888; }
+.daily-subtitle { font-size: 12px; color: #777; }
+
+.daily-cards-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.daily-card {
+  flex: 1; min-width: 110px;
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex; flex-direction: column; gap: 6px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.18s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.15s;
+  position: relative;
+}
+.daily-card:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 6px 18px rgba(0,0,0,0.11); }
+
+/* States */
+.daily-card.done     { background: #fff; border-color: #1D9E75; }
+.daily-card.partial  { background: #fff; border-color: #D4900A; }
+.daily-card.undone   { background: #fff; border-color: #E0C8C4; }
+.daily-card.weekend  { background: #F8F7F4; border-color: #ddd; }
+
+.daily-card-top { display: flex; align-items: center; justify-content: space-between; }
+.daily-brand-name { font-size: 14px; font-weight: 800; }
+
+.daily-status-icon { font-size: 16px; line-height: 1; }
+
+.daily-progress-track {
+  height: 5px; background: #F0EDE6; border-radius: 3px; overflow: hidden;
+}
+.daily-progress-fill {
+  height: 100%; border-radius: 4px;
+  transition: width 0.6s cubic-bezier(.17,.67,.35,1.2);
+}
+.daily-card.done    .daily-progress-fill { background: #1D9E75; }
+.daily-card.partial .daily-progress-fill { background: #D4900A; }
+.daily-card.undone  .daily-progress-fill { background: #E8C4BE; }
+
+.daily-mins-label { font-size: 11px; font-weight: 600; }
+.daily-card.done    .daily-mins-label { color: #1D9E75; }
+.daily-card.partial .daily-mins-label { color: #8A6010; }
+.daily-card.undone  .daily-mins-label { color: #999; }
+.daily-card.weekend .daily-mins-label { color: #aaa; }
+
+/* ============================================================
+   HEALTH STRIP
+   ============================================================ */
+.health-strip {
+  display: inline-block;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 14px 12px;
+  margin-bottom: 10px;
+}
+.health-strip-title {
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #888; margin-bottom: 10px;
+}
+.health-rows { display: flex; flex-direction: column; gap: 6px; }
+.health-row { display: flex; align-items: center; gap: 10px; }
+.health-brand-label { font-size: 13px; font-weight: 700; color: #111; width: 88px; flex-shrink: 0; }
+.health-daily-pip {
+  width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.health-dots { display: flex; gap: 4px; align-items: center; flex: 1; }
+.health-day-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+  transition: transform 0.15s;
+}
+.health-day-dot:hover { transform: scale(1.4); }
+.health-day-dot[title]:hover::after {
+  content: attr(title);
+  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: #111; color: #fff; font-size: 11px; font-weight: 600;
+  padding: 3px 7px; border-radius: 5px; white-space: nowrap;
+  pointer-events: none; z-index: 10;
+}
+.health-age-label { font-size: 12px; font-weight: 600; width: 72px; flex-shrink: 0; text-align: right; }
+.age-fresh { color: #1D9E75; }
+.age-ok    { color: #8A5E10; }
+.age-stale { color: #C04B20; }
+.age-cold  { color: #aaa; }
+.health-day-label-row {
+  display: flex; gap: 4px; align-items: center;
+  padding-left: calc(88px + 6px + 10px + 10px);
+  margin-top: -2px; margin-bottom: 4px;
+}
+.health-day-label { width: 12px; text-align: center; font-size: 10px; color: #aaa; font-weight: 600; flex-shrink: 0; }
+
+
+/* ============================================================
+   LOADING BAR
+   ============================================================ */
+.load-bar-wrap { height: 2px; background: #ddd; border-radius: 2px; margin-bottom: 10px; overflow: hidden; }
+.load-bar-fill { height: 100%; background: #444; border-radius: 2px; width: 0; transition: width 0.3s ease, opacity 0.6s; }
+
+/* ============================================================
+   TIMER BANNER
+   ============================================================ */
+.timer-banner {
+  display: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, #0f0f18 0%, #1a1040 33%, #0f180f 66%, #1a0f18 100%);
+  background-size: 400% 400%;
+}
+.timer-banner.visible {
+  display: flex;
+  animation: timerGlow 8s ease infinite;
+}
+@keyframes timerGlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.timer-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #888; margin-bottom: 2px;
+  display: flex; align-items: center; gap: 6px;
+}
+.timer-live-dot {
+  display: inline-block;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #4ADE80;
+  animation: liveDotPulse 1.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes liveDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.3; transform: scale(0.6); }
+}
+.timer-card-name { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 1px; }
+.timer-brand-name { font-size: 12px; color: #aaa; }
+.timer-right { display: flex; align-items: center; gap: 14px; }
+.timer-clock { font-size: 36px; font-weight: 800; color: #fff; letter-spacing: -1px; font-variant-numeric: tabular-nums; min-width: 120px; }
+.stop-btn {
+  background: #fff; color: #111;
+  border: none; border-radius: 8px;
+  padding: 9px 20px; font-size: 14px; font-weight: 800;
+  cursor: pointer; flex-shrink: 0;
+  transition: background 0.15s, transform 0.12s;
+}
+.stop-btn:hover { background: #eee; transform: scale(1.05); }
+.stop-btn:active { transform: scale(0.96); }
+
+/* ============================================================
+   BRAND SELECTOR
+   ============================================================ */
+.section-label {
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #888; margin-bottom: 8px;
+}
+.brands-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.brand-btn {
+  flex: 1; min-width: 80px;
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  padding: 10px 8px 8px;
+  cursor: pointer; text-align: center;
+  transition: border-color 0.15s, transform 0.18s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.15s;
+  user-select: none;
+  position: relative;
+}
+.brand-btn:hover { border-color: #888; transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.10); }
+.brand-btn.active { border-width: 2px; color: #fff; box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
+.brand-btn.active .brand-last { color: rgba(255,255,255,0.75); }
+.brand-initials { font-size: 15px; font-weight: 800; margin-bottom: 3px; }
+.brand-short-name { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
+.brand-last { font-size: 10px; color: #777; font-weight: 500; }
+.daily-required-pip {
+  position: absolute; top: 8px; right: 8px;
+  width: 8px; height: 8px; border-radius: 50%;
+}
+
+/* Back office row */
+.ops-brands-row {
+  display: none; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.ops-brands-row.open { display: flex; }
+.ops-brands-row .brand-btn { flex: 0 0 auto; min-width: 90px; opacity: 0.85; }
+
+/* Stage pip on brand buttons */
+.brand-stage-pip {
+  display: inline-block;
+  font-size: 9px; font-weight: 800;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 20px;
+  margin-top: 5px; cursor: pointer;
+  transition: opacity 0.15s, transform 0.12s;
+  user-select: none;
+}
+.brand-stage-pip:hover { opacity: 0.75; transform: scale(1.08); }
+
+/* Funnel panel */
+.funnel-panel { display: none; margin-bottom: 12px; }
+.funnel-panel.open { display: block; }
+.funnel-grid { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+.funnel-col { flex: 1; min-width: 72px; }
+.funnel-col-header {
+  font-size: 9px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.08em; padding: 5px 8px;
+  border-radius: 7px 7px 0 0; text-align: center;
+  border-bottom: 2px solid rgba(0,0,0,0.07);
+}
+.funnel-col-body {
+  background: #fff; border-radius: 0 0 8px 8px;
+  padding: 6px; min-height: 32px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.funnel-chip {
+  font-size: 11px; font-weight: 700;
+  padding: 4px 6px; border-radius: 6px;
+  text-align: center; cursor: grab;
+  transition: opacity 0.15s, transform 0.12s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.funnel-chip:hover { opacity: 0.8; transform: scale(1.04); }
+.funnel-chip.dragging { opacity: 0.3; cursor: grabbing; }
+.funnel-col-body.drag-over { outline: 2px dashed #aaa; outline-offset: -2px; background: #f5f4f1; border-radius: 0 0 8px 8px; }
+.funnel-empty { font-size: 11px; color: #ccc; text-align: center; padding: 4px 0; }
+
+/* Add brand button */
+.add-brand-btn {
+  background: none; border: 2px dashed #ccc;
+  border-radius: 12px; padding: 8px 14px;
+  font-size: 13px; font-weight: 700; color: #aaa;
+  cursor: pointer; white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s;
+  display: flex; align-items: center; gap: 6px;
+}
+.add-brand-btn:hover { border-color: #888; color: #555; }
+
+/* Color swatch input */
+.color-swatch-wrap { display: flex; align-items: center; gap: 10px; }
+.color-swatch-preview { width: 32px; height: 32px; border-radius: 8px; border: 2px solid #ddd; flex-shrink: 0; }
+
+/* Brand button drag reorder */
+.brand-btn.dragging   { opacity: 0.35; transform: scale(0.96); }
+.brand-btn.drag-over  { outline: 2.5px dashed #888; outline-offset: 2px; transform: translateY(-4px); }
+
+/* Brand button pop animation */
+@keyframes brandBtnPop {
+  0%   { transform: scale(1) rotate(0deg); }
+  35%  { transform: scale(1.13) rotate(-1.5deg); }
+  65%  { transform: scale(0.96) rotate(1deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.brand-btn.popping { animation: brandBtnPop 0.38s cubic-bezier(.36,.07,.19,.97) both; }
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.cards-header { margin-bottom: 10px; }
+.cards-headline { font-size: 17px; font-weight: 800; color: #111; margin-bottom: 2px; }
+.cards-sub { font-size: 13px; color: #666; }
+
+.cards-empty {
+  text-align: center; padding: 60px 20px;
+  font-size: 18px; color: #888; font-weight: 500;
+}
+.cards-empty span { display: block; font-size: 40px; margin-bottom: 12px; }
+
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+
+.work-card {
+  background: #fff;
+  border: 2px solid #e8e5e0;
+  border-radius: 14px;
+  padding: 14px 16px;
+  transition: border-color 0.15s, transform 0.22s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.2s;
+  position: relative;
+}
+.work-card:hover { border-color: #aaa; transform: translateY(-4px) rotate(-0.6deg); box-shadow: 0 8px 24px rgba(0,0,0,0.11); }
+.work-card:nth-child(2n):hover { transform: translateY(-4px) rotate(0.6deg); }
+.work-card.is-running { border-width: 3px; box-shadow: 0 6px 24px rgba(0,0,0,0.15); }
+
+/* Card launch animation */
+@keyframes cardLaunch {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.04) rotate(-0.4deg); }
+  65%  { transform: scale(0.98) rotate(0.4deg); }
+  100% { transform: scale(1); }
+}
+.work-card.launching { animation: cardLaunch 0.42s cubic-bezier(.36,.07,.19,.97) both; }
+
+.card-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 700;
+  margin-bottom: 8px;
+}
+.badge-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+.card-title { font-size: 15px; font-weight: 800; color: #111; line-height: 1.3; margin-bottom: 6px; }
+.card-body  { font-size: 13px; color: #444; line-height: 1.6; margin-bottom: 12px; }
+
+.card-footer {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 10px;
+}
+.card-last { font-size: 12px; color: #888; font-weight: 500; }
+
+.start-btn {
+  background: #111; color: #fff;
+  border: none; border-radius: 8px;
+  padding: 8px 18px; font-size: 13px; font-weight: 800;
+  cursor: pointer; white-space: nowrap;
+  transition: opacity 0.15s, transform 0.12s;
+}
+.start-btn:hover { opacity: 0.85; transform: scale(1.05); }
+.start-btn:active { transform: scale(0.95); }
+.start-btn.active-btn { background: #555; }
+
+/* ============================================================
+   ADD CARD BUTTON + MODAL
+   ============================================================ */
+.add-card-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: transparent;
+  border: 2.5px dashed #ccc;
+  border-radius: 18px;
+  padding: 22px;
+  cursor: pointer;
+  font-size: 16px; font-weight: 700; color: #888;
+  transition: border-color 0.15s, color 0.15s, background 0.15s, transform 0.15s;
+  width: 100%;
+}
+.add-card-btn:hover { border-color: #888; color: #444; background: rgba(255,255,255,0.6); transform: scale(1.01); }
+.add-card-btn-plus { font-size: 24px; line-height: 1; }
+
+/* Modal overlay */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1000;
+  align-items: center; justify-content: center;
+  padding: 24px;
+}
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 28px 24px;
+  width: 100%; max-width: 480px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-title { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 20px; }
+
+.form-field { margin-bottom: 16px; }
+.form-label {
+  display: block;
+  font-size: 13px; font-weight: 700;
+  color: #555; margin-bottom: 6px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.form-input, .form-textarea, .form-select {
+  width: 100%;
+  font-size: 16px; color: #111;
+  background: #F5F4F1;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: inherit;
+  transition: border-color 0.15s;
+  outline: none;
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus { border-color: #888; background: #fff; }
+.form-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+.btn-primary {
+  flex: 1;
+  background: #111; color: #fff;
+  border: none; border-radius: 12px;
+  padding: 14px; font-size: 16px; font-weight: 800;
+  cursor: pointer; transition: opacity 0.15s, transform 0.12s;
+}
+.btn-primary:hover { opacity: 0.8; transform: scale(1.02); }
+.btn-secondary {
+  background: #F0EDE6; color: #333;
+  border: none; border-radius: 12px;
+  padding: 14px 20px; font-size: 16px; font-weight: 700;
+  cursor: pointer; transition: background 0.15s;
+}
+.btn-secondary:hover { background: #E5E2DA; }
+
+/* Delete button on custom cards */
+.card-delete-btn {
+  position: absolute; top: 14px; right: 14px;
+  background: none; border: none;
+  font-size: 16px; color: #ccc; cursor: pointer;
+  line-height: 1; padding: 2px 6px; border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+.card-delete-btn:hover { color: #C04B20; background: #FAECE7; }
+
+/* Card stage navigation */
+.card-stage-row {
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 8px;
+}
+.card-stage-badge {
+  font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.07em; padding: 2px 8px; border-radius: 20px;
+  flex: 1; text-align: center;
+}
+.card-stage-nav {
+  background: none; border: 1.5px solid #ddd;
+  border-radius: 6px; width: 22px; height: 22px;
+  font-size: 12px; cursor: pointer; color: #888;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.12s, color 0.12s, background 0.12s;
+  flex-shrink: 0; line-height: 1;
+}
+.card-stage-nav:hover { border-color: #555; color: #111; background: #f5f4f1; }
+.card-stage-nav:disabled { opacity: 0.25; cursor: default; pointer-events: none; }
+
+/* ============================================================
+   TIME LOG
+   ============================================================ */
+.time-log-section { margin-top: 32px; }
+.time-log-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
+}
+.time-log-toggle {
+  background: none; border: 2px solid #ccc;
+  border-radius: 10px; padding: 8px 16px;
+  font-size: 14px; font-weight: 700; color: #555;
+  cursor: pointer; transition: all 0.15s;
+}
+.time-log-toggle:hover { border-color: #888; color: #111; }
+.log-manual-btn {
+  background: #111; color: #fff;
+  border: none; border-radius: 10px;
+  padding: 8px 16px; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: opacity 0.15s, transform 0.12s;
+}
+.log-manual-btn:hover { opacity: 0.75; transform: scale(1.03); }
+
+/* Brand totals table */
+.brand-totals {
+  background: #fff; border-radius: 16px;
+  overflow: hidden; margin-bottom: 20px;
+}
+.totals-table { width: 100%; border-collapse: collapse; }
+.totals-table th {
+  font-size: 12px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.08em; color: #777;
+  padding: 12px 16px; text-align: left;
+  border-bottom: 2px solid #F0EDE6;
+  background: #FAFAF8;
+}
+.totals-table th:not(:first-child) { text-align: right; }
+.totals-table td {
+  padding: 12px 16px; font-size: 15px; color: #111;
+  border-bottom: 1px solid #F0EDE6;
+}
+.totals-table tr:last-child td { border-bottom: none; }
+.totals-table td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+.totals-brand-cell { display: flex; align-items: center; gap: 10px; }
+.totals-brand-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.totals-brand-name { font-weight: 700; }
+.totals-zero { color: #bbb; }
+
+/* Session history */
+.session-history { background: #fff; border-radius: 16px; overflow: hidden; }
+.history-entry {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 8px 16px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #F0EDE6;
+  align-items: start;
+}
+.history-entry:last-child { border-bottom: none; }
+.history-date { font-size: 13px; color: #999; font-weight: 600; padding-top: 2px; }
+.history-detail {}
+.history-card-title { font-size: 15px; font-weight: 700; color: #111; }
+.history-brand { font-size: 13px; color: #777; margin-top: 2px; }
+.history-manual-tag {
+  font-size: 11px; font-weight: 700; color: #888;
+  background: #F0EDE6; border-radius: 4px; padding: 1px 6px;
+  display: inline-block; margin-left: 6px; vertical-align: middle;
+}
+.history-mins { font-size: 15px; font-weight: 700; color: #333; white-space: nowrap; padding-top: 2px; }
+.history-delete {
+  background: none; border: none; color: #ddd;
+  cursor: pointer; font-size: 14px; padding: 2px 4px;
+  transition: color 0.15s;
+}
+.history-delete:hover { color: #C04B20; }
+
+.no-sessions { padding: 32px; text-align: center; font-size: 15px; color: #aaa; }
+
+/* ============================================================
+   DORMANT BRANDS
+   ============================================================ */
+.dormant-toggle-row { margin-bottom: 12px; }
+.dormant-toggle-btn {
+  background: none; border: 2px solid #ddd;
+  border-radius: 10px; padding: 6px 14px;
+  font-size: 12px; font-weight: 700; color: #999;
+  cursor: pointer; transition: all 0.15s;
+  letter-spacing: 0.04em;
+}
+.dormant-toggle-btn:hover { border-color: #aaa; color: #555; }
+.dormant-brands-row {
+  display: none; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.dormant-brands-row.open { display: flex; }
+
+/* ============================================================
+   CARDS TABS (Cards / Backend)
+   ============================================================ */
+.cards-tabs {
+  display: flex; gap: 6px; margin-bottom: 14px;
+}
+.cards-tab {
+  padding: 7px 18px; border-radius: 8px;
+  font-size: 13px; font-weight: 700;
+  border: 2px solid #ddd; background: #fff;
+  cursor: pointer; color: #777;
+  transition: all 0.15s, transform 0.12s;
+}
+.cards-tab.active { background: #111; border-color: #111; color: #fff; }
+.cards-tab:hover:not(.active) { border-color: #aaa; color: #333; transform: translateY(-1px); }
+
+/* ============================================================
+   BACKEND PANEL
+   ============================================================ */
+.backend-panel { display: none; }
+.backend-panel.open { display: block; }
+
+.backend-section { margin-bottom: 20px; }
+.backend-section-title {
+  font-size: 11px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.1em; color: #888; margin-bottom: 10px;
+}
+.backend-field {
+  background: #fff; border-radius: 12px;
+  padding: 14px 16px; margin-bottom: 8px;
+}
+.backend-field-label {
+  font-size: 11px; font-weight: 700; color: #aaa;
+  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;
+}
+.backend-field-value {
+  font-size: 14px; color: #111; font-weight: 500; line-height: 1.5;
+}
+.backend-field-value a { color: #185FA5; text-decoration: none; }
+.backend-field-value a:hover { text-decoration: underline; }
+
+.backend-tool-row {
+  display: flex; gap: 10px; align-items: baseline;
+  padding: 10px 0; border-bottom: 1px solid #F0EDE6;
+}
+.backend-tool-row:last-child { border-bottom: none; }
+.backend-tool-name { font-size: 13px; font-weight: 700; color: #111; min-width: 120px; flex-shrink: 0; }
+.backend-tool-detail { font-size: 13px; color: #555; line-height: 1.5; }
+
+.backend-tools-block {
+  background: #fff; border-radius: 12px; padding: 4px 16px; margin-bottom: 8px;
+}
+.backend-empty { color: #bbb; font-size: 13px; padding: 8px 0; }
+
+.backend-add-btn {
+  background: none; border: 2px dashed #ccc;
+  border-radius: 10px; padding: 10px 16px;
+  font-size: 13px; font-weight: 700; color: #aaa;
+  cursor: pointer; width: 100%; transition: all 0.15s;
+}
+.backend-add-btn:hover { border-color: #888; color: #555; }
+
+.backend-notes-input {
+  width: 100%; background: #fff; border: 2px solid transparent;
+  border-radius: 12px; padding: 14px 16px;
+  font-size: 14px; color: #111; font-family: inherit;
+  resize: vertical; min-height: 80px; line-height: 1.6;
+  outline: none; transition: border-color 0.15s;
+}
+.backend-notes-input:focus { border-color: #888; }
+.backend-notes-input::placeholder { color: #ccc; }
+
+/* ============================================================
+   PASSWORD GATE
+   ============================================================ */
+.gate-overlay {
+  position: fixed; inset: 0;
+  background: #EDEBE4;
+  z-index: 99999;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.gate-box {
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px 32px 28px;
+  width: 100%; max-width: 360px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  text-align: center;
+}
+.gate-title { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 6px; letter-spacing: -0.02em; }
+.gate-sub { font-size: 13px; color: #888; margin-bottom: 24px; }
+.gate-input {
+  width: 100%; font-size: 16px; color: #111;
+  background: #F5F4F1; border: 2px solid transparent;
+  border-radius: 10px; padding: 12px 14px;
+  font-family: inherit; outline: none;
+  transition: border-color 0.15s; margin-bottom: 12px;
+  text-align: center; letter-spacing: 0.04em;
+}
+.gate-input:focus { border-color: #888; background: #fff; }
+.gate-input.error { border-color: #C04B20; animation: gateShake 0.35s ease; }
+.gate-btn {
+  width: 100%; background: #111; color: #fff;
+  border: none; border-radius: 12px;
+  padding: 14px; font-size: 16px; font-weight: 800;
+  cursor: pointer; transition: opacity 0.15s, transform 0.12s;
+}
+.gate-btn:hover { opacity: 0.8; transform: scale(1.02); }
+.gate-error { font-size: 13px; color: #C04B20; margin-top: 10px; min-height: 18px; }
+@keyframes gateShake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-8px); }
+  75%       { transform: translateX(8px); }
+}
+
+/* ============================================================
+   CONFETTI
+   ============================================================ */
+.confetti-piece {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 2px;
+  will-change: transform, opacity;
+}
+@keyframes confettiBurst {
+  0%   { transform: translate(0,0) rotate(0deg) scale(1); opacity: 1; }
+  75%  { opacity: 0.9; }
+  100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0; }
+}
+
+/* All-done bounce */
+@keyframes allDoneBounce {
+  0%   { transform: scale(1); }
+  20%  { transform: scale(1.016); }
+  45%  { transform: scale(0.996); }
+  65%  { transform: scale(1.008); }
+  100% { transform: scale(1); }
+}
+</style>
+</head>
+<body>
+
+<!-- Password gate -->
+<div class="gate-overlay" id="gate-overlay">
+  <div class="gate-box">
+    <div class="gate-title">Brand Band</div>
+    <div class="gate-sub">Enter password to continue</div>
+    <input class="gate-input" id="gate-input" type="password" placeholder="••••••••••••••"
+      onkeydown="if(event.key==='Enter') gateSubmit()">
+    <button class="gate-btn" onclick="gateSubmit()">Enter</button>
+    <div class="gate-error" id="gate-error"></div>
+  </div>
+</div>
+
+<div class="title-row"><h1>Brand Band</h1><span class="tagline">Eight brands. One brain. Let's go.</span></div>
+<div class="how-to-use">Pick a brand. Pick a card. Hit <strong>Start</strong>. Everything else is noise.</div>
+
+<!-- Daily brands panel -->
+<div class="daily-panel" id="daily-panel">
+  <div class="daily-header">
+    <div class="daily-title" id="daily-title">Daily brands</div>
+    <div class="daily-subtitle" id="daily-subtitle">15 min minimum each, every weekday</div>
+  </div>
+  <div class="daily-cards-row" id="daily-cards-row"></div>
+</div>
+
+<!-- Brand health strip -->
+<div class="health-strip">
+  <div class="health-strip-title">Last time you worked on each brand</div>
+  <div class="health-rows" id="health-rows"></div>
+</div>
+
+<div class="load-bar-wrap"><div class="load-bar-fill" id="load-bar"></div></div>
+
+<!-- Timer banner -->
+<div class="timer-banner" id="timer-banner">
+  <div class="timer-left">
+    <div class="timer-eyebrow"><span class="timer-live-dot"></span>Now working on</div>
+    <div class="timer-card-name" id="timer-card-name">—</div>
+    <div class="timer-brand-name" id="timer-brand-name">—</div>
+  </div>
+  <div class="timer-right">
+    <div class="timer-clock" id="timer-clock">00:00:00</div>
+    <button class="stop-btn" onclick="stopTimer()">Stop</button>
+  </div>
+</div>
+
+<!-- Brand selector -->
+<div class="section-label" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+  <span>Select a brand to see its cards</span>
+  <button class="add-brand-btn" onclick="openAddBrandModal()">+ Brand</button>
+</div>
+<div class="brands-row" id="brands-row"></div>
+
+<!-- Dormant brands -->
+<div class="dormant-toggle-row">
+  <button class="dormant-toggle-btn" id="dormant-toggle-btn" onclick="toggleDormant()">🥁 Auditions</button>
+</div>
+<div class="dormant-brands-row" id="dormant-brands-row"></div>
+
+<!-- Back office -->
+<div class="dormant-toggle-row">
+  <button class="dormant-toggle-btn" id="ops-toggle-btn" onclick="toggleOps()">⚙ Back office</button>
+</div>
+<div class="ops-brands-row" id="ops-row"></div>
+
+<!-- Brand Funnel -->
+<div class="dormant-toggle-row">
+  <button class="dormant-toggle-btn" id="funnel-toggle-btn" onclick="toggleFunnel()">📊 Brand Funnel</button>
+</div>
+<div class="funnel-panel" id="funnel-panel"></div>
+
+<!-- Cards -->
+<div class="cards-area" id="cards-area">
+  <div class="cards-empty"><span>↑</span>Pick a brand above to see its work cards</div>
+</div>
+
+<!-- Add card modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title" id="modal-title">Add a card</div>
+    <div class="form-field">
+      <label class="form-label">Title</label>
+      <input class="form-input" id="card-title-input" type="text" placeholder="What needs doing?" maxlength="80">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Note <span style="font-weight:500;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <textarea class="form-textarea" id="card-body-input" placeholder="Context, why it matters, what to do first…"></textarea>
+    </div>
+    <div class="form-field">
+      <label class="form-label">Type</label>
+      <select class="form-select" id="card-type-input">
+        <option value="Opportunity">Opportunity — something to act on</option>
+        <option value="Nudge">Nudge — a gentle reminder</option>
+        <option value="Cross-pollination">Cross-pollination — connects two brands</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" id="modal-brand-btn" onclick="saveCard()">Add card</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add brand modal -->
+<div class="modal-overlay" id="add-brand-modal-overlay" onclick="closeAddBrandModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Add a brand</div>
+    <div class="form-field">
+      <label class="form-label">Brand name</label>
+      <input class="form-input" id="ab-name" type="text" placeholder="e.g. Holloway & Hare" maxlength="60">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Short label <span style="font-weight:500;text-transform:none;letter-spacing:0">(shown on button)</span></label>
+      <input class="form-input" id="ab-short" type="text" placeholder="e.g. H&H" maxlength="10">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Tagline <span style="font-weight:500;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input class="form-input" id="ab-sub" type="text" placeholder="e.g. British sporting editorial" maxlength="80">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Website URL <span style="font-weight:500;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input class="form-input" id="ab-url" type="url" placeholder="https://...">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Brand colour</label>
+      <div class="color-swatch-wrap">
+        <div class="color-swatch-preview" id="ab-color-preview" style="background:#534AB7"></div>
+        <input class="form-input" id="ab-color" type="text" placeholder="#534AB7" maxlength="7" value="#534AB7" oninput="updateColorPreview()" style="flex:1">
+      </div>
+    </div>
+    <div class="form-field">
+      <label class="form-label">Funnel stage</label>
+      <select class="form-select" id="ab-stage">
+        <option value="ideation">Ideation</option>
+        <option value="mvp">MVP</option>
+        <option value="build" selected>Build</option>
+        <option value="operating">Operating</option>
+        <option value="market">$ Ready</option>
+      </select>
+    </div>
+    <div class="form-field" style="display:flex;gap:20px">
+      <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;cursor:pointer">
+        <input type="checkbox" id="ab-daily" style="width:16px;height:16px"> Daily brand
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;cursor:pointer">
+        <input type="checkbox" id="ab-dormant" style="width:16px;height:16px"> Auditioning
+      </label>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeAddBrandModal()">Cancel</button>
+      <button class="btn-primary" style="background:#534AB7" id="ab-save-btn" onclick="saveNewBrand()">Add brand</button>
+    </div>
+  </div>
+</div>
+
+<!-- Manual log modal -->
+<div class="modal-overlay" id="manual-modal-overlay" onclick="closeManualModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Log time manually</div>
+    <div class="form-field">
+      <label class="form-label">Brand</label>
+      <select class="form-select" id="manual-brand-select" onchange="populateManualCards()">
+        <option value="">— pick a brand —</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label class="form-label">Card / task</label>
+      <select class="form-select" id="manual-card-select">
+        <option value="">— pick a card —</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label class="form-label">Minutes</label>
+      <input class="form-input" id="manual-mins-input" type="number" min="1" max="480" placeholder="e.g. 45">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Date</label>
+      <input class="form-input" id="manual-date-input" type="date">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Note <span style="font-weight:500;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input class="form-input" id="manual-note-input" type="text" placeholder="What did you do?">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeManualModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveManualEntry()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Time log section -->
+<div class="time-log-section" id="time-log-section">
+  <div class="time-log-header">
+    <div class="section-label" style="margin-bottom:0">Time log</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="log-manual-btn" onclick="openManualModal()">+ Log time manually</button>
+      <button class="time-log-toggle" id="time-log-toggle" onclick="toggleTimeLog()">Show details ▾</button>
+    </div>
+  </div>
+  <div id="brand-totals-wrap"></div>
+  <div id="session-history-wrap" style="display:none"></div>
+</div>
+
+
+<script>
+/* ============================================================
+   PASSWORD GATE
+   ============================================================ */
+const GATE_KEY = 'bb_auth';
+const GATE_PASS = 'angostura-tack-7';
+
+function gateCheck() {
+  if (localStorage.getItem(GATE_KEY) === '1') {
+    document.getElementById('gate-overlay').style.display = 'none';
+  } else {
+    setTimeout(() => document.getElementById('gate-input').focus(), 100);
+  }
+}
+
+function gateSubmit() {
+  const val = document.getElementById('gate-input').value;
+  if (val === GATE_PASS) {
+    localStorage.setItem(GATE_KEY, '1');
+    document.getElementById('gate-overlay').style.display = 'none';
+  } else {
+    const inp = document.getElementById('gate-input');
+    inp.classList.add('error');
+    document.getElementById('gate-error').textContent = 'Wrong password.';
+    inp.value = '';
+    setTimeout(() => { inp.classList.remove('error'); inp.focus(); }, 400);
+  }
+}
+
+gateCheck();
+
+/* ============================================================
+   DATA
+   ============================================================ */
+const DAILY_MIN = 15;
+
+const BRANDS = [
+  {
+    id: 'hh', name: 'Holloway & Hare', short: 'H&H',
+    color: '#185FA5', lightBg: '#E6F1FB',
+    url: 'https://hollowayandhare.com',
+    daily: true,
+    notionQuery: 'Holloway Hare editorial blog',
+    cards: [
+      { id: 'hh-ascot', type: 'Opportunity', title: 'Royal Ascot morning dress guide',
+        body: "Ascot is H&H's biggest seasonal moment. It's the #1 SEO opportunity right now — and it'll keep working long after Ascot ends. Window is open." },
+      { id: 'hh-cheltenham', type: 'Nudge', title: 'Cheltenham wrap-up — still has legs',
+        body: "You covered Cheltenham but the reflective piece never ran. A 'what to wear, what worked' post still finds an audience before Goodwood." },
+      { id: 'hh-goodwood', type: 'Opportunity', title: 'Goodwood preview — start seeding now',
+        body: "Goodwood press list opens soon. A preview piece positions H&H early. Start it now, publish when ready." }
+    ]
+  },
+  {
+    id: 'ch', name: 'CareHelm', short: 'CH',
+    color: '#1D9E75', lightBg: '#E1F5EE',
+    url: 'https://carehelm.co',
+    daily: false,
+    notionQuery: 'CareHelm family care coordination',
+    cards: [
+      { id: 'ch-email', type: 'Nudge', title: 'Personal email to a recent signup',
+        body: "Not a campaign — one genuine message. 'How's it going? What made you try it?' The signal you get back is worth more than a month of analytics. Ten minutes max." },
+      { id: 'ch-burnout', type: 'Opportunity', title: 'Caregiver burnout content',
+        body: "Real search volume, thin competition. One well-written piece on caregiver decision fatigue positions CareHelm in a genuinely useful way and ranks for years." },
+      { id: 'ch-gm-cross', type: 'Cross-pollination', title: "Your GM thinking → CareHelm's best post",
+        body: "The ratio/intellectus framework from Gadfly maps directly onto caregiver burnout. The bridge is already built in your head." }
+    ]
+  },
+  {
+    id: 'gm', name: 'Gadfly Machines', short: 'GM',
+    color: '#534AB7', lightBg: '#EEEDFE',
+    url: 'https://gadflymachines.com',
+    daily: true,
+    notionQuery: 'Gadfly Machines dialectical community',
+    cards: [
+      { id: 'gm-phronesis', type: 'Opportunity', title: 'Phronesis piece — strike while warm',
+        body: "The Discord thread is active. A short published piece right now crystallises the conversation into something the community can point to." },
+      { id: 'gm-welcome', type: 'Nudge', title: 'Personal welcome to new member',
+        body: "The community is small enough that a message from you is the whole experience. One genuine note sets the tone." },
+      { id: 'gm-ratio', type: 'Opportunity', title: 'Ratio vs. intellectus — write it out',
+        body: "This distinction is the philosophical core of Gadfly. Draft it now — even rough — and you'll have the engine behind everything else GM produces." }
+    ]
+  },
+  {
+    id: 'tp', name: 'TailorPress', short: 'TP',
+    color: '#8A5E10', lightBg: '#FAEEDA',
+    url: 'https://tailorpress.co',
+    daily: true,
+    notionQuery: 'TailorPress content platform',
+    cards: [
+      { id: 'tp-motion', type: 'Nudge', title: 'Ship something small — anything',
+        body: "TailorPress doesn't need a launch plan. It needs motion. A changelog note, a screenshot, a single sentence update." },
+      { id: 'tp-casestudy', type: 'Opportunity', title: "First case study — it's already done",
+        body: "The H&H Ascot guide is TailorPress's first proof of concept. A short 'here's how we built this' adds 300 words to something you've already written." }
+    ]
+  },
+  {
+    id: 'vo', name: 'Voice Over', short: 'VO',
+    color: '#C04B20', lightBg: '#FAECE7',
+    url: 'https://markfieldsdavidson.com',
+    daily: true,
+    notionQuery: 'voiceover voice acting demo reel',
+    cards: [
+      { id: 'vo-outreach', type: 'Opportunity', title: 'Casting window outreach — 3 emails',
+        body: "Casting directors review in cycles. Three specific, targeted emails during an open window are worth ten times thirty generic ones sent cold." },
+      { id: 'vo-reel', type: 'Nudge', title: 'Demo reel update — overdue',
+        body: "Every pitch you send points to your reel. One focused hour of editing now multiplies the return on every outreach you send this season." },
+      { id: 'vo-ch-cross', type: 'Cross-pollination', title: 'VO craft → CareHelm brand voice',
+        body: "Your warmth, pacing, and presence on mic are directly transferable to CareHelm's audio and video content. These two worlds haven't met yet." }
+    ]
+  },
+  {
+    id: 'di', name: 'Disputatio', short: 'DI',
+    color: '#A0304A', lightBg: '#FAEBEE',
+    url: 'https://disputatio.app',
+    daily: false,
+    notionQuery: 'Disputatio debate argumentation',
+    cards: [
+      { id: 'di-define', type: 'Opportunity', title: 'Define what Disputatio is — in one sentence',
+        body: "Before anything else can be built or written for this brand, the one-sentence definition needs to exist. What is it, who is it for, what does it do?" },
+      { id: 'di-gm-cross', type: 'Cross-pollination', title: 'Disputatio and Gadfly — siblings or rivals?',
+        body: "Both live in dialectical territory. Clarifying the relationship unlocks both brands." }
+    ]
+  },
+  {
+    id: 'fd', name: 'Family Desk', short: 'FD',
+    color: '#2E7D94', lightBg: '#E3F4F8',
+    daily: false,
+    notionQuery: 'Family Desk household management',
+    cards: [
+      { id: 'fd-define', type: 'Opportunity', title: 'What problem does Family Desk solve?',
+        body: "Is this a product, a content brand, or a community? Getting this down in a paragraph shapes everything that follows." },
+      { id: 'fd-ch-cross', type: 'Cross-pollination', title: 'Family Desk vs. CareHelm — draw the line',
+        body: "Both touch family coordination. Understanding where one ends and the other begins prevents confusion for users and focus drift for you." }
+    ]
+  },
+  {
+    id: 'sc', name: 'Schola', short: 'SC',
+    color: '#3D6B3A', lightBg: '#E5F2E4',
+    daily: false,
+    notionQuery: 'Schola education learning curriculum',
+    cards: [
+      { id: 'sc-define', type: 'Opportunity', title: 'What is Schola teaching, and to whom?',
+        body: "The name signals classical learning. Pinning down the subject, the audience, and the format is the first real decision." },
+      { id: 'sc-gm-cross', type: 'Cross-pollination', title: 'Gadfly pedagogy → Schola curriculum',
+        body: "Socratic method, ratio and intellectus, deliberative practice — these are already the intellectual core of Gadfly. Schola might be where that thinking becomes structured learning." }
+    ]
+  },
+  {
+    id: 'mm', name: 'Masked Mixer', short: 'MM',
+    color: '#1A1A2E', lightBg: '#EEEEF5',
+    url: 'https://maskedmixer.com',
+    dormant: true,
+    daily: false,
+    notionQuery: 'Masked Mixer',
+    cards: [
+      { id: 'mm-form', type: 'Nudge', title: 'Fix newsletter signup form',
+        body: 'Form currently errors on submit. Investigate Supabase connection or switch to a simpler provider.' }
+    ]
+  },
+  {
+    id: 'aa', name: 'AA Operations', short: 'AA',
+    color: '#555', lightBg: '#F0EDE6',
+    ops: true,
+    daily: false,
+    notionQuery: 'AA LLC operations admin',
+    cards: [
+      { id: 'aa-tax', type: 'Admin', title: 'Tax filing',
+        body: "Federal, state, or quarterly — log time here for any tax prep, form filing, or accountant calls. Keep a record even if it feels invisible." },
+      { id: 'aa-books', type: 'Admin', title: 'Bookkeeping & reconciliation',
+        body: "Categorising transactions, reconciling accounts, reviewing P&L. The kind of work that compounds silently when skipped." },
+      { id: 'aa-legal', type: 'Admin', title: 'Legal & compliance',
+        body: "LLC renewals, contracts, registered agent, operating agreements. Flag it here so it doesn't slip through the cracks." },
+      { id: 'aa-admin', type: 'Admin', title: 'General admin',
+        body: "Anything AA-level that doesn't fit elsewhere — insurance, banking, subscriptions, vendor calls. Log it so the invisible work gets counted." }
+    ]
+  }
+];
+
+const BRAND_LABELS = {hh:'H&H',ch:'CareHelm',gm:'Gadfly',tp:'TailorPress',vo:'Voice Over',di:'Disputatio',fd:'Family Desk',sc:'Schola',aa:'AA Ops',mm:'Masked Mixer'};
+const BRAND_SUBS = {
+  hh:'British editorial — social season & countryside',
+  ch:'HIPAA-compliant family care coordination',
+  gm:'Dialectical workshop for solo builders',
+  tp:'Content platform — in build phase',
+  vo:'Voiceover — outreach, performance, reel',
+  di:'Debate & argumentation — early stage',
+  fd:'Family management & household coordination',
+  sc:'Classical learning & curriculum — early stage',
+  aa:'LLC admin, tax, legal, bookkeeping',
+  mm:'Music community — live at maskedmixer.com, auditioning for a slot'
+};
+
+const STAGES = [
+  { id: 'ideation',  label: 'Ideation',  color: '#999',    bg: '#F0EDE6' },
+  { id: 'mvp',       label: 'MVP',        color: '#2E7D94', bg: '#E3F4F8' },
+  { id: 'build',     label: 'Build',      color: '#8A5E10', bg: '#FAEEDA' },
+  { id: 'operating', label: 'Operating',  color: '#534AB7', bg: '#EEEDFE' },
+  { id: 'market',    label: '$ Ready',    color: '#1D9E75', bg: '#E1F5EE' },
+];
+const DEFAULT_STAGES = {
+  hh: 'operating', ch: 'build', gm: 'operating', tp: 'market',
+  vo: 'market', di: 'operating', fd: 'ideation', sc: 'ideation', mm: 'ideation'
+};
+
+// Card-level workflow stages (left = earliest, right = most ready)
+const CARD_STAGES = [
+  { id: 'ideation',  label: 'Ideation',  color: '#888',    bg: '#F0EDE6' },
+  { id: 'build',     label: 'Build',      color: '#8A5E10', bg: '#FAEEDA' },
+  { id: 'operating', label: 'Operating',  color: '#534AB7', bg: '#EEEDFE' },
+  { id: 'gtm',       label: 'GTM',        color: '#1D9E75', bg: '#E1F5EE' },
+];
+function getCardStage(cardId) { return ls('bb_cstage_' + cardId) || 'build'; }
+function setCardStage(cardId, stageId) { ls('bb_cstage_' + cardId, stageId); }
+function getCardStageMeta(cardId) { return CARD_STAGES.find(s => s.id === getCardStage(cardId)) || CARD_STAGES[1]; }
+function moveCardStage(cardId, dir, brandId) {
+  const ids = CARD_STAGES.map(s => s.id);
+  const cur = ids.indexOf(getCardStage(cardId));
+  const next = cur + dir;
+  if (next < 0 || next >= ids.length) return;
+  setCardStage(cardId, ids[next]);
+  if (brandId) renderCards(brandId);
+}
+
+const DEFAULT_BACKEND = {
+  mm: {
+    hosting: 'maskedmixer.com (built with Bolt, hosted via Vercel)',
+    tools: [
+      { name: 'Newsletter', detail: 'Bolt Database via Supabase (stores subscribers)' },
+      { name: 'Contact form', detail: 'Formspree' }
+    ],
+    notes: 'Site is live but business is on hold. Form is currently broken.'
+  }
+};
+
+const typeStyles = {
+  'Opportunity':       (b) => ({ bg: b.lightBg, color: b.color, dot: b.color }),
+  'Nudge':             ()  => ({ bg: '#F0EDE6', color: '#4A4036', dot: '#8A7A6A' }),
+  'Cross-pollination': ()  => ({ bg: '#EEEDFE', color: '#3D3598', dot: '#534AB7' }),
+  'Admin':             ()  => ({ bg: '#EFEFEF', color: '#555', dot: '#999' }),
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let activeBrandId = null;
+let timerInterval = null;
+let timerStart = null;
+let runningCardId = null;
+let runningBrandId = null;
+let sessionLog = [];
+window._notionDays = {};
+window._todayCelebrated = {};
+
+/* ============================================================
+   DATE HELPERS
+   ============================================================ */
+function todayKey() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function isWeekday() {
+  const d = new Date().getDay();
+  return d >= 1 && d <= 5;
+}
+
+/* ============================================================
+   LOCALSTORAGE HELPERS
+   ============================================================ */
+function ls(key, val) {
+  try {
+    if (val === undefined) return localStorage.getItem(key);
+    localStorage.setItem(key, val);
+  } catch(e) { return null; }
+}
+
+function getLastWorked(cardId)  { return ls('bw_card_'  + cardId); }
+function setLastWorked(cardId)  { ls('bw_card_' + cardId, new Date().toISOString()); }
+function getBrandLast(brandId)  { return ls('bw_brand_' + brandId); }
+function setBrandLast(brandId)  { ls('bw_brand_' + brandId, new Date().toISOString()); }
+
+function getTodayMins(brandId) {
+  return parseFloat(ls('bw_mins_' + brandId + '_' + todayKey()) || '0');
+}
+function addTodayMins(brandId, mins) {
+  const cur = getTodayMins(brandId);
+  ls('bw_mins_' + brandId + '_' + todayKey(), String(cur + mins));
+}
+
+/* ============================================================
+   STAGE HELPERS
+   ============================================================ */
+function getStage(brandId) {
+  return ls('bb_stage_' + brandId) || DEFAULT_STAGES[brandId] || 'ideation';
+}
+function setStage(brandId, stageId) {
+  ls('bb_stage_' + brandId, stageId);
+}
+function getStageMeta(brandId) {
+  const id = getStage(brandId);
+  return STAGES.find(s => s.id === id) || STAGES[0];
+}
+function cycleStage(brandId) {
+  const ids = STAGES.map(s => s.id);
+  const cur = getStage(brandId);
+  const next = ids[(ids.indexOf(cur) + 1) % ids.length];
+  setStage(brandId, next);
+  renderBrands();
+  renderOps();
+  if (dormantOpen) renderDormantBrands();
+  renderFunnel();
+}
+
+/* ============================================================
+   LABEL HELPERS
+   ============================================================ */
+function lastWorkedLabel(isoStr) {
+  if (!isoStr) return null;
+  const diff = Math.floor((Date.now() - new Date(isoStr)) / 60000);
+  if (diff < 2)  return 'Just now';
+  if (diff < 60) return diff + ' min ago';
+  const hrs = Math.floor(diff / 60);
+  if (hrs < 24)  return hrs + 'h ago';
+  const days = Math.floor(hrs / 24);
+  return days + ' day' + (days === 1 ? '' : 's') + ' ago';
+}
+
+function ageInDays(isoStr) {
+  if (!isoStr) return null;
+  return Math.floor((Date.now() - new Date(isoStr)) / 86400000);
+}
+
+/* ============================================================
+   STREAK
+   ============================================================ */
+function getDailyStreak(brandId) {
+  let streak = 0;
+  const today = new Date();
+  for (let i = 1; i <= 60; i++) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const day = d.getDay();
+    if (day === 0 || day === 6) continue; // skip weekends
+    const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    const mins = parseFloat(localStorage.getItem('bw_mins_' + brandId + '_' + key) || '0');
+    if (mins >= DAILY_MIN) streak++;
+    else break;
+  }
+  return streak;
+}
+
+/* ============================================================
+   SOUND
+   ============================================================ */
+function playTone(frequency, duration, volume) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = frequency;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(volume || 0.25, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + duration);
+  } catch(e) {}
+}
+function playStartTone()   { playTone(392, 0.08, 0.18); }
+function playStopTone()    { playTone(523, 0.12, 0.2); setTimeout(() => playTone(440, 0.15, 0.15), 100); }
+function playSuccessTone() { playTone(523, 0.1, 0.22); setTimeout(() => playTone(784, 0.18, 0.22), 110); }
+function playAllDoneFanfare() {
+  [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => playTone(f, 0.18, 0.2), i * 90));
+}
+
+/* ============================================================
+   CONFETTI
+   ============================================================ */
+function triggerConfetti(x, y, color, count) {
+  const n = count || 35;
+  const palette = [color || '#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#C3B1E1', '#FFD93D'];
+  for (let i = 0; i < n; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 70 + Math.random() * 160;
+    const dx = Math.cos(angle) * speed;
+    const dy = Math.sin(angle) * speed - 80;
+    const rot = ((Math.random() - 0.5) * 900) + 'deg';
+    const size = 6 + Math.random() * 9;
+    const c = i < 3 ? color : palette[Math.floor(Math.random() * palette.length)];
+    const dur = 0.65 + Math.random() * 0.55;
+    el.style.cssText = `left:${x}px;top:${y}px;width:${size}px;height:${size}px;background:${c};--dx:${dx}px;--dy:${dy}px;--rot:${rot};animation:confettiBurst ${dur}s ease-out forwards;border-radius:${Math.random() > 0.4 ? '50%' : '2px'};`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), (dur + 0.1) * 1000);
+  }
+}
+
+function burstFromEl(el, color, count) {
+  if (!el) return;
+  const r = el.getBoundingClientRect();
+  triggerConfetti(r.left + r.width / 2, r.top + r.height / 2, color, count);
+}
+
+/* ============================================================
+   DAILY PANEL
+   ============================================================ */
+const ALL_DONE_MESSAGES = [
+  'Four for four. Take a bow.',
+  'All daily brands done. Seriously.',
+  'GM ✓ VO ✓ H&H ✓ TP ✓ — Locked in.',
+  'Daily quota: crushed. Go make something.',
+  'Full send. Every brand got 15 min.'
+];
+
+function dailyState(brand) {
+  if (!isWeekday()) return 'weekend';
+  const mins = getTodayMins(brand.id);
+  if (mins >= DAILY_MIN) return 'done';
+  if (mins > 0) return 'partial';
+  return 'undone';
+}
+
+function renderDailyPanel() {
+  const dailyBrands = BRANDS.filter(b => b.daily);
+  const states = dailyBrands.map(b => dailyState(b));
+
+  let panelClass, titleClass, titleText, subtitleText;
+  if (!isWeekday()) {
+    panelClass = 'weekend'; titleClass = 'weekend';
+    titleText = 'Daily Brands — Weekend';
+    subtitleText = 'Rest up. Back at it Monday.';
+  } else if (states.every(s => s === 'done')) {
+    panelClass = 'all-done'; titleClass = 'all-done';
+    titleText = '✦ Daily brands — all done';
+    const msg = ALL_DONE_MESSAGES[new Date().getDate() % ALL_DONE_MESSAGES.length];
+    subtitleText = msg;
+  } else if (states.some(s => s === 'done' || s === 'partial')) {
+    panelClass = 'in-progress'; titleClass = 'in-progress';
+    const remaining = dailyBrands.filter((b,i) => states[i] !== 'done');
+    titleText = 'Daily brands — in progress';
+    subtitleText = remaining.map(b => BRAND_LABELS[b.id]).join(', ') + ' still need attention today';
+  } else {
+    panelClass = 'needs-attention'; titleClass = 'needs-attention';
+    titleText = 'Daily brands — not started yet';
+    subtitleText = 'GM, VO, H&H, and TP each need 15 min today';
+  }
+
+  const panel = document.getElementById('daily-panel');
+  panel.className = 'daily-panel ' + panelClass;
+  const titleEl = document.getElementById('daily-title');
+  titleEl.className = 'daily-title ' + titleClass;
+  titleEl.textContent = titleText;
+  document.getElementById('daily-subtitle').textContent = subtitleText;
+
+  const row = document.getElementById('daily-cards-row');
+  row.innerHTML = dailyBrands.map((b, i) => {
+    const state = states[i];
+    const mins = getTodayMins(b.id);
+    const pct = Math.min(100, Math.round((mins / DAILY_MIN) * 100));
+    let icon, label;
+    if (state === 'done')         { icon = '✓'; label = mins.toFixed(0) + ' min today'; }
+    else if (state === 'partial') { icon = '…'; label = mins.toFixed(0) + ' / 15 min'; }
+    else if (state === 'undone')  { icon = '○'; label = '0 / 15 min'; }
+    else                          { icon = '—'; label = 'Weekend'; }
+    return `
+      <div class="daily-card ${state}" onclick="selectBrand('${b.id}')" title="Click to open ${b.name}">
+        <div class="daily-card-top">
+          <div class="daily-brand-name" style="color:${b.color}">${BRAND_LABELS[b.id]}</div>
+          <div class="daily-status-icon">${icon}</div>
+        </div>
+        <div class="daily-progress-track">
+          <div class="daily-progress-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="daily-mins-label">${label}</div>
+      </div>`;
+  }).join('');
+}
+
+/* ============================================================
+   HEALTH STRIP
+   ============================================================ */
+function healthMeta(brandId) {
+  const iso = getBrandLast(brandId);
+  const notionDays = window._notionDays?.[brandId] ?? null;
+  if (!iso && notionDays === null) return { colorClass: 'age-cold', label: 'Not yet' };
+
+  let days, label;
+  if (iso) {
+    days = ageInDays(iso);
+    label = lastWorkedLabel(iso) || 'Today';
+  } else {
+    days = notionDays;
+    label = days === 0 ? 'Today' : days === 1 ? 'Yesterday' : days + 'd ago';
+  }
+
+  let colorClass;
+  if      (days <= 3)  colorClass = 'age-fresh';
+  else if (days <= 7)  colorClass = 'age-ok';
+  else if (days <= 14) colorClass = 'age-stale';
+  else                 colorClass = 'age-cold';
+
+  return { colorClass, label };
+}
+
+function renderHealthStrip() {
+  const container = document.getElementById('health-rows');
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    const dayName = d.toLocaleDateString('en-US', { weekday: 'short' }).slice(0,1);
+    days.push({ key, dayName, isToday: i === 0 });
+  }
+
+  const dayLabelRow = `<div class="health-day-label-row">
+    ${days.map(d => `<div class="health-day-label" style="${d.isToday ? 'color:#444;font-weight:800' : ''}">${d.dayName}</div>`).join('')}
+  </div>`;
+
+  const rows = BRANDS.map(b => {
+    const { colorClass, label } = healthMeta(b.id);
+    const dailyPip = b.daily
+      ? `<div class="health-daily-pip" style="background:${b.color}" title="Daily brand"></div>`
+      : `<div class="health-daily-pip" style="background:transparent"></div>`;
+
+    const dots = days.map(d => {
+      const mins = parseFloat(localStorage.getItem('bw_mins_' + b.id + '_' + d.key) || '0');
+      const worked = mins >= 0.5;
+      let fill, opacity;
+      if (!worked)    { fill = '#E8E5DF'; opacity = '1'; }
+      else if (mins < 15) { fill = b.color; opacity = '0.35'; }
+      else            { fill = b.color; opacity = '1'; }
+      const tip = worked ? d.key + ': ' + Math.round(mins) + ' min' : d.key + ': not worked';
+      return `<div class="health-day-dot" style="background:${fill};opacity:${opacity}" title="${tip}"></div>`;
+    }).join('');
+
+    return `
+      <div class="health-row">
+        <div class="health-brand-label">${BRAND_LABELS[b.id]}</div>
+        ${dailyPip}
+        <div class="health-dots">${dots}</div>
+        <div class="health-age-label ${colorClass}">${label}</div>
+      </div>`;
+  }).join('');
+
+  container.innerHTML = dayLabelRow + rows;
+}
+
+/* ============================================================
+   DORMANT BRANDS
+   ============================================================ */
+let dormantOpen = false;
+let opsOpen = false;
+
+function toggleOps() {
+  opsOpen = !opsOpen;
+  document.getElementById('ops-row').classList.toggle('open', opsOpen);
+  document.getElementById('ops-toggle-btn').textContent = opsOpen ? '⚙ Hide back office' : '⚙ Back office';
+  if (opsOpen) renderOps();
+}
+
+function openBrandUrl(brandId) {
+  const brand = BRANDS.find(b => b.id === brandId);
+  if (brand && brand.url) window.open(brand.url, '_blank');
+}
+
+function toggleDormant() {
+  dormantOpen = !dormantOpen;
+  document.getElementById('dormant-brands-row').classList.toggle('open', dormantOpen);
+  document.getElementById('dormant-toggle-btn').textContent = dormantOpen ? '🥁 Hide auditions' : '🥁 Auditions';
+  if (dormantOpen) renderDormantBrands();
+}
+
+function renderDormantBrands() {
+  const row = document.getElementById('dormant-brands-row');
+  const dormantBrands = BRANDS.filter(b => b.dormant);
+  let html = '';
+  dormantBrands.forEach(b => {
+    const isActive = activeBrandId === b.id;
+    const style = isActive ? `background:${b.color}; border-color:${b.color};` : 'background:#F5F4F0; border-color:#ddd;';
+    const stage = getStageMeta(b.id);
+    html += `
+      <button class="brand-btn${isActive ? ' active' : ''}" style="${style}; opacity:0.75;" onclick="selectBrand('${b.id}')" ondblclick="openBrandUrl('${b.id}')" title="${b.url ? 'Double-click to open ' + b.url : ''}">
+        <div class="brand-initials" style="color:${isActive ? '#fff' : b.color}">${b.short}</div>
+        <div class="brand-short-name" style="color:${isActive ? '#fff' : '#888'}">${BRAND_LABELS[b.id]}</div>
+        <div class="brand-last" style="color:${isActive ? 'rgba(255,255,255,0.7)' : '#aaa'}">Auditioning</div>
+        <div class="brand-stage-pip" style="background:${stage.bg};color:${stage.color}" onclick="event.stopPropagation();cycleStage('${b.id}')" ondblclick="event.stopPropagation()" title="Click to advance stage">${stage.label}</div>
+      </button>`;
+  });
+  row.innerHTML = html;
+}
+
+/* ============================================================
+   BRAND FUNNEL
+   ============================================================ */
+let funnelOpen = false;
+
+function toggleFunnel() {
+  funnelOpen = !funnelOpen;
+  document.getElementById('funnel-panel').classList.toggle('open', funnelOpen);
+  document.getElementById('funnel-toggle-btn').textContent = funnelOpen ? '📊 Hide funnel' : '📊 Brand Funnel';
+  if (funnelOpen) renderFunnel();
+}
+
+let _funnelDragId = null;
+
+function funnelChipDragStart(e, brandId) {
+  _funnelDragId = brandId;
+  e.dataTransfer.effectAllowed = 'move';
+  setTimeout(() => e.target.classList.add('dragging'), 0);
+}
+function funnelChipDragEnd(e) {
+  e.target.classList.remove('dragging');
+  document.querySelectorAll('.funnel-col-body.drag-over').forEach(el => el.classList.remove('drag-over'));
+}
+function funnelColDragOver(e) {
+  e.preventDefault();
+  e.currentTarget.classList.add('drag-over');
+}
+function funnelColDragLeave(e) {
+  e.currentTarget.classList.remove('drag-over');
+}
+function funnelColDrop(e, stageId) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!_funnelDragId) return;
+  setStage(_funnelDragId, stageId);
+  _funnelDragId = null;
+  renderFunnel();
+  renderBrands();
+  if (dormantOpen) renderDormantBrands();
+}
+
+function renderFunnel() {
+  const panel = document.getElementById('funnel-panel');
+  if (!panel) return;
+  const allBrands = BRANDS.filter(b => !b.ops);
+  const cols = STAGES.map(stage => {
+    const brands = allBrands.filter(b => getStage(b.id) === stage.id);
+    const chips = brands.length
+      ? brands.map(b => `<div class="funnel-chip" draggable="true"
+          style="background:${stage.bg};color:${stage.color}"
+          ondragstart="funnelChipDragStart(event,'${b.id}')"
+          ondragend="funnelChipDragEnd(event)"
+          onclick="selectBrand('${b.id}')"
+          title="Drag to move stage · Click to open">${BRAND_LABELS[b.id]}</div>`).join('')
+      : `<div class="funnel-empty">—</div>`;
+    return `
+      <div class="funnel-col">
+        <div class="funnel-col-header" style="background:${stage.bg};color:${stage.color}">${stage.label}</div>
+        <div class="funnel-col-body"
+          ondragover="funnelColDragOver(event)"
+          ondragleave="funnelColDragLeave(event)"
+          ondrop="funnelColDrop(event,'${stage.id}')">${chips}</div>
+      </div>`;
+  }).join('');
+  panel.innerHTML = `<div class="funnel-grid">${cols}</div>`;
+}
+
+/* ============================================================
+   BACKEND VIEW
+   ============================================================ */
+let activeTab = 'cards';
+
+function getBackendData(brandId) {
+  try {
+    const stored = JSON.parse(localStorage.getItem('bw_backend_' + brandId) || 'null');
+    return stored || DEFAULT_BACKEND[brandId] || { hosting: '', tools: [], notes: '' };
+  } catch(e) { return DEFAULT_BACKEND[brandId] || { hosting: '', tools: [], notes: '' }; }
+}
+function saveBackendData(brandId, data) {
+  try { localStorage.setItem('bw_backend_' + brandId, JSON.stringify(data)); } catch(e) {}
+}
+
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.cards-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.cards-tab[data-tab="' + tab + '"]').classList.add('active');
+  document.getElementById('cards-grid-wrap').style.display = tab === 'cards' ? 'block' : 'none';
+  document.getElementById('backend-panel').classList.toggle('open', tab === 'backend');
+  if (tab === 'backend') renderBackend(activeBrandId);
+}
+
+function renderBackend(brandId) {
+  const data = getBackendData(brandId);
+  const panel = document.getElementById('backend-panel');
+  const toolsHtml = data.tools.length
+    ? data.tools.map((t, i) => `
+        <div class="backend-tool-row">
+          <div class="backend-tool-name">${t.name}</div>
+          <div class="backend-tool-detail">${t.detail}</div>
+          <button onclick="removeTool('${brandId}',${i})" style="margin-left:auto;background:none;border:none;color:#ccc;cursor:pointer;font-size:14px;padding:0 4px;" title="Remove">✕</button>
+        </div>`).join('')
+    : '<div class="backend-empty">No tools added yet</div>';
+
+  panel.innerHTML = `
+    <div class="backend-section">
+      <div class="backend-section-title">Hosting</div>
+      <div class="backend-field">
+        <div class="backend-field-label">Where it lives</div>
+        <div class="backend-field-value" onclick="editHosting('${brandId}')" style="cursor:pointer;min-height:20px" title="Click to edit">
+          ${data.hosting || '<span style="color:#ccc">Click to add hosting info</span>'}
+        </div>
+      </div>
+    </div>
+    <div class="backend-section">
+      <div class="backend-section-title">Tools & Integrations</div>
+      <div class="backend-tools-block" id="tools-list">${toolsHtml}</div>
+      <button class="backend-add-btn" onclick="addTool('${brandId}')">+ Add tool or integration</button>
+    </div>
+    <div class="backend-section">
+      <div class="backend-section-title">Notes</div>
+      <textarea class="backend-notes-input" placeholder="Anything else worth remembering about this brand's setup…"
+        onchange="saveNote('${brandId}', this.value)">${data.notes || ''}</textarea>
+    </div>`;
+}
+
+function editHosting(brandId) {
+  const val = prompt('Hosting info:', getBackendData(brandId).hosting || '');
+  if (val === null) return;
+  const data = getBackendData(brandId);
+  data.hosting = val;
+  saveBackendData(brandId, data);
+  renderBackend(brandId);
+}
+function addTool(brandId) {
+  const name = prompt('Tool name (e.g. Newsletter, CRM, Analytics):');
+  if (!name) return;
+  const detail = prompt('Detail (e.g. Mailchimp, connected to Google Sheet):');
+  if (detail === null) return;
+  const data = getBackendData(brandId);
+  data.tools.push({ name: name.trim(), detail: detail.trim() });
+  saveBackendData(brandId, data);
+  renderBackend(brandId);
+}
+function removeTool(brandId, index) {
+  const data = getBackendData(brandId);
+  data.tools.splice(index, 1);
+  saveBackendData(brandId, data);
+  renderBackend(brandId);
+}
+function saveNote(brandId, val) {
+  const data = getBackendData(brandId);
+  data.notes = val;
+  saveBackendData(brandId, data);
+}
+
+/* ============================================================
+   BACK OFFICE (OPS) SELECTOR
+   ============================================================ */
+function renderOps() {
+  const row = document.getElementById('ops-row');
+  if (!row) return;
+  let html = '';
+  BRANDS.filter(b => b.ops).forEach(b => {
+    const iso = getBrandLast(b.id);
+    const lw = iso ? lastWorkedLabel(iso)
+      : (window._notionDays[b.id] != null ? 'Notion: ' + (window._notionDays[b.id] === 0 ? 'today' : window._notionDays[b.id] + 'd ago') : 'Not started');
+    const isActive = activeBrandId === b.id;
+    const style = isActive ? 'background:#444; border-color:#444;' : 'background:#fff; border-color:#ccc;';
+    html += `
+      <button class="brand-btn${isActive ? ' active' : ''}" style="${style}" onclick="selectBrand('${b.id}')" ondblclick="openBrandUrl('${b.id}')">
+        <div class="brand-initials" style="color:${isActive ? '#fff' : '#666'}">${b.short}</div>
+        <div class="brand-short-name" style="color:${isActive ? '#fff' : '#666'}">${BRAND_LABELS[b.id]}</div>
+        <div class="brand-last" style="color:${isActive ? 'rgba(255,255,255,0.7)' : '#999'}">${lw}</div>
+      </button>`;
+  });
+  row.innerHTML = html;
+}
+
+/* ============================================================
+   BRAND SELECTOR
+   ============================================================ */
+let _dragBrandId = null;
+
+function getBrandOrder() {
+  try { const s = localStorage.getItem('bb_brand_order'); if (s) return JSON.parse(s); } catch(e) {}
+  return null;
+}
+function saveBrandOrder(ids) {
+  try { localStorage.setItem('bb_brand_order', JSON.stringify(ids)); } catch(e) {}
+}
+function getOrderedBrands() {
+  const all = BRANDS.filter(b => !b.dormant && !b.ops);
+  const saved = getBrandOrder();
+  if (!saved) return all;
+  const ordered = saved.map(id => all.find(b => b.id === id)).filter(Boolean);
+  all.forEach(b => { if (!ordered.find(x => x.id === b.id)) ordered.push(b); });
+  return ordered;
+}
+function brandDragStart(e, id) {
+  _dragBrandId = id;
+  e.dataTransfer.effectAllowed = 'move';
+  setTimeout(() => e.target.classList.add('dragging'), 0);
+}
+function brandDragOver(e, id) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  document.querySelectorAll('.brand-btn.drag-over').forEach(el => el.classList.remove('drag-over'));
+  if (id !== _dragBrandId) e.currentTarget.classList.add('drag-over');
+}
+function brandDrop(e, targetId) {
+  e.preventDefault();
+  if (!_dragBrandId || _dragBrandId === targetId) return;
+  const ordered = getOrderedBrands().map(b => b.id);
+  const from = ordered.indexOf(_dragBrandId);
+  const to   = ordered.indexOf(targetId);
+  if (from < 0 || to < 0) return;
+  ordered.splice(from, 1);
+  ordered.splice(to, 0, _dragBrandId);
+  saveBrandOrder(ordered);
+  _dragBrandId = null;
+  renderBrands();
+}
+function brandDragEnd(e) {
+  _dragBrandId = null;
+  document.querySelectorAll('.brand-btn').forEach(el => {
+    el.classList.remove('dragging', 'drag-over');
+  });
+}
+
+function renderBrands() {
+  const row = document.getElementById('brands-row');
+  let html = '';
+  getOrderedBrands().forEach(b => {
+    const iso = getBrandLast(b.id);
+    const lw = iso ? lastWorkedLabel(iso)
+      : (window._notionDays[b.id] != null ? 'Notion: ' + (window._notionDays[b.id] === 0 ? 'today' : window._notionDays[b.id] + 'd ago') : 'Not started');
+    const isActive = activeBrandId === b.id;
+
+    const style = isActive ? `background:${b.color}; border-color:${b.color};` : '';
+    let pipColor = 'transparent';
+    if (b.daily && isWeekday()) {
+      const st = dailyState(b);
+      pipColor = st === 'done' ? '#1D9E75' : st === 'partial' ? '#D4900A' : '#C04B20';
+    } else if (b.daily) {
+      pipColor = '#ccc';
+    }
+
+    const stage = getStageMeta(b.id);
+    html += `
+      <button class="brand-btn${isActive ? ' active' : ''}" style="${style}"
+        draggable="true"
+        ondragstart="brandDragStart(event,'${b.id}')"
+        ondragover="brandDragOver(event,'${b.id}')"
+        ondrop="brandDrop(event,'${b.id}')"
+        ondragend="brandDragEnd(event)"
+        onclick="selectBrand('${b.id}')" ondblclick="openBrandUrl('${b.id}')" title="${b.url ? 'Double-click to open ' + b.url : ''}">
+        ${b.daily ? `<div class="daily-required-pip" style="background:${pipColor}" title="Daily brand"></div>` : ''}
+        <div class="brand-initials" style="color:${isActive ? '#fff' : b.color}">${b.short}</div>
+        <div class="brand-short-name">${BRAND_LABELS[b.id]}</div>
+        <div class="brand-last">${lw}</div>
+        <div class="brand-stage-pip" style="background:${stage.bg};color:${stage.color}" onclick="event.stopPropagation();cycleStage('${b.id}')" ondblclick="event.stopPropagation()" title="Click to advance stage">${stage.label}</div>
+      </button>`;
+  });
+  row.innerHTML = html;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+function selectBrand(id) {
+  activeBrandId = id;
+  renderBrands();
+  renderOps();
+  if (dormantOpen) renderDormantBrands();
+  renderCards(id);
+  // Pop animation on the active button
+  setTimeout(() => {
+    document.querySelectorAll('.brand-btn.active').forEach(btn => {
+      btn.classList.add('popping');
+      setTimeout(() => btn.classList.remove('popping'), 420);
+    });
+  }, 10);
+}
+
+function renderCards(brandId) {
+  const brand = BRANDS.find(b => b.id === brandId);
+  const customCards = getCustomCards(brandId);
+  const deletedPresets = getDeletedPresets(brandId);
+  const stageOrder = CARD_STAGES.map(s => s.id);
+  const allCards = [...brand.cards.filter(c => !deletedPresets.includes(c.id)), ...customCards]
+    .sort((a, b) => stageOrder.indexOf(getCardStage(a.id)) - stageOrder.indexOf(getCardStage(b.id)));
+  const area = document.getElementById('cards-area');
+  const opsTag = brand.ops ? ' <span style="font-size:11px;font-weight:700;background:#E8E5DF;color:#666;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Operations</span>' : '';
+  const dailyTag = brand.daily ? ' <span style="font-size:11px;font-weight:700;background:' + brand.color + ';color:#fff;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Daily</span>' : '';
+  const dormantTag = brand.dormant ? ' <span style="font-size:11px;font-weight:700;background:#E8E5DF;color:#888;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Auditioning</span>' : '';
+
+  activeTab = 'cards';
+  area.innerHTML = `
+    <div class="cards-header">
+      <div class="cards-headline">${brand.name}${opsTag}${dailyTag}${dormantTag}</div>
+      <div class="cards-sub">${BRAND_SUBS[brand.id]}</div>
+    </div>
+    <div class="cards-tabs">
+      <button class="cards-tab active" data-tab="cards" onclick="switchTab('cards')">Cards</button>
+      <button class="cards-tab" data-tab="backend" onclick="switchTab('backend')">Backend</button>
+    </div>
+    <div id="cards-grid-wrap">
+      <div class="cards-grid">
+        ${allCards.map(card => renderCard(card, brand)).join('')}
+        <button class="add-card-btn" onclick="openAddCardModal('${brandId}')">
+          <span class="add-card-btn-plus">+</span> Add a card
+        </button>
+      </div>
+    </div>
+    <div class="backend-panel" id="backend-panel"></div>`;
+}
+
+function renderCard(card, brand) {
+  const style = (typeStyles[card.type] || typeStyles['Nudge'])(brand);
+  const isRunning = runningCardId === card.id;
+  const lastWorked = getLastWorked(card.id);
+  const deleteBtn = card.custom
+    ? `<button class="card-delete-btn" onclick="deleteCustomCard('${brand.id}','${card.id}')" title="Delete this card">✕</button>`
+    : `<button class="card-delete-btn" onclick="deletePresetCard('${brand.id}','${card.id}')" title="Delete this card">✕</button>`;
+  const csm = getCardStageMeta(card.id);
+  const csIdx = CARD_STAGES.findIndex(s => s.id === csm.id);
+  return `
+    <div class="work-card${isRunning ? ' is-running' : ''}" style="${isRunning ? `border-color:${brand.color};` : ''}">
+      ${deleteBtn}
+      <div class="card-stage-row">
+        <button class="card-stage-nav" onclick="moveCardStage('${card.id}',-1,'${brand.id}')" title="Move left" ${csIdx===0?'disabled':''}>&#8592;</button>
+        <span class="card-stage-badge" style="background:${csm.bg};color:${csm.color}">${csm.label}</span>
+        <button class="card-stage-nav" onclick="moveCardStage('${card.id}',1,'${brand.id}')" title="Move right" ${csIdx===CARD_STAGES.length-1?'disabled':''}>&#8594;</button>
+      </div>
+      <div class="card-badge" style="background:${style.bg}; color:${style.color}">
+        <div class="badge-dot" style="background:${style.dot}"></div>
+        ${card.type}
+      </div>
+      <div class="card-title">${card.title}</div>
+      <div class="card-body">${card.body}</div>
+      <div class="card-footer">
+        <div class="card-last">${lastWorked ? '↩ ' + lastWorkedLabel(lastWorked) : 'Not started yet'}</div>
+        <button class="start-btn${isRunning ? ' active-btn' : ''}"
+          style="${isRunning ? '' : `background:${brand.color};`}"
+          onclick="startCard('${card.id}', '${brand.id}')">
+          ${isRunning ? 'Running…' : 'Start'}
+        </button>
+      </div>
+    </div>`;
+}
+
+/* ============================================================
+   TIMER
+   ============================================================ */
+function startCard(cardId, brandId) {
+  if (runningCardId === cardId) return;
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+
+  const brand = BRANDS.find(b => b.id === brandId);
+  const card  = brand.cards.find(c => c.id === cardId) || getCustomCards(brandId).find(c => c.id === cardId);
+
+  runningCardId  = cardId;
+  runningBrandId = brandId;
+  timerStart     = Date.now();
+
+  setLastWorked(cardId);
+  setBrandLast(brandId);
+
+  document.getElementById('timer-card-name').textContent  = card.title;
+  document.getElementById('timer-brand-name').textContent = brand.name;
+  document.getElementById('timer-banner').classList.add('visible');
+  document.getElementById('timer-clock').textContent = '00:00:00';
+
+  timerInterval = setInterval(updateClock, 1000);
+  logSession('Started: ' + card.title + ' (' + brand.name + ')');
+  playStartTone();
+
+  refreshAll();
+
+  // Launch animation on the running card
+  setTimeout(() => {
+    document.querySelectorAll('.work-card.is-running').forEach(el => {
+      el.classList.add('launching');
+      setTimeout(() => el.classList.remove('launching'), 480);
+    });
+  }, 30);
+}
+
+function stopTimer() {
+  if (!timerInterval) return;
+  clearInterval(timerInterval);
+  timerInterval = null;
+
+  const elapsed = Date.now() - timerStart;
+  const mins    = elapsed / 60000;
+
+  const prevMins = runningBrandId ? getTodayMins(runningBrandId) : 0;
+  if (runningBrandId) addTodayMins(runningBrandId, mins);
+  const newMins = runningBrandId ? getTodayMins(runningBrandId) : 0;
+
+  const brand = BRANDS.find(b => b.id === runningBrandId);
+  const card  = brand?.cards.find(c => c.id === runningCardId) || getCustomCards(runningBrandId).find(c => c.id === runningCardId);
+  const minRound = Math.round(mins);
+
+  logSession('Stopped: ' + (card?.title || 'card') + ' — ' + (minRound < 1 ? 'less than a minute' : minRound + ' min'));
+
+  // Small confetti burst on stop (5+ min sessions)
+  const stopBtn = document.querySelector('.stop-btn');
+  if (minRound >= 5 && stopBtn) {
+    burstFromEl(stopBtn, brand?.color || '#FFD700', 20);
+    playStopTone();
+  }
+
+  // Check for daily milestone crossing
+  if (brand?.daily && prevMins < DAILY_MIN && newMins >= DAILY_MIN) {
+    const celebKey = brand.id + '_' + todayKey();
+    if (!window._todayCelebrated[celebKey]) {
+      window._todayCelebrated[celebKey] = true;
+      setTimeout(() => {
+        const panel = document.getElementById('daily-panel');
+        burstFromEl(panel, brand.color, 55);
+        playSuccessTone();
+        // Check if ALL daily brands now done
+        const allDone = BRANDS.filter(b => b.daily).every(b => getTodayMins(b.id) >= DAILY_MIN);
+        if (allDone) {
+          setTimeout(() => {
+            burstFromEl(panel, '#FFD700', 70);
+            playAllDoneFanfare();
+          }, 350);
+        }
+      }, 150);
+    }
+  }
+
+  if (brand && card) {
+    addLogEntry({
+      id: 'entry_' + Date.now(),
+      brandId: brand.id, brandName: brand.name,
+      cardId: card.id, cardTitle: card.title,
+      mins, date: todayKey(),
+      startedAt: new Date(timerStart).toISOString(),
+      manual: false, note: ''
+    });
+  }
+
+  runningCardId  = null;
+  runningBrandId = null;
+  timerStart     = null;
+
+  document.getElementById('timer-banner').classList.remove('visible');
+  document.getElementById('timer-clock').textContent = '00:00:00';
+
+  refreshAll();
+  renderTimeLog();
+}
+
+function updateClock() {
+  if (!timerStart) return;
+  const elapsed = Math.floor((Date.now() - timerStart) / 1000);
+  const h = Math.floor(elapsed / 3600);
+  const m = Math.floor((elapsed % 3600) / 60);
+  const s = elapsed % 60;
+  document.getElementById('timer-clock').textContent =
+    String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+function refreshAll() {
+  renderDailyPanel();
+  renderHealthStrip();
+  renderBrands();
+  renderOps();
+  if (funnelOpen) renderFunnel();
+  if (activeBrandId) renderCards(activeBrandId);
+}
+
+/* ============================================================
+   SESSION LOG
+   ============================================================ */
+function logSession(text) {
+  const t = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  sessionLog.push({ time: t, text });
+}
+
+/* ============================================================
+   NOTION PATINA
+   ============================================================ */
+async function notionAPI(body) {
+  const res = await fetch('/api/notion', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) throw new Error('Notion API error: ' + res.status);
+  return res.json();
+}
+
+async function loadNotionPatinas() {
+  const bar = document.getElementById('load-bar');
+  let done = 0;
+  await Promise.all(BRANDS.map(async b => {
+    try {
+      const data = await notionAPI({ action: 'search', query: b.notionQuery });
+      const pages = data.results || [];
+      if (pages.length) {
+        const newest = pages.reduce((a, c) => new Date(a.timestamp) > new Date(c.timestamp) ? a : c);
+        window._notionDays[b.id] = Math.max(0, Math.floor((Date.now() - new Date(newest.timestamp)) / 86400000));
+      }
+    } catch(e) { /* silent */ }
+    done++;
+    if (bar) bar.style.width = Math.round((done / BRANDS.length) * 100) + '%';
+    renderBrands();
+    renderOps();
+    renderHealthStrip();
+  }));
+  setTimeout(() => { if (bar) { bar.style.transition = 'opacity 0.5s'; bar.style.opacity = '0'; } }, 800);
+}
+
+/* ============================================================
+   PERSISTENT SESSION LOG
+   ============================================================ */
+function getPersistedLog() {
+  try { return JSON.parse(localStorage.getItem('bw_session_log') || '[]'); } catch(e) { return []; }
+}
+function savePersistedLog(entries) {
+  try { localStorage.setItem('bw_session_log', JSON.stringify(entries)); } catch(e) {}
+}
+function addLogEntry(entry) {
+  const log = getPersistedLog();
+  log.unshift(entry);
+  savePersistedLog(log);
+}
+function deleteLogEntry(id) {
+  const log = getPersistedLog().filter(e => e.id !== id);
+  savePersistedLog(log);
+  renderTimeLog();
+  renderDailyPanel();
+}
+
+/* ============================================================
+   TIME LOG RENDERING
+   ============================================================ */
+let timeLogExpanded = false;
+
+function toggleTimeLog() {
+  timeLogExpanded = !timeLogExpanded;
+  document.getElementById('session-history-wrap').style.display = timeLogExpanded ? 'block' : 'none';
+  document.getElementById('time-log-toggle').textContent = timeLogExpanded ? 'Hide details ▴' : 'Show details ▾';
+  if (timeLogExpanded) renderSessionHistory();
+}
+
+function minsLabel(m) {
+  if (m < 1) return '<1 min';
+  const r = Math.round(m);
+  if (r < 60) return r + ' min';
+  const h = Math.floor(r / 60), rem = r % 60;
+  return h + 'h' + (rem ? ' ' + rem + 'm' : '');
+}
+
+function renderTimeLog() {
+  const log = getPersistedLog();
+  const now = new Date();
+  const todayStr = todayKey();
+  const weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+
+  const totals = {};
+  BRANDS.forEach(b => { totals[b.id] = { today: 0, week: 0, all: 0 }; });
+
+  log.forEach(e => {
+    if (!totals[e.brandId]) return;
+    totals[e.brandId].all += e.mins;
+    if (e.date === todayStr) totals[e.brandId].today += e.mins;
+    if (new Date(e.date) >= weekAgo) totals[e.brandId].week += e.mins;
+  });
+
+  const hasAny = Object.values(totals).some(t => t.all > 0);
+  const wrap = document.getElementById('brand-totals-wrap');
+
+  if (!hasAny) {
+    wrap.innerHTML = '<div class="no-sessions">No time logged yet. Start a card or log time manually.</div>';
+  } else {
+    wrap.innerHTML = `
+      <div class="brand-totals">
+        <table class="totals-table">
+          <thead><tr>
+            <th>Brand</th><th>Today</th><th>This week</th><th>All time</th>
+          </tr></thead>
+          <tbody>
+            ${BRANDS.map(b => {
+              const t = totals[b.id];
+              const z = v => v < 0.5 ? '<span class="totals-zero">—</span>' : minsLabel(v);
+              return `<tr>
+                <td><div class="totals-brand-cell">
+                  <div class="totals-brand-dot" style="background:${b.color}"></div>
+                  <div class="totals-brand-name">${BRAND_LABELS[b.id]}</div>
+                </div></td>
+                <td>${z(t.today)}</td>
+                <td>${z(t.week)}</td>
+                <td>${z(t.all)}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  }
+
+  if (timeLogExpanded) renderSessionHistory();
+}
+
+function renderSessionHistory() {
+  const log = getPersistedLog();
+  const wrap = document.getElementById('session-history-wrap');
+  if (!log.length) {
+    wrap.innerHTML = '<div class="no-sessions">No sessions logged yet.</div>';
+    return;
+  }
+  wrap.innerHTML = `
+    <div class="session-history">
+      ${log.map(e => {
+        const d = new Date(e.date + 'T12:00:00');
+        const dateStr = d.toLocaleDateString('en-US', { month:'short', day:'numeric' });
+        return `
+          <div class="history-entry">
+            <div class="history-date">${dateStr}</div>
+            <div class="history-detail">
+              <div class="history-card-title">${e.cardTitle}${e.manual ? '<span class="history-manual-tag">manual</span>' : ''}</div>
+              <div class="history-brand">${e.brandName}${e.note ? ' · ' + e.note : ''}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <div class="history-mins">${minsLabel(e.mins)}</div>
+              <button class="history-delete" onclick="deleteLogEntry('${e.id}')" title="Remove this entry">✕</button>
+            </div>
+          </div>`;
+      }).join('')}
+    </div>`;
+}
+
+/* ============================================================
+   MANUAL LOG MODAL
+   ============================================================ */
+function openManualModal() {
+  const brandSel = document.getElementById('manual-brand-select');
+  brandSel.innerHTML = '<option value="">— pick a brand —</option>' +
+    BRANDS.map(b => `<option value="${b.id}">${BRAND_LABELS[b.id]}</option>`).join('');
+  document.getElementById('manual-card-select').innerHTML = '<option value="">— pick a card —</option>';
+  document.getElementById('manual-mins-input').value = '';
+  document.getElementById('manual-date-input').value = todayKey();
+  document.getElementById('manual-note-input').value = '';
+  document.getElementById('manual-modal-overlay').classList.add('open');
+  setTimeout(() => brandSel.focus(), 50);
+}
+
+function populateManualCards() {
+  const brandId = document.getElementById('manual-brand-select').value;
+  const cardSel = document.getElementById('manual-card-select');
+  if (!brandId) { cardSel.innerHTML = '<option value="">— pick a card —</option>'; return; }
+  const brand = BRANDS.find(b => b.id === brandId);
+  const custom = getCustomCards(brandId);
+  const all = [...brand.cards, ...custom];
+  cardSel.innerHTML = '<option value="">— pick a card —</option>' +
+    all.map(c => `<option value="${c.id}">${c.title}</option>`).join('') +
+    '<option value="__free__">Other / freeform…</option>';
+}
+
+function closeManualModal(e) {
+  if (e && e.target !== document.getElementById('manual-modal-overlay')) return;
+  document.getElementById('manual-modal-overlay').classList.remove('open');
+}
+
+function saveManualEntry() {
+  const brandId  = document.getElementById('manual-brand-select').value;
+  const cardId   = document.getElementById('manual-card-select').value;
+  const mins     = parseFloat(document.getElementById('manual-mins-input').value);
+  const date     = document.getElementById('manual-date-input').value;
+  const note     = document.getElementById('manual-note-input').value.trim();
+
+  if (!brandId) { document.getElementById('manual-brand-select').focus(); return; }
+  if (!mins || mins < 1) {
+    document.getElementById('manual-mins-input').style.borderColor = '#C04B20';
+    document.getElementById('manual-mins-input').focus();
+    return;
+  }
+  document.getElementById('manual-mins-input').style.borderColor = '';
+
+  const brand = BRANDS.find(b => b.id === brandId);
+  let cardTitle = 'Unspecified work';
+  if (cardId && cardId !== '__free__') {
+    const allCards = [...brand.cards, ...getCustomCards(brandId)];
+    cardTitle = allCards.find(c => c.id === cardId)?.title || cardTitle;
+  } else if (note) {
+    cardTitle = note;
+  }
+
+  addLogEntry({
+    id: 'entry_' + Date.now(),
+    brandId, brandName: brand.name,
+    cardId: cardId || 'manual',
+    cardTitle, mins, date: date || todayKey(),
+    manual: true, note
+  });
+
+  if (date === todayKey()) {
+    addTodayMins(brandId, mins);
+    setBrandLast(brandId);
+  }
+
+  document.getElementById('manual-modal-overlay').classList.remove('open');
+  refreshAll();
+  renderTimeLog();
+}
+
+/* ============================================================
+   CUSTOM BRANDS
+   ============================================================ */
+function getCustomBrands() {
+  try { return JSON.parse(localStorage.getItem('bb_custom_brands') || '[]'); } catch(e) { return []; }
+}
+function saveCustomBrands(arr) {
+  try { localStorage.setItem('bb_custom_brands', JSON.stringify(arr)); } catch(e) {}
+}
+function loadCustomBrands() {
+  getCustomBrands().forEach(b => {
+    if (!BRANDS.find(x => x.id === b.id)) {
+      BRANDS.push(b);
+      BRAND_LABELS[b.id] = b.short || b.name;
+      BRAND_SUBS[b.id]   = b.sub || '';
+    }
+  });
+}
+
+function updateColorPreview() {
+  const val = document.getElementById('ab-color').value.trim();
+  if (/^#[0-9a-fA-F]{3,6}$/.test(val)) {
+    document.getElementById('ab-color-preview').style.background = val;
+    document.getElementById('ab-save-btn').style.background = val;
+  }
+}
+
+function openAddBrandModal() {
+  document.getElementById('ab-name').value = '';
+  document.getElementById('ab-short').value = '';
+  document.getElementById('ab-sub').value = '';
+  document.getElementById('ab-url').value = '';
+  document.getElementById('ab-color').value = '#534AB7';
+  document.getElementById('ab-color-preview').style.background = '#534AB7';
+  document.getElementById('ab-save-btn').style.background = '#534AB7';
+  document.getElementById('ab-stage').value = 'build';
+  document.getElementById('ab-daily').checked = false;
+  document.getElementById('ab-dormant').checked = false;
+  document.getElementById('add-brand-modal-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('ab-name').focus(), 50);
+}
+function closeAddBrandModal(e) {
+  if (e && e.target !== document.getElementById('add-brand-modal-overlay')) return;
+  document.getElementById('add-brand-modal-overlay').classList.remove('open');
+}
+function saveNewBrand() {
+  const name = document.getElementById('ab-name').value.trim();
+  if (!name) { document.getElementById('ab-name').style.borderColor='#C04B20'; document.getElementById('ab-name').focus(); return; }
+  document.getElementById('ab-name').style.borderColor = '';
+  const shortRaw = document.getElementById('ab-short').value.trim();
+  const short = shortRaw || name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,4);
+  const sub   = document.getElementById('ab-sub').value.trim();
+  const url   = document.getElementById('ab-url').value.trim();
+  const color = document.getElementById('ab-color').value.trim() || '#534AB7';
+  const stage = document.getElementById('ab-stage').value;
+  const daily = document.getElementById('ab-daily').checked;
+  const dormant = document.getElementById('ab-dormant').checked;
+  const id = 'cb_' + Date.now();
+  // Compute a light bg from color
+  const lightBg = color + '22';
+  const newBrand = { id, name, short, color, lightBg, url, daily, dormant, ops: false, cards: [], custom: true, sub };
+  const customs = getCustomBrands();
+  customs.push(newBrand);
+  saveCustomBrands(customs);
+  BRANDS.push(newBrand);
+  BRAND_LABELS[id] = short;
+  BRAND_SUBS[id]   = sub;
+  setStage(id, stage);
+  document.getElementById('add-brand-modal-overlay').classList.remove('open');
+  refreshAll();
+}
+
+/* ============================================================
+   CUSTOM CARDS
+   ============================================================ */
+function getCustomCards(brandId) {
+  try { return JSON.parse(localStorage.getItem('bw_custom_' + brandId) || '[]'); }
+  catch(e) { return []; }
+}
+function getDeletedPresets(brandId) {
+  try { return JSON.parse(localStorage.getItem('bw_deleted_' + brandId) || '[]'); }
+  catch(e) { return []; }
+}
+function deletePresetCard(brandId, cardId) {
+  const deleted = getDeletedPresets(brandId);
+  if (!deleted.includes(cardId)) deleted.push(cardId);
+  try { localStorage.setItem('bw_deleted_' + brandId, JSON.stringify(deleted)); } catch(e) {}
+  renderCards(brandId);
+}
+function saveCustomCards(brandId, cards) {
+  try { localStorage.setItem('bw_custom_' + brandId, JSON.stringify(cards)); } catch(e) {}
+}
+
+let _modalBrandId = null;
+
+function openAddCardModal(brandId) {
+  _modalBrandId = brandId;
+  const brand = BRANDS.find(b => b.id === brandId);
+  document.getElementById('modal-title').textContent = 'Add a card — ' + brand.name;
+  document.getElementById('modal-brand-btn').style.background = brand.color;
+  document.getElementById('card-title-input').value = '';
+  document.getElementById('card-body-input').value = '';
+  document.getElementById('card-type-input').value = 'Opportunity';
+  document.getElementById('modal-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('card-title-input').focus(), 50);
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modal-overlay')) return;
+  document.getElementById('modal-overlay').classList.remove('open');
+  _modalBrandId = null;
+}
+
+function saveCard() {
+  const title = document.getElementById('card-title-input').value.trim();
+  if (!title) {
+    document.getElementById('card-title-input').focus();
+    document.getElementById('card-title-input').style.borderColor = '#C04B20';
+    return;
+  }
+  document.getElementById('card-title-input').style.borderColor = '';
+  const body = document.getElementById('card-body-input').value.trim();
+  const type = document.getElementById('card-type-input').value;
+  const id   = 'custom_' + _modalBrandId + '_' + Date.now();
+  const cards = getCustomCards(_modalBrandId);
+  cards.push({ id, title, body: body || 'No note added.', type, custom: true });
+  saveCustomCards(_modalBrandId, cards);
+  document.getElementById('modal-overlay').classList.remove('open');
+  renderCards(_modalBrandId);
+}
+
+function deleteCustomCard(brandId, cardId) {
+  const cards = getCustomCards(brandId).filter(c => c.id !== cardId);
+  saveCustomCards(brandId, cards);
+  renderCards(brandId);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('modal-overlay').classList.remove('open');
+  if (e.key === 'Enter' && e.metaKey && document.getElementById('modal-overlay').classList.contains('open')) saveCard();
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+loadCustomBrands();
+renderDailyPanel();
+renderHealthStrip();
+renderBrands();
+renderOps();
+renderTimeLog();
+loadNotionPatinas();
+</script>
+</body>
+</html>
