@@ -460,6 +460,27 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 }
 .card-delete-btn:hover { color: #C04B20; background: #FAECE7; }
 
+/* Card stage navigation */
+.card-stage-row {
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 8px;
+}
+.card-stage-badge {
+  font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.07em; padding: 2px 8px; border-radius: 20px;
+  flex: 1; text-align: center;
+}
+.card-stage-nav {
+  background: none; border: 1.5px solid #ddd;
+  border-radius: 6px; width: 22px; height: 22px;
+  font-size: 12px; cursor: pointer; color: #888;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.12s, color 0.12s, background 0.12s;
+  flex-shrink: 0; line-height: 1;
+}
+.card-stage-nav:hover { border-color: #555; color: #111; background: #f5f4f1; }
+.card-stage-nav:disabled { opacity: 0.25; cursor: default; pointer-events: none; }
+
 /* ============================================================
    TIME LOG
    ============================================================ */
@@ -1051,6 +1072,25 @@ const DEFAULT_STAGES = {
   vo: 'market', di: 'operating', fd: 'ideation', sc: 'ideation', mm: 'ideation'
 };
 
+// Card-level workflow stages (left = earliest, right = most ready)
+const CARD_STAGES = [
+  { id: 'ideation',  label: 'Ideation',  color: '#888',    bg: '#F0EDE6' },
+  { id: 'build',     label: 'Build',      color: '#8A5E10', bg: '#FAEEDA' },
+  { id: 'operating', label: 'Operating',  color: '#534AB7', bg: '#EEEDFE' },
+  { id: 'gtm',       label: 'GTM',        color: '#1D9E75', bg: '#E1F5EE' },
+];
+function getCardStage(cardId) { return ls('bb_cstage_' + cardId) || 'build'; }
+function setCardStage(cardId, stageId) { ls('bb_cstage_' + cardId, stageId); }
+function getCardStageMeta(cardId) { return CARD_STAGES.find(s => s.id === getCardStage(cardId)) || CARD_STAGES[1]; }
+function moveCardStage(cardId, dir, brandId) {
+  const ids = CARD_STAGES.map(s => s.id);
+  const cur = ids.indexOf(getCardStage(cardId));
+  const next = cur + dir;
+  if (next < 0 || next >= ids.length) return;
+  setCardStage(cardId, ids[next]);
+  if (brandId) renderCards(brandId);
+}
+
 const DEFAULT_BACKEND = {
   mm: {
     hosting: 'maskedmixer.com (built with Bolt, hosted via Vercel)',
@@ -1617,7 +1657,10 @@ function selectBrand(id) {
 function renderCards(brandId) {
   const brand = BRANDS.find(b => b.id === brandId);
   const customCards = getCustomCards(brandId);
-  const allCards = [...brand.cards, ...customCards];
+  const deletedPresets = getDeletedPresets(brandId);
+  const stageOrder = CARD_STAGES.map(s => s.id);
+  const allCards = [...brand.cards.filter(c => !deletedPresets.includes(c.id)), ...customCards]
+    .sort((a, b) => stageOrder.indexOf(getCardStage(a.id)) - stageOrder.indexOf(getCardStage(b.id)));
   const area = document.getElementById('cards-area');
   const opsTag = brand.ops ? ' <span style="font-size:11px;font-weight:700;background:#E8E5DF;color:#666;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Operations</span>' : '';
   const dailyTag = brand.daily ? ' <span style="font-size:11px;font-weight:700;background:' + brand.color + ';color:#fff;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Daily</span>' : '';
@@ -1650,10 +1693,17 @@ function renderCard(card, brand) {
   const lastWorked = getLastWorked(card.id);
   const deleteBtn = card.custom
     ? `<button class="card-delete-btn" onclick="deleteCustomCard('${brand.id}','${card.id}')" title="Delete this card">✕</button>`
-    : '';
+    : `<button class="card-delete-btn" onclick="deletePresetCard('${brand.id}','${card.id}')" title="Delete this card">✕</button>`;
+  const csm = getCardStageMeta(card.id);
+  const csIdx = CARD_STAGES.findIndex(s => s.id === csm.id);
   return `
     <div class="work-card${isRunning ? ' is-running' : ''}" style="${isRunning ? `border-color:${brand.color};` : ''}">
       ${deleteBtn}
+      <div class="card-stage-row">
+        <button class="card-stage-nav" onclick="moveCardStage('${card.id}',-1,'${brand.id}')" title="Move left" ${csIdx===0?'disabled':''}>&#8592;</button>
+        <span class="card-stage-badge" style="background:${csm.bg};color:${csm.color}">${csm.label}</span>
+        <button class="card-stage-nav" onclick="moveCardStage('${card.id}',1,'${brand.id}')" title="Move right" ${csIdx===CARD_STAGES.length-1?'disabled':''}>&#8594;</button>
+      </div>
       <div class="card-badge" style="background:${style.bg}; color:${style.color}">
         <div class="badge-dot" style="background:${style.dot}"></div>
         ${card.type}
@@ -2036,6 +2086,16 @@ function saveManualEntry() {
 function getCustomCards(brandId) {
   try { return JSON.parse(localStorage.getItem('bw_custom_' + brandId) || '[]'); }
   catch(e) { return []; }
+}
+function getDeletedPresets(brandId) {
+  try { return JSON.parse(localStorage.getItem('bw_deleted_' + brandId) || '[]'); }
+  catch(e) { return []; }
+}
+function deletePresetCard(brandId, cardId) {
+  const deleted = getDeletedPresets(brandId);
+  if (!deleted.includes(cardId)) deleted.push(cardId);
+  try { localStorage.setItem('bw_deleted_' + brandId, JSON.stringify(deleted)); } catch(e) {}
+  renderCards(brandId);
 }
 function saveCustomCards(brandId, cards) {
   try { localStorage.setItem('bw_custom_' + brandId, JSON.stringify(cards)); } catch(e) {}
