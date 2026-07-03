@@ -87,7 +87,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 }
 .daily-card:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 6px 18px rgba(0,0,0,0.11); }
 
-/* States */
 .daily-card.done     { background: #fff; border-color: #1D9E75; }
 .daily-card.partial  { background: #fff; border-color: #D4900A; }
 .daily-card.undone   { background: #fff; border-color: #E0C8C4; }
@@ -95,7 +94,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 
 .daily-card-top { display: flex; align-items: center; justify-content: space-between; }
 .daily-brand-name { font-size: 14px; font-weight: 800; }
-
 .daily-status-icon { font-size: 16px; line-height: 1; }
 
 .daily-progress-track {
@@ -133,16 +131,11 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 .health-rows { display: flex; flex-direction: column; gap: 6px; }
 .health-row { display: flex; align-items: center; gap: 10px; }
 .health-brand-label { font-size: 13px; font-weight: 700; color: #111; width: 88px; flex-shrink: 0; }
-.health-daily-pip {
-  width: 6px; height: 6px; border-radius: 50%;
-  flex-shrink: 0;
-}
+.health-daily-pip { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 .health-dots { display: flex; gap: 4px; align-items: center; flex: 1; }
 .health-day-dot {
   width: 12px; height: 12px; border-radius: 50%;
-  flex-shrink: 0;
-  position: relative;
-  transition: transform 0.15s;
+  flex-shrink: 0; position: relative; transition: transform 0.15s;
 }
 .health-day-dot:hover { transform: scale(1.4); }
 .health-day-dot[title]:hover::after {
@@ -163,7 +156,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   margin-top: -2px; margin-bottom: 4px;
 }
 .health-day-label { width: 12px; text-align: center; font-size: 10px; color: #aaa; font-weight: 600; flex-shrink: 0; }
-
 
 /* ============================================================
    LOADING BAR
@@ -195,7 +187,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-
 .timer-eyebrow {
   font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
   text-transform: uppercase; color: #888; margin-bottom: 2px;
@@ -257,14 +248,10 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   width: 8px; height: 8px; border-radius: 50%;
 }
 
-/* Back office row */
-.ops-brands-row {
-  display: none; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;
-}
+.ops-brands-row { display: none; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
 .ops-brands-row.open { display: flex; }
 .ops-brands-row .brand-btn { flex: 0 0 auto; min-width: 90px; opacity: 0.85; }
 
-/* Stage pip on brand buttons */
 .brand-stage-pip {
   display: inline-block;
   font-size: 9px; font-weight: 800;
@@ -276,7 +263,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 }
 .brand-stage-pip:hover { opacity: 0.75; transform: scale(1.08); }
 
-/* Funnel panel */
 .funnel-panel { display: none; margin-bottom: 12px; }
 .funnel-panel.open { display: block; }
 .funnel-grid { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
@@ -302,7 +288,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 .funnel-chip:hover { opacity: 0.7; }
 .funnel-empty { font-size: 11px; color: #ccc; text-align: center; padding: 4px 0; }
 
-/* Brand button pop animation */
 @keyframes brandBtnPop {
   0%   { transform: scale(1) rotate(0deg); }
   35%  { transform: scale(1.13) rotate(-1.5deg); }
@@ -338,7 +323,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 .work-card:nth-child(2n):hover { transform: translateY(-4px) rotate(0.6deg); }
 .work-card.is-running { border-width: 3px; box-shadow: 0 6px 24px rgba(0,0,0,0.15); }
 
-/* Card launch animation */
 @keyframes cardLaunch {
   0%   { transform: scale(1); }
   30%  { transform: scale(1.04) rotate(-0.4deg); }
@@ -354,14 +338,10 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   margin-bottom: 8px;
 }
 .badge-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-
 .card-title { font-size: 15px; font-weight: 800; color: #111; line-height: 1.3; margin-bottom: 6px; }
 .card-body  { font-size: 13px; color: #444; line-height: 1.6; margin-bottom: 12px; }
 
-.card-footer {
-  display: flex; align-items: center;
-  justify-content: space-between; gap: 10px;
-}
+.card-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .card-last { font-size: 12px; color: #888; font-weight: 500; }
 
 .start-btn {
@@ -392,7 +372,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 .add-card-btn:hover { border-color: #888; color: #444; background: rgba(255,255,255,0.6); transform: scale(1.01); }
 .add-card-btn-plus { font-size: 24px; line-height: 1; }
 
-/* Modal overlay */
 .modal-overlay {
   display: none;
   position: fixed; inset: 0;
@@ -450,7 +429,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 }
 .btn-secondary:hover { background: #E5E2DA; }
 
-/* Delete button on custom cards */
 .card-delete-btn {
   position: absolute; top: 14px; right: 14px;
   background: none; border: none;
@@ -460,11 +438,7 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 }
 .card-delete-btn:hover { color: #C04B20; background: #FAECE7; }
 
-/* Card stage navigation */
-.card-stage-row {
-  display: flex; align-items: center; gap: 6px;
-  margin-bottom: 8px;
-}
+.card-stage-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
 .card-stage-badge {
   font-size: 10px; font-weight: 800; text-transform: uppercase;
   letter-spacing: 0.07em; padding: 2px 8px; border-radius: 20px;
@@ -504,11 +478,7 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 }
 .log-manual-btn:hover { opacity: 0.75; transform: scale(1.03); }
 
-/* Brand totals table */
-.brand-totals {
-  background: #fff; border-radius: 16px;
-  overflow: hidden; margin-bottom: 20px;
-}
+.brand-totals { background: #fff; border-radius: 16px; overflow: hidden; margin-bottom: 20px; }
 .totals-table { width: 100%; border-collapse: collapse; }
 .totals-table th {
   font-size: 12px; font-weight: 800; text-transform: uppercase;
@@ -529,7 +499,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 .totals-brand-name { font-weight: 700; }
 .totals-zero { color: #bbb; }
 
-/* Session history */
 .session-history { background: #fff; border-radius: 16px; overflow: hidden; }
 .history-entry {
   display: grid;
@@ -541,7 +510,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 }
 .history-entry:last-child { border-bottom: none; }
 .history-date { font-size: 13px; color: #999; font-weight: 600; padding-top: 2px; }
-.history-detail {}
 .history-card-title { font-size: 15px; font-weight: 700; color: #111; }
 .history-brand { font-size: 13px; color: #777; margin-top: 2px; }
 .history-manual-tag {
@@ -556,7 +524,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   transition: color 0.15s;
 }
 .history-delete:hover { color: #C04B20; }
-
 .no-sessions { padding: 32px; text-align: center; font-size: 15px; color: #aaa; }
 
 /* ============================================================
@@ -571,17 +538,13 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   letter-spacing: 0.04em;
 }
 .dormant-toggle-btn:hover { border-color: #aaa; color: #555; }
-.dormant-brands-row {
-  display: none; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;
-}
+.dormant-brands-row { display: none; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
 .dormant-brands-row.open { display: flex; }
 
 /* ============================================================
-   CARDS TABS (Cards / Backend)
+   CARDS TABS
    ============================================================ */
-.cards-tabs {
-  display: flex; gap: 6px; margin-bottom: 14px;
-}
+.cards-tabs { display: flex; gap: 6px; margin-bottom: 14px; }
 .cards-tab {
   padding: 7px 18px; border-radius: 8px;
   font-size: 13px; font-weight: 700;
@@ -597,26 +560,19 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
    ============================================================ */
 .backend-panel { display: none; }
 .backend-panel.open { display: block; }
-
 .backend-section { margin-bottom: 20px; }
 .backend-section-title {
   font-size: 11px; font-weight: 800; text-transform: uppercase;
   letter-spacing: 0.1em; color: #888; margin-bottom: 10px;
 }
-.backend-field {
-  background: #fff; border-radius: 12px;
-  padding: 14px 16px; margin-bottom: 8px;
-}
+.backend-field { background: #fff; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; }
 .backend-field-label {
   font-size: 11px; font-weight: 700; color: #aaa;
   text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;
 }
-.backend-field-value {
-  font-size: 14px; color: #111; font-weight: 500; line-height: 1.5;
-}
+.backend-field-value { font-size: 14px; color: #111; font-weight: 500; line-height: 1.5; }
 .backend-field-value a { color: #185FA5; text-decoration: none; }
 .backend-field-value a:hover { text-decoration: underline; }
-
 .backend-tool-row {
   display: flex; gap: 10px; align-items: baseline;
   padding: 10px 0; border-bottom: 1px solid #F0EDE6;
@@ -624,12 +580,8 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 .backend-tool-row:last-child { border-bottom: none; }
 .backend-tool-name { font-size: 13px; font-weight: 700; color: #111; min-width: 120px; flex-shrink: 0; }
 .backend-tool-detail { font-size: 13px; color: #555; line-height: 1.5; }
-
-.backend-tools-block {
-  background: #fff; border-radius: 12px; padding: 4px 16px; margin-bottom: 8px;
-}
+.backend-tools-block { background: #fff; border-radius: 12px; padding: 4px 16px; margin-bottom: 8px; }
 .backend-empty { color: #bbb; font-size: 13px; padding: 8px 0; }
-
 .backend-add-btn {
   background: none; border: 2px dashed #ccc;
   border-radius: 10px; padding: 10px 16px;
@@ -637,7 +589,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   cursor: pointer; width: 100%; transition: all 0.15s;
 }
 .backend-add-btn:hover { border-color: #888; color: #555; }
-
 .backend-notes-input {
   width: 100%; background: #fff; border: 2px solid transparent;
   border-radius: 12px; padding: 14px 16px;
@@ -659,8 +610,7 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   padding: 24px;
 }
 .gate-box {
-  background: #fff;
-  border-radius: 20px;
+  background: #fff; border-radius: 20px;
   padding: 36px 32px 28px;
   width: 100%; max-width: 360px;
   box-shadow: 0 20px 60px rgba(0,0,0,0.12);
@@ -696,19 +646,14 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
    CONFETTI
    ============================================================ */
 .confetti-piece {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  border-radius: 2px;
-  will-change: transform, opacity;
+  position: fixed; pointer-events: none; z-index: 9999;
+  border-radius: 2px; will-change: transform, opacity;
 }
 @keyframes confettiBurst {
   0%   { transform: translate(0,0) rotate(0deg) scale(1); opacity: 1; }
   75%  { opacity: 0.9; }
   100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0; }
 }
-
-/* All-done bounce */
 @keyframes allDoneBounce {
   0%   { transform: scale(1); }
   20%  { transform: scale(1.016); }
@@ -735,7 +680,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 <div class="title-row"><h1>Brand Band</h1><span class="tagline">Eight brands. One brain. Let's go.</span></div>
 <div class="how-to-use">Pick a brand. Pick a card. Hit <strong>Start</strong>. Everything else is noise.</div>
 
-<!-- Daily brands panel -->
 <div class="daily-panel" id="daily-panel">
   <div class="daily-header">
     <div class="daily-title" id="daily-title">Daily brands</div>
@@ -744,7 +688,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   <div class="daily-cards-row" id="daily-cards-row"></div>
 </div>
 
-<!-- Brand health strip -->
 <div class="health-strip">
   <div class="health-strip-title">Last time you worked on each brand</div>
   <div class="health-rows" id="health-rows"></div>
@@ -752,7 +695,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 
 <div class="load-bar-wrap"><div class="load-bar-fill" id="load-bar"></div></div>
 
-<!-- Timer banner -->
 <div class="timer-banner" id="timer-banner">
   <div class="timer-left">
     <div class="timer-eyebrow"><span class="timer-live-dot"></span>Now working on</div>
@@ -765,34 +707,28 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   </div>
 </div>
 
-<!-- Brand selector -->
 <div class="section-label">Select a brand to see its cards</div>
 <div class="brands-row" id="brands-row"></div>
 
-<!-- Dormant brands -->
 <div class="dormant-toggle-row">
   <button class="dormant-toggle-btn" id="dormant-toggle-btn" onclick="toggleDormant()">🥁 Auditions</button>
 </div>
 <div class="dormant-brands-row" id="dormant-brands-row"></div>
 
-<!-- Back office -->
 <div class="dormant-toggle-row">
   <button class="dormant-toggle-btn" id="ops-toggle-btn" onclick="toggleOps()">⚙ Back office</button>
 </div>
 <div class="ops-brands-row" id="ops-row"></div>
 
-<!-- Brand Funnel -->
 <div class="dormant-toggle-row">
   <button class="dormant-toggle-btn" id="funnel-toggle-btn" onclick="toggleFunnel()">📊 Brand Funnel</button>
 </div>
 <div class="funnel-panel" id="funnel-panel"></div>
 
-<!-- Cards -->
 <div class="cards-area" id="cards-area">
   <div class="cards-empty"><span>↑</span>Pick a brand above to see its work cards</div>
 </div>
 
-<!-- Add card modal -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="modal-title" id="modal-title">Add a card</div>
@@ -819,7 +755,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   </div>
 </div>
 
-<!-- Manual log modal -->
 <div class="modal-overlay" id="manual-modal-overlay" onclick="closeManualModal(event)">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="modal-title">Log time manually</div>
@@ -854,7 +789,6 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   </div>
 </div>
 
-<!-- Time log section -->
 <div class="time-log-section" id="time-log-section">
   <div class="time-log-header">
     <div class="section-label" style="margin-bottom:0">Time log</div>
@@ -867,11 +801,7 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   <div id="session-history-wrap" style="display:none"></div>
 </div>
 
-
 <script>
-/* ============================================================
-   PASSWORD GATE
-   ============================================================ */
 const GATE_KEY = 'bb_auth';
 const GATE_PASS = 'angostura-tack-7';
 
@@ -882,7 +812,6 @@ function gateCheck() {
     setTimeout(() => document.getElementById('gate-input').focus(), 100);
   }
 }
-
 function gateSubmit() {
   const val = document.getElementById('gate-input').value;
   if (val === GATE_PASS) {
@@ -896,12 +825,8 @@ function gateSubmit() {
     setTimeout(() => { inp.classList.remove('error'); inp.focus(); }, 400);
   }
 }
-
 gateCheck();
 
-/* ============================================================
-   DATA
-   ============================================================ */
 const DAILY_MIN = 15;
 
 const BRANDS = [
@@ -1072,7 +997,6 @@ const DEFAULT_STAGES = {
   vo: 'market', di: 'operating', fd: 'ideation', sc: 'ideation', mm: 'ideation'
 };
 
-// Card-level workflow stages (left = earliest, right = most ready)
 const CARD_STAGES = [
   { id: 'ideation',  label: 'Ideation',  color: '#888',    bg: '#F0EDE6' },
   { id: 'build',     label: 'Build',      color: '#8A5E10', bg: '#FAEEDA' },
@@ -1109,9 +1033,6 @@ const typeStyles = {
   'Admin':             ()  => ({ bg: '#EFEFEF', color: '#555', dot: '#999' }),
 };
 
-/* ============================================================
-   STATE
-   ============================================================ */
 let activeBrandId = null;
 let timerInterval = null;
 let timerStart = null;
@@ -1121,21 +1042,12 @@ let sessionLog = [];
 window._notionDays = {};
 window._todayCelebrated = {};
 
-/* ============================================================
-   DATE HELPERS
-   ============================================================ */
 function todayKey() {
   const d = new Date();
   return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
 }
-function isWeekday() {
-  const d = new Date().getDay();
-  return d >= 1 && d <= 5;
-}
+function isWeekday() { const d = new Date().getDay(); return d >= 1 && d <= 5; }
 
-/* ============================================================
-   LOCALSTORAGE HELPERS
-   ============================================================ */
 function ls(key, val) {
   try {
     if (val === undefined) return localStorage.getItem(key);
@@ -1156,33 +1068,19 @@ function addTodayMins(brandId, mins) {
   ls('bw_mins_' + brandId + '_' + todayKey(), String(cur + mins));
 }
 
-/* ============================================================
-   STAGE HELPERS
-   ============================================================ */
-function getStage(brandId) {
-  return ls('bb_stage_' + brandId) || DEFAULT_STAGES[brandId] || 'ideation';
-}
-function setStage(brandId, stageId) {
-  ls('bb_stage_' + brandId, stageId);
-}
-function getStageMeta(brandId) {
-  const id = getStage(brandId);
-  return STAGES.find(s => s.id === id) || STAGES[0];
-}
+function getStage(brandId) { return ls('bb_stage_' + brandId) || DEFAULT_STAGES[brandId] || 'ideation'; }
+function setStage(brandId, stageId) { ls('bb_stage_' + brandId, stageId); }
+function getStageMeta(brandId) { const id = getStage(brandId); return STAGES.find(s => s.id === id) || STAGES[0]; }
 function cycleStage(brandId) {
   const ids = STAGES.map(s => s.id);
   const cur = getStage(brandId);
   const next = ids[(ids.indexOf(cur) + 1) % ids.length];
   setStage(brandId, next);
-  renderBrands();
-  renderOps();
+  renderBrands(); renderOps();
   if (dormantOpen) renderDormantBrands();
   renderFunnel();
 }
 
-/* ============================================================
-   LABEL HELPERS
-   ============================================================ */
 function lastWorkedLabel(isoStr) {
   if (!isoStr) return null;
   const diff = Math.floor((Date.now() - new Date(isoStr)) / 60000);
@@ -1193,59 +1091,42 @@ function lastWorkedLabel(isoStr) {
   const days = Math.floor(hrs / 24);
   return days + ' day' + (days === 1 ? '' : 's') + ' ago';
 }
-
 function ageInDays(isoStr) {
   if (!isoStr) return null;
   return Math.floor((Date.now() - new Date(isoStr)) / 86400000);
 }
 
-/* ============================================================
-   STREAK
-   ============================================================ */
 function getDailyStreak(brandId) {
   let streak = 0;
   const today = new Date();
   for (let i = 1; i <= 60; i++) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
+    const d = new Date(today); d.setDate(d.getDate() - i);
     const day = d.getDay();
-    if (day === 0 || day === 6) continue; // skip weekends
+    if (day === 0 || day === 6) continue;
     const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
     const mins = parseFloat(localStorage.getItem('bw_mins_' + brandId + '_' + key) || '0');
-    if (mins >= DAILY_MIN) streak++;
-    else break;
+    if (mins >= DAILY_MIN) streak++; else break;
   }
   return streak;
 }
 
-/* ============================================================
-   SOUND
-   ============================================================ */
 function playTone(frequency, duration, volume) {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.frequency.value = frequency;
-    osc.type = 'sine';
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = frequency; osc.type = 'sine';
     gain.gain.setValueAtTime(volume || 0.25, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + duration);
+    osc.start(ctx.currentTime); osc.stop(ctx.currentTime + duration);
   } catch(e) {}
 }
 function playStartTone()   { playTone(392, 0.08, 0.18); }
 function playStopTone()    { playTone(523, 0.12, 0.2); setTimeout(() => playTone(440, 0.15, 0.15), 100); }
 function playSuccessTone() { playTone(523, 0.1, 0.22); setTimeout(() => playTone(784, 0.18, 0.22), 110); }
-function playAllDoneFanfare() {
-  [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => playTone(f, 0.18, 0.2), i * 90));
-}
+function playAllDoneFanfare() { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => playTone(f, 0.18, 0.2), i * 90)); }
 
-/* ============================================================
-   CONFETTI
-   ============================================================ */
 function triggerConfetti(x, y, color, count) {
   const n = count || 35;
   const palette = [color || '#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#C3B1E1', '#FFD93D'];
@@ -1265,16 +1146,12 @@ function triggerConfetti(x, y, color, count) {
     setTimeout(() => el.remove(), (dur + 0.1) * 1000);
   }
 }
-
 function burstFromEl(el, color, count) {
   if (!el) return;
   const r = el.getBoundingClientRect();
   triggerConfetti(r.left + r.width / 2, r.top + r.height / 2, color, count);
 }
 
-/* ============================================================
-   DAILY PANEL
-   ============================================================ */
 const ALL_DONE_MESSAGES = [
   'Four for four. Take a bow.',
   'All daily brands done. Seriously.',
@@ -1294,17 +1171,14 @@ function dailyState(brand) {
 function renderDailyPanel() {
   const dailyBrands = BRANDS.filter(b => b.daily);
   const states = dailyBrands.map(b => dailyState(b));
-
   let panelClass, titleClass, titleText, subtitleText;
   if (!isWeekday()) {
     panelClass = 'weekend'; titleClass = 'weekend';
-    titleText = 'Daily Brands — Weekend';
-    subtitleText = 'Rest up. Back at it Monday.';
+    titleText = 'Daily Brands — Weekend'; subtitleText = 'Rest up. Back at it Monday.';
   } else if (states.every(s => s === 'done')) {
     panelClass = 'all-done'; titleClass = 'all-done';
     titleText = '✦ Daily brands — all done';
-    const msg = ALL_DONE_MESSAGES[new Date().getDate() % ALL_DONE_MESSAGES.length];
-    subtitleText = msg;
+    subtitleText = ALL_DONE_MESSAGES[new Date().getDate() % ALL_DONE_MESSAGES.length];
   } else if (states.some(s => s === 'done' || s === 'partial')) {
     panelClass = 'in-progress'; titleClass = 'in-progress';
     const remaining = dailyBrands.filter((b,i) => states[i] !== 'done');
@@ -1315,14 +1189,12 @@ function renderDailyPanel() {
     titleText = 'Daily brands — not started yet';
     subtitleText = 'GM, VO, H&H, and TP each need 15 min today';
   }
-
   const panel = document.getElementById('daily-panel');
   panel.className = 'daily-panel ' + panelClass;
   const titleEl = document.getElementById('daily-title');
   titleEl.className = 'daily-title ' + titleClass;
   titleEl.textContent = titleText;
   document.getElementById('daily-subtitle').textContent = subtitleText;
-
   const row = document.getElementById('daily-cards-row');
   row.innerHTML = dailyBrands.map((b, i) => {
     const state = states[i];
@@ -1339,37 +1211,24 @@ function renderDailyPanel() {
           <div class="daily-brand-name" style="color:${b.color}">${BRAND_LABELS[b.id]}</div>
           <div class="daily-status-icon">${icon}</div>
         </div>
-        <div class="daily-progress-track">
-          <div class="daily-progress-fill" style="width:${pct}%"></div>
-        </div>
+        <div class="daily-progress-track"><div class="daily-progress-fill" style="width:${pct}%"></div></div>
         <div class="daily-mins-label">${label}</div>
       </div>`;
   }).join('');
 }
 
-/* ============================================================
-   HEALTH STRIP
-   ============================================================ */
 function healthMeta(brandId) {
   const iso = getBrandLast(brandId);
   const notionDays = window._notionDays?.[brandId] ?? null;
   if (!iso && notionDays === null) return { colorClass: 'age-cold', label: 'Not yet' };
-
   let days, label;
-  if (iso) {
-    days = ageInDays(iso);
-    label = lastWorkedLabel(iso) || 'Today';
-  } else {
-    days = notionDays;
-    label = days === 0 ? 'Today' : days === 1 ? 'Yesterday' : days + 'd ago';
-  }
-
+  if (iso) { days = ageInDays(iso); label = lastWorkedLabel(iso) || 'Today'; }
+  else { days = notionDays; label = days === 0 ? 'Today' : days === 1 ? 'Yesterday' : days + 'd ago'; }
   let colorClass;
   if      (days <= 3)  colorClass = 'age-fresh';
   else if (days <= 7)  colorClass = 'age-ok';
   else if (days <= 14) colorClass = 'age-stale';
   else                 colorClass = 'age-cold';
-
   return { colorClass, label };
 }
 
@@ -1377,34 +1236,29 @@ function renderHealthStrip() {
   const container = document.getElementById('health-rows');
   const days = [];
   for (let i = 6; i >= 0; i--) {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
+    const d = new Date(); d.setDate(d.getDate() - i);
     const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
     const dayName = d.toLocaleDateString('en-US', { weekday: 'short' }).slice(0,1);
     days.push({ key, dayName, isToday: i === 0 });
   }
-
   const dayLabelRow = `<div class="health-day-label-row">
     ${days.map(d => `<div class="health-day-label" style="${d.isToday ? 'color:#444;font-weight:800' : ''}">${d.dayName}</div>`).join('')}
   </div>`;
-
   const rows = BRANDS.map(b => {
     const { colorClass, label } = healthMeta(b.id);
     const dailyPip = b.daily
       ? `<div class="health-daily-pip" style="background:${b.color}" title="Daily brand"></div>`
       : `<div class="health-daily-pip" style="background:transparent"></div>`;
-
     const dots = days.map(d => {
       const mins = parseFloat(localStorage.getItem('bw_mins_' + b.id + '_' + d.key) || '0');
       const worked = mins >= 0.5;
       let fill, opacity;
-      if (!worked)    { fill = '#E8E5DF'; opacity = '1'; }
+      if (!worked)        { fill = '#E8E5DF'; opacity = '1'; }
       else if (mins < 15) { fill = b.color; opacity = '0.35'; }
-      else            { fill = b.color; opacity = '1'; }
+      else                { fill = b.color; opacity = '1'; }
       const tip = worked ? d.key + ': ' + Math.round(mins) + ' min' : d.key + ': not worked';
       return `<div class="health-day-dot" style="background:${fill};opacity:${opacity}" title="${tip}"></div>`;
     }).join('');
-
     return `
       <div class="health-row">
         <div class="health-brand-label">${BRAND_LABELS[b.id]}</div>
@@ -1413,13 +1267,9 @@ function renderHealthStrip() {
         <div class="health-age-label ${colorClass}">${label}</div>
       </div>`;
   }).join('');
-
   container.innerHTML = dayLabelRow + rows;
 }
 
-/* ============================================================
-   DORMANT BRANDS
-   ============================================================ */
 let dormantOpen = false;
 let opsOpen = false;
 
@@ -1429,19 +1279,16 @@ function toggleOps() {
   document.getElementById('ops-toggle-btn').textContent = opsOpen ? '⚙ Hide back office' : '⚙ Back office';
   if (opsOpen) renderOps();
 }
-
 function openBrandUrl(brandId) {
   const brand = BRANDS.find(b => b.id === brandId);
   if (brand && brand.url) window.open(brand.url, '_blank');
 }
-
 function toggleDormant() {
   dormantOpen = !dormantOpen;
   document.getElementById('dormant-brands-row').classList.toggle('open', dormantOpen);
   document.getElementById('dormant-toggle-btn').textContent = dormantOpen ? '🥁 Hide auditions' : '🥁 Auditions';
   if (dormantOpen) renderDormantBrands();
 }
-
 function renderDormantBrands() {
   const row = document.getElementById('dormant-brands-row');
   const dormantBrands = BRANDS.filter(b => b.dormant);
@@ -1461,18 +1308,13 @@ function renderDormantBrands() {
   row.innerHTML = html;
 }
 
-/* ============================================================
-   BRAND FUNNEL
-   ============================================================ */
 let funnelOpen = false;
-
 function toggleFunnel() {
   funnelOpen = !funnelOpen;
   document.getElementById('funnel-panel').classList.toggle('open', funnelOpen);
   document.getElementById('funnel-toggle-btn').textContent = funnelOpen ? '📊 Hide funnel' : '📊 Brand Funnel';
   if (funnelOpen) renderFunnel();
 }
-
 function renderFunnel() {
   const panel = document.getElementById('funnel-panel');
   if (!panel) return;
@@ -1491,11 +1333,7 @@ function renderFunnel() {
   panel.innerHTML = `<div class="funnel-grid">${cols}</div>`;
 }
 
-/* ============================================================
-   BACKEND VIEW
-   ============================================================ */
 let activeTab = 'cards';
-
 function getBackendData(brandId) {
   try {
     const stored = JSON.parse(localStorage.getItem('bw_backend_' + brandId) || 'null');
@@ -1505,7 +1343,6 @@ function getBackendData(brandId) {
 function saveBackendData(brandId, data) {
   try { localStorage.setItem('bw_backend_' + brandId, JSON.stringify(data)); } catch(e) {}
 }
-
 function switchTab(tab) {
   activeTab = tab;
   document.querySelectorAll('.cards-tab').forEach(t => t.classList.remove('active'));
@@ -1514,7 +1351,6 @@ function switchTab(tab) {
   document.getElementById('backend-panel').classList.toggle('open', tab === 'backend');
   if (tab === 'backend') renderBackend(activeBrandId);
 }
-
 function renderBackend(brandId) {
   const data = getBackendData(brandId);
   const panel = document.getElementById('backend-panel');
@@ -1526,7 +1362,6 @@ function renderBackend(brandId) {
           <button onclick="removeTool('${brandId}',${i})" style="margin-left:auto;background:none;border:none;color:#ccc;cursor:pointer;font-size:14px;padding:0 4px;" title="Remove">✕</button>
         </div>`).join('')
     : '<div class="backend-empty">No tools added yet</div>';
-
   panel.innerHTML = `
     <div class="backend-section">
       <div class="backend-section-title">Hosting</div>
@@ -1548,14 +1383,11 @@ function renderBackend(brandId) {
         onchange="saveNote('${brandId}', this.value)">${data.notes || ''}</textarea>
     </div>`;
 }
-
 function editHosting(brandId) {
   const val = prompt('Hosting info:', getBackendData(brandId).hosting || '');
   if (val === null) return;
-  const data = getBackendData(brandId);
-  data.hosting = val;
-  saveBackendData(brandId, data);
-  renderBackend(brandId);
+  const data = getBackendData(brandId); data.hosting = val;
+  saveBackendData(brandId, data); renderBackend(brandId);
 }
 function addTool(brandId) {
   const name = prompt('Tool name (e.g. Newsletter, CRM, Analytics):');
@@ -1564,24 +1396,17 @@ function addTool(brandId) {
   if (detail === null) return;
   const data = getBackendData(brandId);
   data.tools.push({ name: name.trim(), detail: detail.trim() });
-  saveBackendData(brandId, data);
-  renderBackend(brandId);
+  saveBackendData(brandId, data); renderBackend(brandId);
 }
 function removeTool(brandId, index) {
   const data = getBackendData(brandId);
   data.tools.splice(index, 1);
-  saveBackendData(brandId, data);
-  renderBackend(brandId);
+  saveBackendData(brandId, data); renderBackend(brandId);
 }
 function saveNote(brandId, val) {
-  const data = getBackendData(brandId);
-  data.notes = val;
-  saveBackendData(brandId, data);
+  const data = getBackendData(brandId); data.notes = val; saveBackendData(brandId, data);
 }
 
-/* ============================================================
-   BACK OFFICE (OPS) SELECTOR
-   ============================================================ */
 function renderOps() {
   const row = document.getElementById('ops-row');
   if (!row) return;
@@ -1602,9 +1427,6 @@ function renderOps() {
   row.innerHTML = html;
 }
 
-/* ============================================================
-   BRAND SELECTOR
-   ============================================================ */
 function renderBrands() {
   const row = document.getElementById('brands-row');
   let html = '';
@@ -1613,16 +1435,12 @@ function renderBrands() {
     const lw = iso ? lastWorkedLabel(iso)
       : (window._notionDays[b.id] != null ? 'Notion: ' + (window._notionDays[b.id] === 0 ? 'today' : window._notionDays[b.id] + 'd ago') : 'Not started');
     const isActive = activeBrandId === b.id;
-
     const style = isActive ? `background:${b.color}; border-color:${b.color};` : '';
     let pipColor = 'transparent';
     if (b.daily && isWeekday()) {
       const st = dailyState(b);
       pipColor = st === 'done' ? '#1D9E75' : st === 'partial' ? '#D4900A' : '#C04B20';
-    } else if (b.daily) {
-      pipColor = '#ccc';
-    }
-
+    } else if (b.daily) { pipColor = '#ccc'; }
     const stage = getStageMeta(b.id);
     html += `
       <button class="brand-btn${isActive ? ' active' : ''}" style="${style}" onclick="selectBrand('${b.id}')" ondblclick="openBrandUrl('${b.id}')" title="${b.url ? 'Double-click to open ' + b.url : ''}">
@@ -1636,16 +1454,11 @@ function renderBrands() {
   row.innerHTML = html;
 }
 
-/* ============================================================
-   CARDS
-   ============================================================ */
 function selectBrand(id) {
   activeBrandId = id;
-  renderBrands();
-  renderOps();
+  renderBrands(); renderOps();
   if (dormantOpen) renderDormantBrands();
   renderCards(id);
-  // Pop animation on the active button
   setTimeout(() => {
     document.querySelectorAll('.brand-btn.active').forEach(btn => {
       btn.classList.add('popping');
@@ -1665,7 +1478,6 @@ function renderCards(brandId) {
   const opsTag = brand.ops ? ' <span style="font-size:11px;font-weight:700;background:#E8E5DF;color:#666;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Operations</span>' : '';
   const dailyTag = brand.daily ? ' <span style="font-size:11px;font-weight:700;background:' + brand.color + ';color:#fff;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Daily</span>' : '';
   const dormantTag = brand.dormant ? ' <span style="font-size:11px;font-weight:700;background:#E8E5DF;color:#888;border-radius:6px;padding:2px 9px;vertical-align:middle;margin-left:8px">Auditioning</span>' : '';
-
   activeTab = 'cards';
   area.innerHTML = `
     <div class="cards-header">
@@ -1722,7 +1534,7 @@ function renderCard(card, brand) {
 }
 
 /* ============================================================
-   TIMER
+   TIMER — FIXED: no longer calls refreshAll() which wiped the banner
    ============================================================ */
 function startCard(cardId, brandId) {
   if (runningCardId === cardId) return;
@@ -1747,15 +1559,25 @@ function startCard(cardId, brandId) {
   logSession('Started: ' + card.title + ' (' + brand.name + ')');
   playStartTone();
 
-  refreshAll();
+  // Lightweight refresh — does NOT rebuild cards (which would wipe the banner)
+  renderDailyPanel();
+  renderHealthStrip();
+  renderBrands();
+  renderOps();
+  if (funnelOpen) renderFunnel();
 
-  // Launch animation on the running card
-  setTimeout(() => {
-    document.querySelectorAll('.work-card.is-running').forEach(el => {
-      el.classList.add('launching');
-      setTimeout(() => el.classList.remove('launching'), 480);
-    });
-  }, 30);
+  // Update the running card's button in place
+  const runningCardEl = [...document.querySelectorAll('.work-card')].find(el =>
+    el.innerHTML.includes("'" + cardId + "'")
+  );
+  if (runningCardEl) {
+    const btn = runningCardEl.querySelector('.start-btn');
+    if (btn) { btn.textContent = 'Running…'; btn.classList.add('active-btn'); btn.style.background = ''; }
+    runningCardEl.classList.add('is-running');
+    runningCardEl.style.borderColor = brand.color;
+    runningCardEl.classList.add('launching');
+    setTimeout(() => runningCardEl.classList.remove('launching'), 480);
+  }
 }
 
 function stopTimer() {
@@ -1776,14 +1598,9 @@ function stopTimer() {
 
   logSession('Stopped: ' + (card?.title || 'card') + ' — ' + (minRound < 1 ? 'less than a minute' : minRound + ' min'));
 
-  // Small confetti burst on stop (5+ min sessions)
   const stopBtn = document.querySelector('.stop-btn');
-  if (minRound >= 5 && stopBtn) {
-    burstFromEl(stopBtn, brand?.color || '#FFD700', 20);
-    playStopTone();
-  }
+  if (minRound >= 5 && stopBtn) { burstFromEl(stopBtn, brand?.color || '#FFD700', 20); playStopTone(); }
 
-  // Check for daily milestone crossing
   if (brand?.daily && prevMins < DAILY_MIN && newMins >= DAILY_MIN) {
     const celebKey = brand.id + '_' + todayKey();
     if (!window._todayCelebrated[celebKey]) {
@@ -1792,13 +1609,9 @@ function stopTimer() {
         const panel = document.getElementById('daily-panel');
         burstFromEl(panel, brand.color, 55);
         playSuccessTone();
-        // Check if ALL daily brands now done
         const allDone = BRANDS.filter(b => b.daily).every(b => getTodayMins(b.id) >= DAILY_MIN);
         if (allDone) {
-          setTimeout(() => {
-            burstFromEl(panel, '#FFD700', 70);
-            playAllDoneFanfare();
-          }, 350);
+          setTimeout(() => { burstFromEl(panel, '#FFD700', 70); playAllDoneFanfare(); }, 350);
         }
       }, 150);
     }
@@ -1837,25 +1650,16 @@ function updateClock() {
 }
 
 function refreshAll() {
-  renderDailyPanel();
-  renderHealthStrip();
-  renderBrands();
-  renderOps();
+  renderDailyPanel(); renderHealthStrip(); renderBrands(); renderOps();
   if (funnelOpen) renderFunnel();
   if (activeBrandId) renderCards(activeBrandId);
 }
 
-/* ============================================================
-   SESSION LOG
-   ============================================================ */
 function logSession(text) {
   const t = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
   sessionLog.push({ time: t, text });
 }
 
-/* ============================================================
-   NOTION PATINA
-   ============================================================ */
 async function notionAPI(body) {
   const res = await fetch('/api/notion', {
     method: 'POST',
@@ -1877,19 +1681,14 @@ async function loadNotionPatinas() {
         const newest = pages.reduce((a, c) => new Date(a.timestamp) > new Date(c.timestamp) ? a : c);
         window._notionDays[b.id] = Math.max(0, Math.floor((Date.now() - new Date(newest.timestamp)) / 86400000));
       }
-    } catch(e) { /* silent */ }
+    } catch(e) {}
     done++;
     if (bar) bar.style.width = Math.round((done / BRANDS.length) * 100) + '%';
-    renderBrands();
-    renderOps();
-    renderHealthStrip();
+    renderBrands(); renderOps(); renderHealthStrip();
   }));
   setTimeout(() => { if (bar) { bar.style.transition = 'opacity 0.5s'; bar.style.opacity = '0'; } }, 800);
 }
 
-/* ============================================================
-   PERSISTENT SESSION LOG
-   ============================================================ */
 function getPersistedLog() {
   try { return JSON.parse(localStorage.getItem('bw_session_log') || '[]'); } catch(e) { return []; }
 }
@@ -1897,22 +1696,14 @@ function savePersistedLog(entries) {
   try { localStorage.setItem('bw_session_log', JSON.stringify(entries)); } catch(e) {}
 }
 function addLogEntry(entry) {
-  const log = getPersistedLog();
-  log.unshift(entry);
-  savePersistedLog(log);
+  const log = getPersistedLog(); log.unshift(entry); savePersistedLog(log);
 }
 function deleteLogEntry(id) {
   const log = getPersistedLog().filter(e => e.id !== id);
-  savePersistedLog(log);
-  renderTimeLog();
-  renderDailyPanel();
+  savePersistedLog(log); renderTimeLog(); renderDailyPanel();
 }
 
-/* ============================================================
-   TIME LOG RENDERING
-   ============================================================ */
 let timeLogExpanded = false;
-
 function toggleTimeLog() {
   timeLogExpanded = !timeLogExpanded;
   document.getElementById('session-history-wrap').style.display = timeLogExpanded ? 'block' : 'none';
@@ -1933,29 +1724,23 @@ function renderTimeLog() {
   const now = new Date();
   const todayStr = todayKey();
   const weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
-
   const totals = {};
   BRANDS.forEach(b => { totals[b.id] = { today: 0, week: 0, all: 0 }; });
-
   log.forEach(e => {
     if (!totals[e.brandId]) return;
     totals[e.brandId].all += e.mins;
     if (e.date === todayStr) totals[e.brandId].today += e.mins;
     if (new Date(e.date) >= weekAgo) totals[e.brandId].week += e.mins;
   });
-
   const hasAny = Object.values(totals).some(t => t.all > 0);
   const wrap = document.getElementById('brand-totals-wrap');
-
   if (!hasAny) {
     wrap.innerHTML = '<div class="no-sessions">No time logged yet. Start a card or log time manually.</div>';
   } else {
     wrap.innerHTML = `
       <div class="brand-totals">
         <table class="totals-table">
-          <thead><tr>
-            <th>Brand</th><th>Today</th><th>This week</th><th>All time</th>
-          </tr></thead>
+          <thead><tr><th>Brand</th><th>Today</th><th>This week</th><th>All time</th></tr></thead>
           <tbody>
             ${BRANDS.map(b => {
               const t = totals[b.id];
@@ -1965,26 +1750,20 @@ function renderTimeLog() {
                   <div class="totals-brand-dot" style="background:${b.color}"></div>
                   <div class="totals-brand-name">${BRAND_LABELS[b.id]}</div>
                 </div></td>
-                <td>${z(t.today)}</td>
-                <td>${z(t.week)}</td>
-                <td>${z(t.all)}</td>
+                <td>${z(t.today)}</td><td>${z(t.week)}</td><td>${z(t.all)}</td>
               </tr>`;
             }).join('')}
           </tbody>
         </table>
       </div>`;
   }
-
   if (timeLogExpanded) renderSessionHistory();
 }
 
 function renderSessionHistory() {
   const log = getPersistedLog();
   const wrap = document.getElementById('session-history-wrap');
-  if (!log.length) {
-    wrap.innerHTML = '<div class="no-sessions">No sessions logged yet.</div>';
-    return;
-  }
+  if (!log.length) { wrap.innerHTML = '<div class="no-sessions">No sessions logged yet.</div>'; return; }
   wrap.innerHTML = `
     <div class="session-history">
       ${log.map(e => {
@@ -2006,9 +1785,6 @@ function renderSessionHistory() {
     </div>`;
 }
 
-/* ============================================================
-   MANUAL LOG MODAL
-   ============================================================ */
 function openManualModal() {
   const brandSel = document.getElementById('manual-brand-select');
   brandSel.innerHTML = '<option value="">— pick a brand —</option>' +
@@ -2020,7 +1796,6 @@ function openManualModal() {
   document.getElementById('manual-modal-overlay').classList.add('open');
   setTimeout(() => brandSel.focus(), 50);
 }
-
 function populateManualCards() {
   const brandId = document.getElementById('manual-brand-select').value;
   const cardSel = document.getElementById('manual-card-select');
@@ -2032,36 +1807,28 @@ function populateManualCards() {
     all.map(c => `<option value="${c.id}">${c.title}</option>`).join('') +
     '<option value="__free__">Other / freeform…</option>';
 }
-
 function closeManualModal(e) {
   if (e && e.target !== document.getElementById('manual-modal-overlay')) return;
   document.getElementById('manual-modal-overlay').classList.remove('open');
 }
-
 function saveManualEntry() {
   const brandId  = document.getElementById('manual-brand-select').value;
   const cardId   = document.getElementById('manual-card-select').value;
   const mins     = parseFloat(document.getElementById('manual-mins-input').value);
   const date     = document.getElementById('manual-date-input').value;
   const note     = document.getElementById('manual-note-input').value.trim();
-
   if (!brandId) { document.getElementById('manual-brand-select').focus(); return; }
   if (!mins || mins < 1) {
     document.getElementById('manual-mins-input').style.borderColor = '#C04B20';
-    document.getElementById('manual-mins-input').focus();
-    return;
+    document.getElementById('manual-mins-input').focus(); return;
   }
   document.getElementById('manual-mins-input').style.borderColor = '';
-
   const brand = BRANDS.find(b => b.id === brandId);
   let cardTitle = 'Unspecified work';
   if (cardId && cardId !== '__free__') {
     const allCards = [...brand.cards, ...getCustomCards(brandId)];
     cardTitle = allCards.find(c => c.id === cardId)?.title || cardTitle;
-  } else if (note) {
-    cardTitle = note;
-  }
-
+  } else if (note) { cardTitle = note; }
   addLogEntry({
     id: 'entry_' + Date.now(),
     brandId, brandName: brand.name,
@@ -2069,27 +1836,16 @@ function saveManualEntry() {
     cardTitle, mins, date: date || todayKey(),
     manual: true, note
   });
-
-  if (date === todayKey()) {
-    addTodayMins(brandId, mins);
-    setBrandLast(brandId);
-  }
-
+  if (date === todayKey()) { addTodayMins(brandId, mins); setBrandLast(brandId); }
   document.getElementById('manual-modal-overlay').classList.remove('open');
-  refreshAll();
-  renderTimeLog();
+  refreshAll(); renderTimeLog();
 }
 
-/* ============================================================
-   CUSTOM CARDS
-   ============================================================ */
 function getCustomCards(brandId) {
-  try { return JSON.parse(localStorage.getItem('bw_custom_' + brandId) || '[]'); }
-  catch(e) { return []; }
+  try { return JSON.parse(localStorage.getItem('bw_custom_' + brandId) || '[]'); } catch(e) { return []; }
 }
 function getDeletedPresets(brandId) {
-  try { return JSON.parse(localStorage.getItem('bw_deleted_' + brandId) || '[]'); }
-  catch(e) { return []; }
+  try { return JSON.parse(localStorage.getItem('bw_deleted_' + brandId) || '[]'); } catch(e) { return []; }
 }
 function deletePresetCard(brandId, cardId) {
   const deleted = getDeletedPresets(brandId);
@@ -2102,7 +1858,6 @@ function saveCustomCards(brandId, cards) {
 }
 
 let _modalBrandId = null;
-
 function openAddCardModal(brandId) {
   _modalBrandId = brandId;
   const brand = BRANDS.find(b => b.id === brandId);
@@ -2114,19 +1869,16 @@ function openAddCardModal(brandId) {
   document.getElementById('modal-overlay').classList.add('open');
   setTimeout(() => document.getElementById('card-title-input').focus(), 50);
 }
-
 function closeModal(e) {
   if (e && e.target !== document.getElementById('modal-overlay')) return;
   document.getElementById('modal-overlay').classList.remove('open');
   _modalBrandId = null;
 }
-
 function saveCard() {
   const title = document.getElementById('card-title-input').value.trim();
   if (!title) {
     document.getElementById('card-title-input').focus();
-    document.getElementById('card-title-input').style.borderColor = '#C04B20';
-    return;
+    document.getElementById('card-title-input').style.borderColor = '#C04B20'; return;
   }
   document.getElementById('card-title-input').style.borderColor = '';
   const body = document.getElementById('card-body-input').value.trim();
@@ -2138,11 +1890,9 @@ function saveCard() {
   document.getElementById('modal-overlay').classList.remove('open');
   renderCards(_modalBrandId);
 }
-
 function deleteCustomCard(brandId, cardId) {
   const cards = getCustomCards(brandId).filter(c => c.id !== cardId);
-  saveCustomCards(brandId, cards);
-  renderCards(brandId);
+  saveCustomCards(brandId, cards); renderCards(brandId);
 }
 
 document.addEventListener('keydown', e => {
@@ -2150,9 +1900,6 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && e.metaKey && document.getElementById('modal-overlay').classList.contains('open')) saveCard();
 });
 
-/* ============================================================
-   INIT
-   ============================================================ */
 renderDailyPanel();
 renderHealthStrip();
 renderBrands();
