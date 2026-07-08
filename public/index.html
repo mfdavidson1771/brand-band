@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brand Band</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root { color-scheme: light; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -666,22 +665,19 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 </head>
 <body>
 
-<!-- Login gate -->
+<!-- Password gate -->
 <div class="gate-overlay" id="gate-overlay">
   <div class="gate-box">
     <div class="gate-title">Brand Band</div>
-    <div class="gate-sub">Log in to sync your work across devices</div>
-    <input class="gate-input" id="gate-email" type="email" placeholder="you@email.com" autocomplete="email"
-      onkeydown="if(event.key==='Enter') document.getElementById('gate-pass').focus()">
-    <input class="gate-input" id="gate-pass" type="password" placeholder="password" autocomplete="current-password"
-      onkeydown="if(event.key==='Enter') gateLogin()">
-    <button class="gate-btn" onclick="gateLogin()">Log in</button>
-    <button class="gate-btn" style="background:#F0EDE6;color:#333;margin-top:8px" onclick="gateSignup()">Create account</button>
+    <div class="gate-sub">Enter password to continue</div>
+    <input class="gate-input" id="gate-input" type="password" placeholder="••••••••••••••"
+      onkeydown="if(event.key==='Enter') gateSubmit()">
+    <button class="gate-btn" onclick="gateSubmit()">Enter</button>
     <div class="gate-error" id="gate-error"></div>
   </div>
 </div>
 
-<div class="title-row"><h1>Brand Band</h1><span class="tagline">Eight brands. One brain. Let's go.</span><button onclick="signOut()" style="float:right;background:none;border:1px solid #ccc;border-radius:8px;padding:4px 10px;font-size:12px;color:#888;cursor:pointer">Sign out</button></div>
+<div class="title-row"><h1>Brand Band</h1><span class="tagline">Eight brands. One brain. Let's go.</span></div>
 <div class="how-to-use">Pick a brand. Pick a card. Hit <strong>Start</strong>. Everything else is noise.</div>
 
 <div class="daily-panel" id="daily-panel">
@@ -806,45 +802,30 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 </div>
 
 <script>
-/* ============================================================
-   SUPABASE — real login + durable, cross-device time-log storage
-   ============================================================ */
-const SB_URL = 'https://jqwzmzcpyykartvtzedg.supabase.co';
-const SB_KEY = 'sb_publishable_empuLc02_0nzrfMNv4OXJA_VG9wQ3el';
-const sbClient = window.supabase.createClient(SB_URL, SB_KEY);
+const GATE_KEY = 'bb_auth';
+const GATE_PASS = 'angostura-tack-7';
 
-function gateError(msg){ document.getElementById('gate-error').textContent = msg || ''; }
-function gateShakeInputs(){
-  ['gate-email','gate-pass'].forEach(id=>{
-    const el = document.getElementById(id);
-    el.classList.add('error');
-    setTimeout(()=> el.classList.remove('error'), 400);
-  });
+function gateCheck() {
+  if (localStorage.getItem(GATE_KEY) === '1') {
+    document.getElementById('gate-overlay').style.display = 'none';
+  } else {
+    setTimeout(() => document.getElementById('gate-input').focus(), 100);
+  }
 }
-async function gateLogin(){
-  const email = document.getElementById('gate-email').value.trim();
-  const password = document.getElementById('gate-pass').value;
-  if(!email || !password){ gateError('Enter your email and password.'); return; }
-  gateError('Logging in…');
-  const { error } = await sbClient.auth.signInWithPassword({ email, password });
-  if(error){ gateError(error.message); gateShakeInputs(); return; }
-  gateError('');
-  startApp();
+function gateSubmit() {
+  const val = document.getElementById('gate-input').value;
+  if (val === GATE_PASS) {
+    localStorage.setItem(GATE_KEY, '1');
+    document.getElementById('gate-overlay').style.display = 'none';
+  } else {
+    const inp = document.getElementById('gate-input');
+    inp.classList.add('error');
+    document.getElementById('gate-error').textContent = 'Wrong password.';
+    inp.value = '';
+    setTimeout(() => { inp.classList.remove('error'); inp.focus(); }, 400);
+  }
 }
-async function gateSignup(){
-  const email = document.getElementById('gate-email').value.trim();
-  const password = document.getElementById('gate-pass').value;
-  if(!email || !password){ gateError('Enter an email and a password (6+ characters).'); return; }
-  gateError('Creating account…');
-  const { data, error } = await sbClient.auth.signUp({ email, password });
-  if(error){ gateError(error.message); gateShakeInputs(); return; }
-  if(data.session){ gateError(''); startApp(); }
-  else { gateError('Account created. Check your email to confirm, then log in.'); }
-}
-async function signOut(){
-  await sbClient.auth.signOut();
-  location.reload();
-}
+gateCheck();
 
 const DAILY_MIN = 15;
 
@@ -1716,19 +1697,10 @@ function savePersistedLog(entries) {
 }
 function addLogEntry(entry) {
   const log = getPersistedLog(); log.unshift(entry); savePersistedLog(log);
-  // Write-through to Supabase so the record is durable + cross-device.
-  if (window._sbUserId) {
-    sbClient.from('time_logs').insert(entryToRow(entry, window._sbUserId))
-      .then(({ error }) => { if (error) console.warn('Save to cloud failed:', error.message); });
-  }
 }
 function deleteLogEntry(id) {
   const log = getPersistedLog().filter(e => e.id !== id);
   savePersistedLog(log); renderTimeLog(); renderDailyPanel();
-  if (window._sbUserId) {
-    sbClient.from('time_logs').delete().eq('entry_id', id)
-      .then(({ error }) => { if (error) console.warn('Cloud delete failed:', error.message); });
-  }
 }
 
 let timeLogExpanded = false;
@@ -1928,106 +1900,12 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && e.metaKey && document.getElementById('modal-overlay').classList.contains('open')) saveCard();
 });
 
-/* ============================================================
-   BOOTSTRAP — gated behind Supabase auth + cloud sync
-   ============================================================ */
-function entryToRow(e, uid) {
-  return {
-    entry_id: e.id, brand_id: e.brandId, brand_name: e.brandName,
-    card_id: e.cardId, card_title: e.cardTitle, mins: e.mins,
-    date: e.date, started_at: e.startedAt || null,
-    manual: !!e.manual, note: e.note || '', user_id: uid
-  };
-}
-function rowToEntry(r) {
-  return {
-    id: r.entry_id, brandId: r.brand_id, brandName: r.brand_name,
-    cardId: r.card_id, cardTitle: r.card_title, mins: Number(r.mins),
-    date: r.date, startedAt: r.started_at, manual: !!r.manual, note: r.note || ''
-  };
-}
-function _entryNum(id) { return parseInt(String(id || '').replace(/\D/g, '')) || 0; }
-
-async function syncFromSupabase() {
-  try {
-    const { data: { user } } = await sbClient.auth.getUser();
-    if (!user) return;
-    window._sbUserId = user.id;
-
-    const { data: rows, error } = await sbClient
-      .from('time_logs').select('*').order('created_at', { ascending: false });
-    if (error) throw error;
-
-    const remote = (rows || []).map(rowToEntry);
-    const local  = getPersistedLog();
-
-    // Upload any local-only entries (e.g. hours tracked before this migration) so nothing is lost.
-    const remoteIds = new Set(remote.map(e => e.id));
-    const toUpload = local.filter(e => e.id && !remoteIds.has(e.id));
-    if (toUpload.length) {
-      const { error: upErr } = await sbClient.from('time_logs')
-        .insert(toUpload.map(e => entryToRow(e, user.id)));
-      if (upErr) console.warn('Backfill of local entries failed:', upErr.message);
-    }
-
-    // Merge remote + local, dedupe by entry id, newest first.
-    const byId = {};
-    [...remote, ...local].forEach(e => { if (e.id) byId[e.id] = e; });
-    const merged = Object.values(byId).sort((a, b) => _entryNum(b.id) - _entryNum(a.id));
-    savePersistedLog(merged);
-
-    // Rebuild the derived counters (daily mins, last-worked) from the full log,
-    // so every device shows the same picture.
-    rebuildDerivedFromLog();
-  } catch (err) {
-    console.warn('Supabase sync failed — working from local data:', err.message);
-  }
-}
-
-function rebuildDerivedFromLog() {
-  Object.keys(localStorage).forEach(k => {
-    if (k.startsWith('bw_mins_') || k.startsWith('bw_card_') || k.startsWith('bw_brand_'))
-      localStorage.removeItem(k);
-  });
-  getPersistedLog().forEach(e => {
-    if (!e.brandId) return;
-    const mk = 'bw_mins_' + e.brandId + '_' + e.date;
-    localStorage.setItem(mk, String(parseFloat(localStorage.getItem(mk) || '0') + (e.mins || 0)));
-    const ts = e.startedAt || (e.date + 'T12:00:00.000Z');
-    const bk = 'bw_brand_' + e.brandId;
-    if (!localStorage.getItem(bk) || new Date(ts) > new Date(localStorage.getItem(bk)))
-      localStorage.setItem(bk, new Date(ts).toISOString());
-    if (e.cardId) {
-      const ck = 'bw_card_' + e.cardId;
-      if (!localStorage.getItem(ck) || new Date(ts) > new Date(localStorage.getItem(ck)))
-        localStorage.setItem(ck, new Date(ts).toISOString());
-    }
-  });
-}
-
-let _appStarted = false;
-async function startApp() {
-  if (_appStarted) return;
-  _appStarted = true;
-  document.getElementById('gate-overlay').style.display = 'none';
-  await syncFromSupabase();
-  renderDailyPanel();
-  renderHealthStrip();
-  renderBrands();
-  renderOps();
-  renderTimeLog();
-  loadNotionPatinas();
-}
-
-// Resume an existing session on load; otherwise show the login gate.
-sbClient.auth.getSession().then(({ data }) => {
-  if (data.session) {
-    startApp();
-  } else {
-    document.getElementById('gate-overlay').style.display = 'flex';
-    setTimeout(() => document.getElementById('gate-email').focus(), 100);
-  }
-});
+renderDailyPanel();
+renderHealthStrip();
+renderBrands();
+renderOps();
+renderTimeLog();
+loadNotionPatinas();
 </script>
 </body>
 </html>
