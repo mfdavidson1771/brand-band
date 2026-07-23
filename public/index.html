@@ -953,6 +953,29 @@ const BRANDS = [
     ]
   },
   {
+    id: 'vd', name: 'The Voice Over Directory', short: 'VD',
+    color: '#6B4C9A', lightBg: '#EFE8FA',
+    url: 'https://voiceoverdirectory.com',
+    dormant: true,
+    daily: false,
+    notionQuery: 'Voice Over Directory',
+    cards: [
+      { id: 'vd-viability', type: 'Opportunity', title: 'Revisit viability',
+        body: 'Is this worth pursuing? Research the market, competition, and whether there is a real gap that aligns with your VO expertise and business goals.' }
+    ]
+  },
+  {
+    id: 'ac', name: 'Arrow Cast', short: 'AC',
+    color: '#1A6B4A', lightBg: '#E0F5EC',
+    dormant: true,
+    daily: false,
+    notionQuery: 'Arrow Cast',
+    cards: [
+      { id: 'ac-viability', type: 'Opportunity', title: 'Market intelligence — is this worth pursuing?',
+        body: 'Pre-ideation research. What is Arrow Cast, who is it for, and is there a real opportunity here? Answer these before moving to ideation.' }
+    ]
+  },
+  {
     id: 'aa', name: 'AA Operations', short: 'AA',
     color: '#555', lightBg: '#F0EDE6',
     ops: true,
@@ -971,7 +994,7 @@ const BRANDS = [
   }
 ];
 
-const BRAND_LABELS = {hh:'H&H',ch:'CareHelm',gm:'Gadfly',tp:'TailorPress',vo:'Voice Over',di:'Disputatio',fd:'Family Desk',sc:'Schola',aa:'AA Ops',mm:'Masked Mixer'};
+const BRAND_LABELS = {hh:'H&H',ch:'CareHelm',gm:'Gadfly',tp:'TailorPress',vo:'Voice Over',di:'Disputatio',fd:'Family Desk',sc:'Schola',aa:'AA Ops',mm:'Masked Mixer',vd:'VODirectory',ac:'Arrow Cast'};
 const BRAND_SUBS = {
   hh:'British editorial — social season & countryside',
   ch:'HIPAA-compliant family care coordination',
@@ -982,7 +1005,9 @@ const BRAND_SUBS = {
   fd:'Family management & household coordination',
   sc:'Classical learning & curriculum — early stage',
   aa:'LLC admin, tax, legal, bookkeeping',
-  mm:'Music community — live at maskedmixer.com, auditioning for a slot'
+  mm:'Music community — live at maskedmixer.com, auditioning for a slot',
+  vd:'VO talent directory — auditioning, market intelligence phase',
+  ac:'Arrow Cast — auditioning, market intelligence phase'
 };
 
 const STAGES = [
@@ -994,7 +1019,8 @@ const STAGES = [
 ];
 const DEFAULT_STAGES = {
   hh: 'operating', ch: 'build', gm: 'operating', tp: 'market',
-  vo: 'market', di: 'operating', fd: 'ideation', sc: 'ideation', mm: 'ideation'
+  vo: 'market', di: 'operating', fd: 'ideation', sc: 'ideation', mm: 'ideation',
+  vd: 'ideation', ac: 'ideation'
 };
 
 const CARD_STAGES = [
@@ -1533,9 +1559,6 @@ function renderCard(card, brand) {
     </div>`;
 }
 
-/* ============================================================
-   TIMER — FIXED: no longer calls refreshAll() which wiped the banner
-   ============================================================ */
 function startCard(cardId, brandId) {
   if (runningCardId === cardId) return;
   if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
@@ -1559,14 +1582,12 @@ function startCard(cardId, brandId) {
   logSession('Started: ' + card.title + ' (' + brand.name + ')');
   playStartTone();
 
-  // Lightweight refresh — does NOT rebuild cards (which would wipe the banner)
   renderDailyPanel();
   renderHealthStrip();
   renderBrands();
   renderOps();
   if (funnelOpen) renderFunnel();
 
-  // Update the running card's button in place
   const runningCardEl = [...document.querySelectorAll('.work-card')].find(el =>
     el.innerHTML.includes("'" + cardId + "'")
   );
