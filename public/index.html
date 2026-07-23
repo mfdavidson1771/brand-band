@@ -33,10 +33,7 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 .how-to-use strong { font-weight: 700; }
 
 .daily-panel {
-  border-radius: 12px;
-  padding: 12px 14px;
-  margin-bottom: 10px;
-  border: 2px solid transparent;
+  border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; border: 2px solid transparent;
 }
 .daily-panel.all-done { background: #E6F9F0; border-color: #1D9E75; animation: allDoneBounce 0.7s ease-out both; }
 .daily-panel.in-progress { background: #FFF8E6; border-color: #D4900A; }
@@ -156,9 +153,7 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 }
 .brand-stage-pip:hover { opacity: 0.75; transform: scale(1.08); }
 
-/* ============================================================
-   STAGE EYE TOOLTIP
-   ============================================================ */
+/* Stage eye tooltip */
 .stage-eye {
   display: inline-flex; align-items: center; justify-content: center;
   font-size: 10px; cursor: default; opacity: 0.5;
@@ -167,7 +162,7 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 }
 .stage-eye:hover { opacity: 1; }
 .stage-eye:hover::after {
-  content: attr(data-tip);
+  content: attr(title);
   position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
   background: #111; color: #fff; font-size: 11px; font-weight: 500;
   padding: 5px 9px; border-radius: 6px; white-space: nowrap;
@@ -400,7 +395,7 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 <div class="brands-row" id="brands-row"></div>
 
 <div class="dormant-toggle-row">
-  <button class="dormant-toggle-btn" id="dormant-toggle-btn" onclick="toggleDormant()">🥁 Auditions <span class="stage-eye" data-tip="Is the problem real and worth pursuing? No commitment yet — pure discovery.">👁</span></button>
+  <button class="dormant-toggle-btn" id="dormant-toggle-btn" onclick="toggleDormant()">🥁 Auditions <span class="stage-eye" title="Is the problem real and worth pursuing? No commitment yet — pure discovery.">👁</span></button>
 </div>
 <div class="dormant-brands-row" id="dormant-brands-row"></div>
 
@@ -985,9 +980,9 @@ function openBrandUrl(brandId) {
 function toggleDormant() {
   dormantOpen = !dormantOpen;
   document.getElementById('dormant-brands-row').classList.toggle('open', dormantOpen);
-  document.getElementById('dormant-toggle-btn').innerHTML = dormantOpen
-    ? '🥁 Hide auditions <span class="stage-eye" data-tip="Is the problem real and worth pursuing? No commitment yet — pure discovery.">👁</span>'
-    : '🥁 Auditions <span class="stage-eye" data-tip="Is the problem real and worth pursuing? No commitment yet — pure discovery.">👁</span>';
+  const btn = document.getElementById('dormant-toggle-btn');
+  btn.innerHTML = (dormantOpen ? '🥁 Hide auditions' : '🥁 Auditions') +
+    ' <span class="stage-eye" title="Is the problem real and worth pursuing? No commitment yet — pure discovery.">👁</span>';
   if (dormantOpen) renderDormantBrands();
 }
 function renderDormantBrands() {
@@ -1019,7 +1014,6 @@ function toggleFunnel() {
 function renderFunnel() {
   const panel = document.getElementById('funnel-panel');
   if (!panel) return;
-  // Exclude dormant/audition brands from the funnel
   const activeBrands = BRANDS.filter(b => !b.ops && !b.dormant);
   const cols = STAGES.map(stage => {
     const brands = activeBrands.filter(b => getStage(b.id) === stage.id);
@@ -1029,8 +1023,7 @@ function renderFunnel() {
     return `
       <div class="funnel-col">
         <div class="funnel-col-header" style="background:${stage.bg};color:${stage.color}">
-          ${stage.label}
-          <span class="stage-eye" data-tip="${stage.tip}">👁</span>
+          ${stage.label}<span class="stage-eye" title="${stage.tip}">👁</span>
         </div>
         <div class="funnel-col-body">${chips}</div>
       </div>`;
