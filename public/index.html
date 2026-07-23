@@ -32,173 +32,90 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 }
 .how-to-use strong { font-weight: 700; }
 
-/* ============================================================
-   DAILY BRANDS PANEL
-   ============================================================ */
 .daily-panel {
   border-radius: 12px;
   padding: 12px 14px;
   margin-bottom: 10px;
   border: 2px solid transparent;
 }
-.daily-panel.all-done {
-  background: #E6F9F0;
-  border-color: #1D9E75;
-  animation: allDoneBounce 0.7s ease-out both;
-}
-.daily-panel.in-progress {
-  background: #FFF8E6;
-  border-color: #D4900A;
-}
-.daily-panel.needs-attention {
-  background: #FFF0EE;
-  border-color: #C04B20;
-}
-.daily-panel.weekend {
-  background: #F5F4F0;
-  border-color: #ccc;
-}
+.daily-panel.all-done { background: #E6F9F0; border-color: #1D9E75; animation: allDoneBounce 0.7s ease-out both; }
+.daily-panel.in-progress { background: #FFF8E6; border-color: #D4900A; }
+.daily-panel.needs-attention { background: #FFF0EE; border-color: #C04B20; }
+.daily-panel.weekend { background: #F5F4F0; border-color: #ccc; }
 
-.daily-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 8px; flex-wrap: wrap; gap: 4px;
-}
-.daily-title {
-  font-size: 12px; font-weight: 800;
-  letter-spacing: 0.08em; text-transform: uppercase;
-}
+.daily-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 4px; }
+.daily-title { font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
 .daily-title.all-done  { color: #1D9E75; }
 .daily-title.in-progress { color: #8A6010; }
 .daily-title.needs-attention { color: #C04B20; }
 .daily-title.weekend   { color: #888; }
 .daily-subtitle { font-size: 12px; color: #777; }
-
 .daily-cards-row { display: flex; gap: 8px; flex-wrap: wrap; }
 
 .daily-card {
-  flex: 1; min-width: 110px;
-  border-radius: 10px;
-  padding: 10px 12px;
+  flex: 1; min-width: 110px; border-radius: 10px; padding: 10px 12px;
   display: flex; flex-direction: column; gap: 6px;
-  border: 2px solid transparent;
-  cursor: pointer;
-  transition: transform 0.18s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.15s;
-  position: relative;
+  border: 2px solid transparent; cursor: pointer;
+  transition: transform 0.18s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.15s; position: relative;
 }
 .daily-card:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 6px 18px rgba(0,0,0,0.11); }
-
 .daily-card.done     { background: #fff; border-color: #1D9E75; }
 .daily-card.partial  { background: #fff; border-color: #D4900A; }
 .daily-card.undone   { background: #fff; border-color: #E0C8C4; }
 .daily-card.weekend  { background: #F8F7F4; border-color: #ddd; }
-
 .daily-card-top { display: flex; align-items: center; justify-content: space-between; }
 .daily-brand-name { font-size: 14px; font-weight: 800; }
 .daily-status-icon { font-size: 16px; line-height: 1; }
-
-.daily-progress-track {
-  height: 5px; background: #F0EDE6; border-radius: 3px; overflow: hidden;
-}
-.daily-progress-fill {
-  height: 100%; border-radius: 4px;
-  transition: width 0.6s cubic-bezier(.17,.67,.35,1.2);
-}
+.daily-progress-track { height: 5px; background: #F0EDE6; border-radius: 3px; overflow: hidden; }
+.daily-progress-fill { height: 100%; border-radius: 4px; transition: width 0.6s cubic-bezier(.17,.67,.35,1.2); }
 .daily-card.done    .daily-progress-fill { background: #1D9E75; }
 .daily-card.partial .daily-progress-fill { background: #D4900A; }
 .daily-card.undone  .daily-progress-fill { background: #E8C4BE; }
-
 .daily-mins-label { font-size: 11px; font-weight: 600; }
 .daily-card.done    .daily-mins-label { color: #1D9E75; }
 .daily-card.partial .daily-mins-label { color: #8A6010; }
 .daily-card.undone  .daily-mins-label { color: #999; }
 .daily-card.weekend .daily-mins-label { color: #aaa; }
 
-/* ============================================================
-   HEALTH STRIP
-   ============================================================ */
-.health-strip {
-  display: inline-block;
-  background: #fff;
-  border-radius: 12px;
-  padding: 10px 14px 12px;
-  margin-bottom: 10px;
-}
-.health-strip-title {
-  font-size: 11px; font-weight: 800;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: #888; margin-bottom: 10px;
-}
+.health-strip { display: inline-block; background: #fff; border-radius: 12px; padding: 10px 14px 12px; margin-bottom: 10px; }
+.health-strip-title { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 10px; }
 .health-rows { display: flex; flex-direction: column; gap: 6px; }
 .health-row { display: flex; align-items: center; gap: 10px; }
 .health-brand-label { font-size: 13px; font-weight: 700; color: #111; width: 88px; flex-shrink: 0; }
 .health-daily-pip { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 .health-dots { display: flex; gap: 4px; align-items: center; flex: 1; }
-.health-day-dot {
-  width: 12px; height: 12px; border-radius: 50%;
-  flex-shrink: 0; position: relative; transition: transform 0.15s;
-}
+.health-day-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; position: relative; transition: transform 0.15s; }
 .health-day-dot:hover { transform: scale(1.4); }
 .health-day-dot[title]:hover::after {
-  content: attr(title);
-  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+  content: attr(title); position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
   background: #111; color: #fff; font-size: 11px; font-weight: 600;
-  padding: 3px 7px; border-radius: 5px; white-space: nowrap;
-  pointer-events: none; z-index: 10;
+  padding: 3px 7px; border-radius: 5px; white-space: nowrap; pointer-events: none; z-index: 10;
 }
 .health-age-label { font-size: 12px; font-weight: 600; width: 72px; flex-shrink: 0; text-align: right; }
 .age-fresh { color: #1D9E75; }
 .age-ok    { color: #8A5E10; }
 .age-stale { color: #C04B20; }
 .age-cold  { color: #aaa; }
-.health-day-label-row {
-  display: flex; gap: 4px; align-items: center;
-  padding-left: calc(88px + 6px + 10px + 10px);
-  margin-top: -2px; margin-bottom: 4px;
-}
+.health-day-label-row { display: flex; gap: 4px; align-items: center; padding-left: calc(88px + 6px + 10px + 10px); margin-top: -2px; margin-bottom: 4px; }
 .health-day-label { width: 12px; text-align: center; font-size: 10px; color: #aaa; font-weight: 600; flex-shrink: 0; }
 
-/* ============================================================
-   LOADING BAR
-   ============================================================ */
 .load-bar-wrap { height: 2px; background: #ddd; border-radius: 2px; margin-bottom: 10px; overflow: hidden; }
 .load-bar-fill { height: 100%; background: #444; border-radius: 2px; width: 0; transition: width 0.3s ease, opacity 0.6s; }
 
-/* ============================================================
-   TIMER BANNER
-   ============================================================ */
 .timer-banner {
-  display: none;
-  border-radius: 12px;
-  padding: 12px 16px;
-  margin-bottom: 10px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
+  display: none; border-radius: 12px; padding: 12px 16px; margin-bottom: 10px;
+  align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
   background: linear-gradient(135deg, #0f0f18 0%, #1a1040 33%, #0f180f 66%, #1a0f18 100%);
   background-size: 400% 400%;
 }
-.timer-banner.visible {
-  display: flex;
-  animation: timerGlow 8s ease infinite;
-}
+.timer-banner.visible { display: flex; animation: timerGlow 8s ease infinite; }
 @keyframes timerGlow {
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-.timer-eyebrow {
-  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
-  text-transform: uppercase; color: #888; margin-bottom: 2px;
-  display: flex; align-items: center; gap: 6px;
-}
-.timer-live-dot {
-  display: inline-block;
-  width: 7px; height: 7px; border-radius: 50%;
-  background: #4ADE80;
-  animation: liveDotPulse 1.4s ease-in-out infinite;
-  flex-shrink: 0;
-}
+.timer-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
+.timer-live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #4ADE80; animation: liveDotPulse 1.4s ease-in-out infinite; flex-shrink: 0; }
 @keyframes liveDotPulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50%       { opacity: 0.3; transform: scale(0.6); }
@@ -207,35 +124,17 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 .timer-brand-name { font-size: 12px; color: #aaa; }
 .timer-right { display: flex; align-items: center; gap: 14px; }
 .timer-clock { font-size: 36px; font-weight: 800; color: #fff; letter-spacing: -1px; font-variant-numeric: tabular-nums; min-width: 120px; }
-.stop-btn {
-  background: #fff; color: #111;
-  border: none; border-radius: 8px;
-  padding: 9px 20px; font-size: 14px; font-weight: 800;
-  cursor: pointer; flex-shrink: 0;
-  transition: background 0.15s, transform 0.12s;
-}
+.stop-btn { background: #fff; color: #111; border: none; border-radius: 8px; padding: 9px 20px; font-size: 14px; font-weight: 800; cursor: pointer; flex-shrink: 0; transition: background 0.15s, transform 0.12s; }
 .stop-btn:hover { background: #eee; transform: scale(1.05); }
 .stop-btn:active { transform: scale(0.96); }
 
-/* ============================================================
-   BRAND SELECTOR
-   ============================================================ */
-.section-label {
-  font-size: 11px; font-weight: 800;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: #888; margin-bottom: 8px;
-}
+.section-label { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 8px; }
 .brands-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
 .brand-btn {
-  flex: 1; min-width: 80px;
-  background: #fff;
-  border: 2px solid #ddd;
-  border-radius: 12px;
-  padding: 10px 8px 8px;
-  cursor: pointer; text-align: center;
+  flex: 1; min-width: 80px; background: #fff; border: 2px solid #ddd; border-radius: 12px;
+  padding: 10px 8px 8px; cursor: pointer; text-align: center;
   transition: border-color 0.15s, transform 0.18s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.15s;
-  user-select: none;
-  position: relative;
+  user-select: none; position: relative;
 }
 .brand-btn:hover { border-color: #888; transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.10); }
 .brand-btn.active { border-width: 2px; color: #fff; box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
@@ -243,25 +142,38 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 .brand-initials { font-size: 15px; font-weight: 800; margin-bottom: 3px; }
 .brand-short-name { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
 .brand-last { font-size: 10px; color: #777; font-weight: 500; }
-.daily-required-pip {
-  position: absolute; top: 8px; right: 8px;
-  width: 8px; height: 8px; border-radius: 50%;
-}
+.daily-required-pip { position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; border-radius: 50%; }
 
 .ops-brands-row { display: none; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
 .ops-brands-row.open { display: flex; }
 .ops-brands-row .brand-btn { flex: 0 0 auto; min-width: 90px; opacity: 0.85; }
 
 .brand-stage-pip {
-  display: inline-block;
-  font-size: 9px; font-weight: 800;
+  display: inline-block; font-size: 9px; font-weight: 800;
   letter-spacing: 0.04em; text-transform: uppercase;
-  padding: 2px 7px; border-radius: 20px;
-  margin-top: 5px; cursor: pointer;
-  transition: opacity 0.15s, transform 0.12s;
-  user-select: none;
+  padding: 2px 7px; border-radius: 20px; margin-top: 5px; cursor: pointer;
+  transition: opacity 0.15s, transform 0.12s; user-select: none;
 }
 .brand-stage-pip:hover { opacity: 0.75; transform: scale(1.08); }
+
+/* ============================================================
+   STAGE EYE TOOLTIP
+   ============================================================ */
+.stage-eye {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 10px; cursor: default; opacity: 0.5;
+  position: relative; margin-left: 4px;
+  transition: opacity 0.15s;
+}
+.stage-eye:hover { opacity: 1; }
+.stage-eye:hover::after {
+  content: attr(data-tip);
+  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: #111; color: #fff; font-size: 11px; font-weight: 500;
+  padding: 5px 9px; border-radius: 6px; white-space: nowrap;
+  pointer-events: none; z-index: 100; line-height: 1.4;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
 
 .funnel-panel { display: none; margin-bottom: 12px; }
 .funnel-panel.open { display: block; }
@@ -272,19 +184,10 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   letter-spacing: 0.08em; padding: 5px 8px;
   border-radius: 7px 7px 0 0; text-align: center;
   border-bottom: 2px solid rgba(0,0,0,0.07);
+  display: flex; align-items: center; justify-content: center; gap: 3px;
 }
-.funnel-col-body {
-  background: #fff; border-radius: 0 0 8px 8px;
-  padding: 6px; min-height: 32px;
-  display: flex; flex-direction: column; gap: 4px;
-}
-.funnel-chip {
-  font-size: 11px; font-weight: 700;
-  padding: 4px 6px; border-radius: 6px;
-  text-align: center; cursor: pointer;
-  transition: opacity 0.15s;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
+.funnel-col-body { background: #fff; border-radius: 0 0 8px 8px; padding: 6px; min-height: 32px; display: flex; flex-direction: column; gap: 4px; }
+.funnel-chip { font-size: 11px; font-weight: 700; padding: 4px 6px; border-radius: 6px; text-align: center; cursor: pointer; transition: opacity 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .funnel-chip:hover { opacity: 0.7; }
 .funnel-empty { font-size: 11px; color: #ccc; text-align: center; padding: 4px 0; }
 
@@ -296,33 +199,20 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 }
 .brand-btn.popping { animation: brandBtnPop 0.38s cubic-bezier(.36,.07,.19,.97) both; }
 
-/* ============================================================
-   CARDS
-   ============================================================ */
 .cards-header { margin-bottom: 10px; }
 .cards-headline { font-size: 17px; font-weight: 800; color: #111; margin-bottom: 2px; }
 .cards-sub { font-size: 13px; color: #666; }
-
-.cards-empty {
-  text-align: center; padding: 60px 20px;
-  font-size: 18px; color: #888; font-weight: 500;
-}
+.cards-empty { text-align: center; padding: 60px 20px; font-size: 18px; color: #888; font-weight: 500; }
 .cards-empty span { display: block; font-size: 40px; margin-bottom: 12px; }
-
 .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
 
 .work-card {
-  background: #fff;
-  border: 2px solid #e8e5e0;
-  border-radius: 14px;
-  padding: 14px 16px;
-  transition: border-color 0.15s, transform 0.22s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.2s;
-  position: relative;
+  background: #fff; border: 2px solid #e8e5e0; border-radius: 14px; padding: 14px 16px;
+  transition: border-color 0.15s, transform 0.22s cubic-bezier(.17,.67,.35,1.2), box-shadow 0.2s; position: relative;
 }
 .work-card:hover { border-color: #aaa; transform: translateY(-4px) rotate(-0.6deg); box-shadow: 0 8px 24px rgba(0,0,0,0.11); }
 .work-card:nth-child(2n):hover { transform: translateY(-4px) rotate(0.6deg); }
 .work-card.is-running { border-width: 3px; box-shadow: 0 6px 24px rgba(0,0,0,0.15); }
-
 @keyframes cardLaunch {
   0%   { transform: scale(1); }
   30%  { transform: scale(1.04) rotate(-0.4deg); }
@@ -331,167 +221,57 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 }
 .work-card.launching { animation: cardLaunch 0.42s cubic-bezier(.36,.07,.19,.97) both; }
 
-.card-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 3px 10px; border-radius: 20px;
-  font-size: 11px; font-weight: 700;
-  margin-bottom: 8px;
-}
+.card-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-bottom: 8px; }
 .badge-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 .card-title { font-size: 15px; font-weight: 800; color: #111; line-height: 1.3; margin-bottom: 6px; }
 .card-body  { font-size: 13px; color: #444; line-height: 1.6; margin-bottom: 12px; }
-
 .card-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .card-last { font-size: 12px; color: #888; font-weight: 500; }
-
-.start-btn {
-  background: #111; color: #fff;
-  border: none; border-radius: 8px;
-  padding: 8px 18px; font-size: 13px; font-weight: 800;
-  cursor: pointer; white-space: nowrap;
-  transition: opacity 0.15s, transform 0.12s;
-}
+.start-btn { background: #111; color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 13px; font-weight: 800; cursor: pointer; white-space: nowrap; transition: opacity 0.15s, transform 0.12s; }
 .start-btn:hover { opacity: 0.85; transform: scale(1.05); }
 .start-btn:active { transform: scale(0.95); }
 .start-btn.active-btn { background: #555; }
 
-/* ============================================================
-   ADD CARD BUTTON + MODAL
-   ============================================================ */
-.add-card-btn {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  background: transparent;
-  border: 2.5px dashed #ccc;
-  border-radius: 18px;
-  padding: 22px;
-  cursor: pointer;
-  font-size: 16px; font-weight: 700; color: #888;
-  transition: border-color 0.15s, color 0.15s, background 0.15s, transform 0.15s;
-  width: 100%;
-}
+.add-card-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: transparent; border: 2.5px dashed #ccc; border-radius: 18px; padding: 22px; cursor: pointer; font-size: 16px; font-weight: 700; color: #888; transition: border-color 0.15s, color 0.15s, background 0.15s, transform 0.15s; width: 100%; }
 .add-card-btn:hover { border-color: #888; color: #444; background: rgba(255,255,255,0.6); transform: scale(1.01); }
 .add-card-btn-plus { font-size: 24px; line-height: 1; }
 
-.modal-overlay {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.45);
-  z-index: 1000;
-  align-items: center; justify-content: center;
-  padding: 24px;
-}
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1000; align-items: center; justify-content: center; padding: 24px; }
 .modal-overlay.open { display: flex; }
-
-.modal {
-  background: #fff;
-  border-radius: 20px;
-  padding: 28px 28px 24px;
-  width: 100%; max-width: 480px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-}
+.modal { background: #fff; border-radius: 20px; padding: 28px 28px 24px; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
 .modal-title { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 20px; }
-
 .form-field { margin-bottom: 16px; }
-.form-label {
-  display: block;
-  font-size: 13px; font-weight: 700;
-  color: #555; margin-bottom: 6px;
-  text-transform: uppercase; letter-spacing: 0.06em;
-}
-.form-input, .form-textarea, .form-select {
-  width: 100%;
-  font-size: 16px; color: #111;
-  background: #F5F4F1;
-  border: 2px solid transparent;
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-family: inherit;
-  transition: border-color 0.15s;
-  outline: none;
-}
+.form-label { display: block; font-size: 13px; font-weight: 700; color: #555; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+.form-input, .form-textarea, .form-select { width: 100%; font-size: 16px; color: #111; background: #F5F4F1; border: 2px solid transparent; border-radius: 10px; padding: 12px 14px; font-family: inherit; transition: border-color 0.15s; outline: none; }
 .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: #888; background: #fff; }
 .form-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
-
 .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
-.btn-primary {
-  flex: 1;
-  background: #111; color: #fff;
-  border: none; border-radius: 12px;
-  padding: 14px; font-size: 16px; font-weight: 800;
-  cursor: pointer; transition: opacity 0.15s, transform 0.12s;
-}
+.btn-primary { flex: 1; background: #111; color: #fff; border: none; border-radius: 12px; padding: 14px; font-size: 16px; font-weight: 800; cursor: pointer; transition: opacity 0.15s, transform 0.12s; }
 .btn-primary:hover { opacity: 0.8; transform: scale(1.02); }
-.btn-secondary {
-  background: #F0EDE6; color: #333;
-  border: none; border-radius: 12px;
-  padding: 14px 20px; font-size: 16px; font-weight: 700;
-  cursor: pointer; transition: background 0.15s;
-}
+.btn-secondary { background: #F0EDE6; color: #333; border: none; border-radius: 12px; padding: 14px 20px; font-size: 16px; font-weight: 700; cursor: pointer; transition: background 0.15s; }
 .btn-secondary:hover { background: #E5E2DA; }
 
-.card-delete-btn {
-  position: absolute; top: 14px; right: 14px;
-  background: none; border: none;
-  font-size: 16px; color: #ccc; cursor: pointer;
-  line-height: 1; padding: 2px 6px; border-radius: 6px;
-  transition: color 0.15s, background 0.15s;
-}
+.card-delete-btn { position: absolute; top: 14px; right: 14px; background: none; border: none; font-size: 16px; color: #ccc; cursor: pointer; line-height: 1; padding: 2px 6px; border-radius: 6px; transition: color 0.15s, background 0.15s; }
 .card-delete-btn:hover { color: #C04B20; background: #FAECE7; }
 
 .card-stage-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
-.card-stage-badge {
-  font-size: 10px; font-weight: 800; text-transform: uppercase;
-  letter-spacing: 0.07em; padding: 2px 8px; border-radius: 20px;
-  flex: 1; text-align: center;
-}
-.card-stage-nav {
-  background: none; border: 1.5px solid #ddd;
-  border-radius: 6px; width: 22px; height: 22px;
-  font-size: 12px; cursor: pointer; color: #888;
-  display: flex; align-items: center; justify-content: center;
-  transition: border-color 0.12s, color 0.12s, background 0.12s;
-  flex-shrink: 0; line-height: 1;
-}
+.card-stage-badge { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; padding: 2px 8px; border-radius: 20px; flex: 1; text-align: center; }
+.card-stage-nav { background: none; border: 1.5px solid #ddd; border-radius: 6px; width: 22px; height: 22px; font-size: 12px; cursor: pointer; color: #888; display: flex; align-items: center; justify-content: center; transition: border-color 0.12s, color 0.12s, background 0.12s; flex-shrink: 0; line-height: 1; }
 .card-stage-nav:hover { border-color: #555; color: #111; background: #f5f4f1; }
 .card-stage-nav:disabled { opacity: 0.25; cursor: default; pointer-events: none; }
 
-/* ============================================================
-   TIME LOG
-   ============================================================ */
 .time-log-section { margin-top: 32px; }
-.time-log-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
-}
-.time-log-toggle {
-  background: none; border: 2px solid #ccc;
-  border-radius: 10px; padding: 8px 16px;
-  font-size: 14px; font-weight: 700; color: #555;
-  cursor: pointer; transition: all 0.15s;
-}
+.time-log-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+.time-log-toggle { background: none; border: 2px solid #ccc; border-radius: 10px; padding: 8px 16px; font-size: 14px; font-weight: 700; color: #555; cursor: pointer; transition: all 0.15s; }
 .time-log-toggle:hover { border-color: #888; color: #111; }
-.log-manual-btn {
-  background: #111; color: #fff;
-  border: none; border-radius: 10px;
-  padding: 8px 16px; font-size: 14px; font-weight: 700;
-  cursor: pointer; transition: opacity 0.15s, transform 0.12s;
-}
+.log-manual-btn { background: #111; color: #fff; border: none; border-radius: 10px; padding: 8px 16px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.15s, transform 0.12s; }
 .log-manual-btn:hover { opacity: 0.75; transform: scale(1.03); }
 
 .brand-totals { background: #fff; border-radius: 16px; overflow: hidden; margin-bottom: 20px; }
 .totals-table { width: 100%; border-collapse: collapse; }
-.totals-table th {
-  font-size: 12px; font-weight: 800; text-transform: uppercase;
-  letter-spacing: 0.08em; color: #777;
-  padding: 12px 16px; text-align: left;
-  border-bottom: 2px solid #F0EDE6;
-  background: #FAFAF8;
-}
+.totals-table th { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #777; padding: 12px 16px; text-align: left; border-bottom: 2px solid #F0EDE6; background: #FAFAF8; }
 .totals-table th:not(:first-child) { text-align: right; }
-.totals-table td {
-  padding: 12px 16px; font-size: 15px; color: #111;
-  border-bottom: 1px solid #F0EDE6;
-}
+.totals-table td { padding: 12px 16px; font-size: 15px; color: #111; border-bottom: 1px solid #F0EDE6; }
 .totals-table tr:last-child td { border-bottom: none; }
 .totals-table td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
 .totals-brand-cell { display: flex; align-items: center; gap: 10px; }
@@ -500,140 +280,57 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 .totals-zero { color: #bbb; }
 
 .session-history { background: #fff; border-radius: 16px; overflow: hidden; }
-.history-entry {
-  display: grid;
-  grid-template-columns: 90px 1fr auto;
-  gap: 8px 16px;
-  padding: 12px 16px;
-  border-bottom: 1px solid #F0EDE6;
-  align-items: start;
-}
+.history-entry { display: grid; grid-template-columns: 90px 1fr auto; gap: 8px 16px; padding: 12px 16px; border-bottom: 1px solid #F0EDE6; align-items: start; }
 .history-entry:last-child { border-bottom: none; }
 .history-date { font-size: 13px; color: #999; font-weight: 600; padding-top: 2px; }
 .history-card-title { font-size: 15px; font-weight: 700; color: #111; }
 .history-brand { font-size: 13px; color: #777; margin-top: 2px; }
-.history-manual-tag {
-  font-size: 11px; font-weight: 700; color: #888;
-  background: #F0EDE6; border-radius: 4px; padding: 1px 6px;
-  display: inline-block; margin-left: 6px; vertical-align: middle;
-}
+.history-manual-tag { font-size: 11px; font-weight: 700; color: #888; background: #F0EDE6; border-radius: 4px; padding: 1px 6px; display: inline-block; margin-left: 6px; vertical-align: middle; }
 .history-mins { font-size: 15px; font-weight: 700; color: #333; white-space: nowrap; padding-top: 2px; }
-.history-delete {
-  background: none; border: none; color: #ddd;
-  cursor: pointer; font-size: 14px; padding: 2px 4px;
-  transition: color 0.15s;
-}
+.history-delete { background: none; border: none; color: #ddd; cursor: pointer; font-size: 14px; padding: 2px 4px; transition: color 0.15s; }
 .history-delete:hover { color: #C04B20; }
 .no-sessions { padding: 32px; text-align: center; font-size: 15px; color: #aaa; }
 
-/* ============================================================
-   DORMANT BRANDS
-   ============================================================ */
 .dormant-toggle-row { margin-bottom: 12px; }
-.dormant-toggle-btn {
-  background: none; border: 2px solid #ddd;
-  border-radius: 10px; padding: 6px 14px;
-  font-size: 12px; font-weight: 700; color: #999;
-  cursor: pointer; transition: all 0.15s;
-  letter-spacing: 0.04em;
-}
+.dormant-toggle-btn { background: none; border: 2px solid #ddd; border-radius: 10px; padding: 6px 14px; font-size: 12px; font-weight: 700; color: #999; cursor: pointer; transition: all 0.15s; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 6px; }
 .dormant-toggle-btn:hover { border-color: #aaa; color: #555; }
 .dormant-brands-row { display: none; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
 .dormant-brands-row.open { display: flex; }
 
-/* ============================================================
-   CARDS TABS
-   ============================================================ */
 .cards-tabs { display: flex; gap: 6px; margin-bottom: 14px; }
-.cards-tab {
-  padding: 7px 18px; border-radius: 8px;
-  font-size: 13px; font-weight: 700;
-  border: 2px solid #ddd; background: #fff;
-  cursor: pointer; color: #777;
-  transition: all 0.15s, transform 0.12s;
-}
+.cards-tab { padding: 7px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; border: 2px solid #ddd; background: #fff; cursor: pointer; color: #777; transition: all 0.15s, transform 0.12s; }
 .cards-tab.active { background: #111; border-color: #111; color: #fff; }
 .cards-tab:hover:not(.active) { border-color: #aaa; color: #333; transform: translateY(-1px); }
 
-/* ============================================================
-   BACKEND PANEL
-   ============================================================ */
 .backend-panel { display: none; }
 .backend-panel.open { display: block; }
 .backend-section { margin-bottom: 20px; }
-.backend-section-title {
-  font-size: 11px; font-weight: 800; text-transform: uppercase;
-  letter-spacing: 0.1em; color: #888; margin-bottom: 10px;
-}
+.backend-section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #888; margin-bottom: 10px; }
 .backend-field { background: #fff; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; }
-.backend-field-label {
-  font-size: 11px; font-weight: 700; color: #aaa;
-  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;
-}
+.backend-field-label { font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
 .backend-field-value { font-size: 14px; color: #111; font-weight: 500; line-height: 1.5; }
 .backend-field-value a { color: #185FA5; text-decoration: none; }
 .backend-field-value a:hover { text-decoration: underline; }
-.backend-tool-row {
-  display: flex; gap: 10px; align-items: baseline;
-  padding: 10px 0; border-bottom: 1px solid #F0EDE6;
-}
+.backend-tool-row { display: flex; gap: 10px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid #F0EDE6; }
 .backend-tool-row:last-child { border-bottom: none; }
 .backend-tool-name { font-size: 13px; font-weight: 700; color: #111; min-width: 120px; flex-shrink: 0; }
 .backend-tool-detail { font-size: 13px; color: #555; line-height: 1.5; }
 .backend-tools-block { background: #fff; border-radius: 12px; padding: 4px 16px; margin-bottom: 8px; }
 .backend-empty { color: #bbb; font-size: 13px; padding: 8px 0; }
-.backend-add-btn {
-  background: none; border: 2px dashed #ccc;
-  border-radius: 10px; padding: 10px 16px;
-  font-size: 13px; font-weight: 700; color: #aaa;
-  cursor: pointer; width: 100%; transition: all 0.15s;
-}
+.backend-add-btn { background: none; border: 2px dashed #ccc; border-radius: 10px; padding: 10px 16px; font-size: 13px; font-weight: 700; color: #aaa; cursor: pointer; width: 100%; transition: all 0.15s; }
 .backend-add-btn:hover { border-color: #888; color: #555; }
-.backend-notes-input {
-  width: 100%; background: #fff; border: 2px solid transparent;
-  border-radius: 12px; padding: 14px 16px;
-  font-size: 14px; color: #111; font-family: inherit;
-  resize: vertical; min-height: 80px; line-height: 1.6;
-  outline: none; transition: border-color 0.15s;
-}
+.backend-notes-input { width: 100%; background: #fff; border: 2px solid transparent; border-radius: 12px; padding: 14px 16px; font-size: 14px; color: #111; font-family: inherit; resize: vertical; min-height: 80px; line-height: 1.6; outline: none; transition: border-color 0.15s; }
 .backend-notes-input:focus { border-color: #888; }
 .backend-notes-input::placeholder { color: #ccc; }
 
-/* ============================================================
-   PASSWORD GATE
-   ============================================================ */
-.gate-overlay {
-  position: fixed; inset: 0;
-  background: #EDEBE4;
-  z-index: 99999;
-  display: flex; align-items: center; justify-content: center;
-  padding: 24px;
-}
-.gate-box {
-  background: #fff; border-radius: 20px;
-  padding: 36px 32px 28px;
-  width: 100%; max-width: 360px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
-  text-align: center;
-}
+.gate-overlay { position: fixed; inset: 0; background: #EDEBE4; z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.gate-box { background: #fff; border-radius: 20px; padding: 36px 32px 28px; width: 100%; max-width: 360px; box-shadow: 0 20px 60px rgba(0,0,0,0.12); text-align: center; }
 .gate-title { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 6px; letter-spacing: -0.02em; }
 .gate-sub { font-size: 13px; color: #888; margin-bottom: 24px; }
-.gate-input {
-  width: 100%; font-size: 16px; color: #111;
-  background: #F5F4F1; border: 2px solid transparent;
-  border-radius: 10px; padding: 12px 14px;
-  font-family: inherit; outline: none;
-  transition: border-color 0.15s; margin-bottom: 12px;
-  text-align: center; letter-spacing: 0.04em;
-}
+.gate-input { width: 100%; font-size: 16px; color: #111; background: #F5F4F1; border: 2px solid transparent; border-radius: 10px; padding: 12px 14px; font-family: inherit; outline: none; transition: border-color 0.15s; margin-bottom: 12px; text-align: center; letter-spacing: 0.04em; }
 .gate-input:focus { border-color: #888; background: #fff; }
 .gate-input.error { border-color: #C04B20; animation: gateShake 0.35s ease; }
-.gate-btn {
-  width: 100%; background: #111; color: #fff;
-  border: none; border-radius: 12px;
-  padding: 14px; font-size: 16px; font-weight: 800;
-  cursor: pointer; transition: opacity 0.15s, transform 0.12s;
-}
+.gate-btn { width: 100%; background: #111; color: #fff; border: none; border-radius: 12px; padding: 14px; font-size: 16px; font-weight: 800; cursor: pointer; transition: opacity 0.15s, transform 0.12s; }
 .gate-btn:hover { opacity: 0.8; transform: scale(1.02); }
 .gate-error { font-size: 13px; color: #C04B20; margin-top: 10px; min-height: 18px; }
 @keyframes gateShake {
@@ -642,13 +339,7 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
   75%       { transform: translateX(8px); }
 }
 
-/* ============================================================
-   CONFETTI
-   ============================================================ */
-.confetti-piece {
-  position: fixed; pointer-events: none; z-index: 9999;
-  border-radius: 2px; will-change: transform, opacity;
-}
+.confetti-piece { position: fixed; pointer-events: none; z-index: 9999; border-radius: 2px; will-change: transform, opacity; }
 @keyframes confettiBurst {
   0%   { transform: translate(0,0) rotate(0deg) scale(1); opacity: 1; }
   75%  { opacity: 0.9; }
@@ -665,13 +356,11 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 </head>
 <body>
 
-<!-- Password gate -->
 <div class="gate-overlay" id="gate-overlay">
   <div class="gate-box">
     <div class="gate-title">Brand Band</div>
     <div class="gate-sub">Enter password to continue</div>
-    <input class="gate-input" id="gate-input" type="password" placeholder="••••••••••••••"
-      onkeydown="if(event.key==='Enter') gateSubmit()">
+    <input class="gate-input" id="gate-input" type="password" placeholder="••••••••••••••" onkeydown="if(event.key==='Enter') gateSubmit()">
     <button class="gate-btn" onclick="gateSubmit()">Enter</button>
     <div class="gate-error" id="gate-error"></div>
   </div>
@@ -711,7 +400,7 @@ h1 { font-size: 22px; font-weight: 900; color: #111; margin-bottom: 2px; display
 <div class="brands-row" id="brands-row"></div>
 
 <div class="dormant-toggle-row">
-  <button class="dormant-toggle-btn" id="dormant-toggle-btn" onclick="toggleDormant()">🥁 Auditions</button>
+  <button class="dormant-toggle-btn" id="dormant-toggle-btn" onclick="toggleDormant()">🥁 Auditions <span class="stage-eye" data-tip="Is the problem real and worth pursuing? No commitment yet — pure discovery.">👁</span></button>
 </div>
 <div class="dormant-brands-row" id="dormant-brands-row"></div>
 
@@ -834,8 +523,7 @@ const BRANDS = [
     id: 'hh', name: 'Holloway & Hare', short: 'H&H',
     color: '#185FA5', lightBg: '#E6F1FB',
     url: 'https://hollowayandhare.com',
-    daily: true,
-    notionQuery: 'Holloway Hare editorial blog',
+    daily: true, notionQuery: 'Holloway Hare editorial blog',
     cards: [
       { id: 'hh-ascot', type: 'Opportunity', title: 'Royal Ascot morning dress guide',
         body: "Ascot is H&H's biggest seasonal moment. It's the #1 SEO opportunity right now — and it'll keep working long after Ascot ends. Window is open." },
@@ -849,8 +537,7 @@ const BRANDS = [
     id: 'ch', name: 'CareHelm', short: 'CH',
     color: '#1D9E75', lightBg: '#E1F5EE',
     url: 'https://carehelm.co',
-    daily: false,
-    notionQuery: 'CareHelm family care coordination',
+    daily: false, notionQuery: 'CareHelm family care coordination',
     cards: [
       { id: 'ch-email', type: 'Nudge', title: 'Personal email to a recent signup',
         body: "Not a campaign — one genuine message. 'How's it going? What made you try it?' The signal you get back is worth more than a month of analytics. Ten minutes max." },
@@ -864,8 +551,7 @@ const BRANDS = [
     id: 'gm', name: 'Gadfly Machines', short: 'GM',
     color: '#534AB7', lightBg: '#EEEDFE',
     url: 'https://gadflymachines.com',
-    daily: true,
-    notionQuery: 'Gadfly Machines dialectical community',
+    daily: true, notionQuery: 'Gadfly Machines dialectical community',
     cards: [
       { id: 'gm-phronesis', type: 'Opportunity', title: 'Phronesis piece — strike while warm',
         body: "The Discord thread is active. A short published piece right now crystallises the conversation into something the community can point to." },
@@ -879,8 +565,7 @@ const BRANDS = [
     id: 'tp', name: 'TailorPress', short: 'TP',
     color: '#8A5E10', lightBg: '#FAEEDA',
     url: 'https://tailorpress.co',
-    daily: true,
-    notionQuery: 'TailorPress content platform',
+    daily: true, notionQuery: 'TailorPress content platform',
     cards: [
       { id: 'tp-motion', type: 'Nudge', title: 'Ship something small — anything',
         body: "TailorPress doesn't need a launch plan. It needs motion. A changelog note, a screenshot, a single sentence update." },
@@ -892,8 +577,7 @@ const BRANDS = [
     id: 'vo', name: 'Voice Over', short: 'VO',
     color: '#C04B20', lightBg: '#FAECE7',
     url: 'https://markfieldsdavidson.com',
-    daily: true,
-    notionQuery: 'voiceover voice acting demo reel',
+    daily: true, notionQuery: 'voiceover voice acting demo reel',
     cards: [
       { id: 'vo-outreach', type: 'Opportunity', title: 'Casting window outreach — 3 emails',
         body: "Casting directors review in cycles. Three specific, targeted emails during an open window are worth ten times thirty generic ones sent cold." },
@@ -907,8 +591,7 @@ const BRANDS = [
     id: 'di', name: 'Disputatio', short: 'DI',
     color: '#A0304A', lightBg: '#FAEBEE',
     url: 'https://disputatio.app',
-    daily: false,
-    notionQuery: 'Disputatio debate argumentation',
+    daily: false, notionQuery: 'Disputatio debate argumentation',
     cards: [
       { id: 'di-define', type: 'Opportunity', title: 'Define what Disputatio is — in one sentence',
         body: "Before anything else can be built or written for this brand, the one-sentence definition needs to exist. What is it, who is it for, what does it do?" },
@@ -919,8 +602,7 @@ const BRANDS = [
   {
     id: 'fd', name: 'Family Desk', short: 'FD',
     color: '#2E7D94', lightBg: '#E3F4F8',
-    daily: false,
-    notionQuery: 'Family Desk household management',
+    daily: false, notionQuery: 'Family Desk household management',
     cards: [
       { id: 'fd-define', type: 'Opportunity', title: 'What problem does Family Desk solve?',
         body: "Is this a product, a content brand, or a community? Getting this down in a paragraph shapes everything that follows." },
@@ -931,8 +613,7 @@ const BRANDS = [
   {
     id: 'sc', name: 'Schola', short: 'SC',
     color: '#3D6B3A', lightBg: '#E5F2E4',
-    daily: false,
-    notionQuery: 'Schola education learning curriculum',
+    daily: false, notionQuery: 'Schola education learning curriculum',
     cards: [
       { id: 'sc-define', type: 'Opportunity', title: 'What is Schola teaching, and to whom?',
         body: "The name signals classical learning. Pinning down the subject, the audience, and the format is the first real decision." },
@@ -944,9 +625,7 @@ const BRANDS = [
     id: 'mm', name: 'Masked Mixer', short: 'MM',
     color: '#1A1A2E', lightBg: '#EEEEF5',
     url: 'https://maskedmixer.com',
-    dormant: true,
-    daily: false,
-    notionQuery: 'Masked Mixer',
+    dormant: true, daily: false, notionQuery: 'Masked Mixer',
     cards: [
       { id: 'mm-form', type: 'Nudge', title: 'Fix newsletter signup form',
         body: 'Form currently errors on submit. Investigate Supabase connection or switch to a simpler provider.' }
@@ -956,20 +635,16 @@ const BRANDS = [
     id: 'vd', name: 'The Voice Over Directory', short: 'VD',
     color: '#6B4C9A', lightBg: '#EFE8FA',
     url: 'https://voiceoverdirectory.com',
-    dormant: true,
-    daily: false,
-    notionQuery: 'Voice Over Directory',
+    dormant: true, daily: false, notionQuery: 'Voice Over Directory',
     cards: [
       { id: 'vd-viability', type: 'Opportunity', title: 'Revisit viability',
-        body: 'Is this worth pursuing? Research the market, competition, and whether there is a real gap that aligns with your VO expertise and business goals.' }
+        body: 'The VO industry has contracted ~70% due to AI. Is there still a real market here worth serving? Research remaining demand, competition, and whether a directory still makes sense.' }
     ]
   },
   {
     id: 'ac', name: 'Arrow Cast', short: 'AC',
     color: '#1A6B4A', lightBg: '#E0F5EC',
-    dormant: true,
-    daily: false,
-    notionQuery: 'Arrow Cast',
+    dormant: true, daily: false, notionQuery: 'Arrow Cast',
     cards: [
       { id: 'ac-viability', type: 'Opportunity', title: 'Market intelligence — is this worth pursuing?',
         body: 'Pre-ideation research. What is Arrow Cast, who is it for, and is there a real opportunity here? Answer these before moving to ideation.' }
@@ -978,9 +653,7 @@ const BRANDS = [
   {
     id: 'aa', name: 'AA Operations', short: 'AA',
     color: '#555', lightBg: '#F0EDE6',
-    ops: true,
-    daily: false,
-    notionQuery: 'AA LLC operations admin',
+    ops: true, daily: false, notionQuery: 'AA LLC operations admin',
     cards: [
       { id: 'aa-tax', type: 'Admin', title: 'Tax filing',
         body: "Federal, state, or quarterly — log time here for any tax prep, form filing, or accountant calls. Keep a record even if it feels invisible." },
@@ -1006,29 +679,31 @@ const BRAND_SUBS = {
   sc:'Classical learning & curriculum — early stage',
   aa:'LLC admin, tax, legal, bookkeeping',
   mm:'Music community — live at maskedmixer.com, auditioning for a slot',
-  vd:'VO talent directory — auditioning, market intelligence phase',
-  ac:'Arrow Cast — auditioning, market intelligence phase'
+  vd:'VO talent directory — discovery phase, viability under review',
+  ac:'Arrow Cast — discovery phase, market intelligence in progress'
 };
 
 const STAGES = [
-  { id: 'ideation',  label: 'Ideation',  color: '#999',    bg: '#F0EDE6' },
-  { id: 'mvp',       label: 'MVP',        color: '#2E7D94', bg: '#E3F4F8' },
-  { id: 'build',     label: 'Build',      color: '#8A5E10', bg: '#FAEEDA' },
-  { id: 'operating', label: 'Operating',  color: '#534AB7', bg: '#EEEDFE' },
-  { id: 'market',    label: '$ Ready',    color: '#1D9E75', bg: '#E1F5EE' },
+  { id: 'ideation',   label: 'Ideation',   color: '#999',    bg: '#F0EDE6', tip: 'Committed to the space. Finding your angle, audience, and differentiator.' },
+  { id: 'mvp',        label: 'MVP',         color: '#2E7D94', bg: '#E3F4F8', tip: 'Building the smallest thing that proves the concept works.' },
+  { id: 'validation', label: 'Validation',  color: '#8A5E10', bg: '#FAEEDA', tip: 'Testing with real people. Is there actual demand?' },
+  { id: 'operating',  label: 'Operating',   color: '#534AB7', bg: '#EEEDFE', tip: 'Validated and running. Iterating on a real business.' },
+  { id: 'market',     label: '$ Ready',     color: '#1D9E75', bg: '#E1F5EE', tip: 'Generating revenue. Growth is the focus.' },
 ];
+
 const DEFAULT_STAGES = {
-  hh: 'operating', ch: 'build', gm: 'operating', tp: 'market',
-  vo: 'market', di: 'operating', fd: 'ideation', sc: 'ideation', mm: 'ideation',
-  vd: 'ideation', ac: 'ideation'
+  hh: 'operating', ch: 'mvp', gm: 'operating', tp: 'market',
+  vo: 'market', di: 'operating', fd: 'ideation', sc: 'ideation',
+  mm: 'ideation', vd: 'ideation', ac: 'ideation'
 };
 
 const CARD_STAGES = [
   { id: 'ideation',  label: 'Ideation',  color: '#888',    bg: '#F0EDE6' },
-  { id: 'build',     label: 'Build',      color: '#8A5E10', bg: '#FAEEDA' },
-  { id: 'operating', label: 'Operating',  color: '#534AB7', bg: '#EEEDFE' },
-  { id: 'gtm',       label: 'GTM',        color: '#1D9E75', bg: '#E1F5EE' },
+  { id: 'build',     label: 'Build',     color: '#8A5E10', bg: '#FAEEDA' },
+  { id: 'operating', label: 'Operating', color: '#534AB7', bg: '#EEEDFE' },
+  { id: 'gtm',       label: 'GTM',       color: '#1D9E75', bg: '#E1F5EE' },
 ];
+
 function getCardStage(cardId) { return ls('bb_cstage_' + cardId) || 'build'; }
 function setCardStage(cardId, stageId) { ls('bb_cstage_' + cardId, stageId); }
 function getCardStageMeta(cardId) { return CARD_STAGES.find(s => s.id === getCardStage(cardId)) || CARD_STAGES[1]; }
@@ -1086,9 +761,7 @@ function setLastWorked(cardId)  { ls('bw_card_' + cardId, new Date().toISOString
 function getBrandLast(brandId)  { return ls('bw_brand_' + brandId); }
 function setBrandLast(brandId)  { ls('bw_brand_' + brandId, new Date().toISOString()); }
 
-function getTodayMins(brandId) {
-  return parseFloat(ls('bw_mins_' + brandId + '_' + todayKey()) || '0');
-}
+function getTodayMins(brandId) { return parseFloat(ls('bw_mins_' + brandId + '_' + todayKey()) || '0'); }
 function addTodayMins(brandId, mins) {
   const cur = getTodayMins(brandId);
   ls('bw_mins_' + brandId + '_' + todayKey(), String(cur + mins));
@@ -1312,7 +985,9 @@ function openBrandUrl(brandId) {
 function toggleDormant() {
   dormantOpen = !dormantOpen;
   document.getElementById('dormant-brands-row').classList.toggle('open', dormantOpen);
-  document.getElementById('dormant-toggle-btn').textContent = dormantOpen ? '🥁 Hide auditions' : '🥁 Auditions';
+  document.getElementById('dormant-toggle-btn').innerHTML = dormantOpen
+    ? '🥁 Hide auditions <span class="stage-eye" data-tip="Is the problem real and worth pursuing? No commitment yet — pure discovery.">👁</span>'
+    : '🥁 Auditions <span class="stage-eye" data-tip="Is the problem real and worth pursuing? No commitment yet — pure discovery.">👁</span>';
   if (dormantOpen) renderDormantBrands();
 }
 function renderDormantBrands() {
@@ -1344,15 +1019,19 @@ function toggleFunnel() {
 function renderFunnel() {
   const panel = document.getElementById('funnel-panel');
   if (!panel) return;
-  const allBrands = BRANDS.filter(b => !b.ops);
+  // Exclude dormant/audition brands from the funnel
+  const activeBrands = BRANDS.filter(b => !b.ops && !b.dormant);
   const cols = STAGES.map(stage => {
-    const brands = allBrands.filter(b => getStage(b.id) === stage.id);
+    const brands = activeBrands.filter(b => getStage(b.id) === stage.id);
     const chips = brands.length
       ? brands.map(b => `<div class="funnel-chip" style="background:${stage.bg};color:${stage.color}" onclick="selectBrand('${b.id}')" title="Click to open ${b.name}">${BRAND_LABELS[b.id]}</div>`).join('')
       : `<div class="funnel-empty">—</div>`;
     return `
       <div class="funnel-col">
-        <div class="funnel-col-header" style="background:${stage.bg};color:${stage.color}">${stage.label}</div>
+        <div class="funnel-col-header" style="background:${stage.bg};color:${stage.color}">
+          ${stage.label}
+          <span class="stage-eye" data-tip="${stage.tip}">👁</span>
+        </div>
         <div class="funnel-col-body">${chips}</div>
       </div>`;
   }).join('');
@@ -1562,32 +1241,22 @@ function renderCard(card, brand) {
 function startCard(cardId, brandId) {
   if (runningCardId === cardId) return;
   if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
-
   const brand = BRANDS.find(b => b.id === brandId);
   const card  = brand.cards.find(c => c.id === cardId) || getCustomCards(brandId).find(c => c.id === cardId);
-
   runningCardId  = cardId;
   runningBrandId = brandId;
   timerStart     = Date.now();
-
   setLastWorked(cardId);
   setBrandLast(brandId);
-
   document.getElementById('timer-card-name').textContent  = card.title;
   document.getElementById('timer-brand-name').textContent = brand.name;
   document.getElementById('timer-banner').classList.add('visible');
   document.getElementById('timer-clock').textContent = '00:00:00';
-
   timerInterval = setInterval(updateClock, 1000);
   logSession('Started: ' + card.title + ' (' + brand.name + ')');
   playStartTone();
-
-  renderDailyPanel();
-  renderHealthStrip();
-  renderBrands();
-  renderOps();
+  renderDailyPanel(); renderHealthStrip(); renderBrands(); renderOps();
   if (funnelOpen) renderFunnel();
-
   const runningCardEl = [...document.querySelectorAll('.work-card')].find(el =>
     el.innerHTML.includes("'" + cardId + "'")
   );
@@ -1605,23 +1274,17 @@ function stopTimer() {
   if (!timerInterval) return;
   clearInterval(timerInterval);
   timerInterval = null;
-
   const elapsed = Date.now() - timerStart;
   const mins    = elapsed / 60000;
-
   const prevMins = runningBrandId ? getTodayMins(runningBrandId) : 0;
   if (runningBrandId) addTodayMins(runningBrandId, mins);
   const newMins = runningBrandId ? getTodayMins(runningBrandId) : 0;
-
   const brand = BRANDS.find(b => b.id === runningBrandId);
   const card  = brand?.cards.find(c => c.id === runningCardId) || getCustomCards(runningBrandId).find(c => c.id === runningCardId);
   const minRound = Math.round(mins);
-
   logSession('Stopped: ' + (card?.title || 'card') + ' — ' + (minRound < 1 ? 'less than a minute' : minRound + ' min'));
-
   const stopBtn = document.querySelector('.stop-btn');
   if (minRound >= 5 && stopBtn) { burstFromEl(stopBtn, brand?.color || '#FFD700', 20); playStopTone(); }
-
   if (brand?.daily && prevMins < DAILY_MIN && newMins >= DAILY_MIN) {
     const celebKey = brand.id + '_' + todayKey();
     if (!window._todayCelebrated[celebKey]) {
@@ -1631,13 +1294,10 @@ function stopTimer() {
         burstFromEl(panel, brand.color, 55);
         playSuccessTone();
         const allDone = BRANDS.filter(b => b.daily).every(b => getTodayMins(b.id) >= DAILY_MIN);
-        if (allDone) {
-          setTimeout(() => { burstFromEl(panel, '#FFD700', 70); playAllDoneFanfare(); }, 350);
-        }
+        if (allDone) { setTimeout(() => { burstFromEl(panel, '#FFD700', 70); playAllDoneFanfare(); }, 350); }
       }, 150);
     }
   }
-
   if (brand && card) {
     addLogEntry({
       id: 'entry_' + Date.now(),
@@ -1648,14 +1308,11 @@ function stopTimer() {
       manual: false, note: ''
     });
   }
-
   runningCardId  = null;
   runningBrandId = null;
   timerStart     = null;
-
   document.getElementById('timer-banner').classList.remove('visible');
   document.getElementById('timer-clock').textContent = '00:00:00';
-
   refreshAll();
   renderTimeLog();
 }
